@@ -2,7 +2,7 @@
 resource "heroku_build" "example" {
   app        = "${heroku_app.testing.name}"
   source {
-    url     = "https://github.com/josephmfaulkner/stack-em-blocks/archive/refs/tags/0.0.3.tar.gz"
+    url     = "https://github.com/josephmfaulkner/webapp-boilerplate-frontend/archive/refs/tags/0.0.1.tar.gz"
   }
 }
 

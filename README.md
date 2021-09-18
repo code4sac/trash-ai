@@ -6,6 +6,14 @@ git push heroku master
 ```
 
 ## Local DB Development
+```
+docker-compose up
+```
+In another terminal
+```
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+```
 **Open PG Admin:** [localhost:8080](localhost:8080), **PW:** password
 
 **Add DB to PG Admin:** Servers > Create > Server

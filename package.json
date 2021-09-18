@@ -5,15 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node expressApp/index.js"
+    "start": "node expressApp/index.js",
+    "migrate-and-seed": "sequelize-cli db:migrate && sequelize-cli db:seed:all",
+    "reset-database": "sequelize-cli db:seed:undo:all && sequelize-cli db:migrate:undo:all",
+    "refresh-database": "yon run reset-database && yon run migrate-and-seed"
   },
-  "author": "",
+  "author": "josephmfaulkner",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.7.1",
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0",
+    "yarn-or-npm": "^3.0.1"
   },
   "engines": {
     "node": "v16.4.x"
   }
-  
 }

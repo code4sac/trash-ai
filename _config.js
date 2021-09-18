@@ -1,4 +1,5 @@
-const MessageService = new require('./services/message/MockMessageService');
+//const MessageService = new require('./services/message/MockMessageService');
+const MessageService = new require('./services/message/SequelizeMessageService');
 
 
 const Config = {

@@ -1,5 +1,10 @@
 var express = require('express');
-var MessageRouter = express.Router();
+const passport = require('passport');
+
+const authMiddleWare = require('./middleware/Auth').authMiddleWare;
+console.log(authMiddleWare);
+
+const MessageRouter = express.Router();
 
 const Config = require('../../_config');
 const MessageService = Config.getMessageService();
@@ -8,5 +13,12 @@ MessageRouter.get('/', async (req, res) => {
     const message = await MessageService.getMessage(); 
     res.send(message);
 });
+
+MessageRouter.get('/secret', authMiddleWare,
+    function(req, res) {
+        const secretMessage = "This is a secret message";
+        res.json(secretMessage);
+    }
+);
   
 module.exports = MessageRouter;

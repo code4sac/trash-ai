@@ -1,3 +1,6 @@
+# Webapp Boilerplate (backend)
+This repository goes with [webapp-boilerplate-frontend](https://github.com/josephmfaulkner/webapp-boilerplate-frontend)
+
 ## Deploy to Heroku
 ```
 heroku create

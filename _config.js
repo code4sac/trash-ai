@@ -7,8 +7,6 @@ const Config = {
     getMessageService : () => { return MessageService; },
     getAuthDao : () => { return AuthDao; },
     JWTSecretKey : process.env.JWT_SECRET_KEY || 'DUMB_JWT_SECRET_KEY',
-    
-
 };
 
 module.exports = Config;

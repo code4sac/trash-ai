@@ -10,8 +10,8 @@ const Config = require('../../_config');
 const MessageService = Config.getMessageService();
 
 MessageRouter.get('/', async (req, res) => {
-    const message = await MessageService.getMessage(); 
-    res.send(message);
+    const messages = await MessageService.getMessages(); 
+    res.send(messages);
 });
 
 MessageRouter.get('/secret', authMiddleWare,

@@ -8,6 +8,18 @@
     "seederStorage": "sequelize",
     "seederStorageTableName": "sequelize_seed_data"
   },
+  "testing": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+          "require": true,
+          "rejectUnauthorized": false
+      }
+    },
+    "seederStorage": "sequelize",
+    "seederStorageTableName": "sequelize_seed_data"
+  },
   "production": {
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",

@@ -25,7 +25,7 @@ class MainTemplate extends React.Component {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit">
-                        Boilerplate Webapp
+                        Trash API
                     </Typography>
                     </Toolbar>
                 </AppBar>

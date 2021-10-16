@@ -1,6 +1,6 @@
 //const MessageService = new require('./services/message/MockMessageService');
 const MessageService = new require('./services/message/SequelizeMessageService');
-const AuthDao = new require('./services/userauth/data/SequelizeUserDao');
+const AuthDao = new require('./services/userauth/SequelizeUserDao');
 
 const Config = {
     LISTENING_PORT : process.env.PORT || 3080,

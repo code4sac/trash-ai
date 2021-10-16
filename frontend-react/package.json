@@ -24,7 +24,7 @@
     "node": ">= 16.4.0"
   },
   "scripts": {
-    "heroku-postbuild": "npm install",
+    "heroku-postbuild": "npm run build",
     "start-dev": "react-scripts start",
     "start": "node server.js",
     "build": "react-scripts build",

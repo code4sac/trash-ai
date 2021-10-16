@@ -4,5 +4,6 @@ github_tar_url = "https://github.com/code4sac/trash-ai/tarball/cleanup-boilerpla
 repo_app_path = "frontend-react"
 heroku_region = "us"
 heroku_app_buildpacks = [
-    "heroku-community/multi-procfile"
+    "lstoll/heroku-buildpack-monorepo",
+    "heroku/nodejs"
 ]

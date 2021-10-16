@@ -1,8 +1,12 @@
+locals {
+  source_code_path= abspath("../../")
+}
+
 # Build code & release to the app
 resource "heroku_build" "example" {
   app        = "${heroku_app.testing.name}"
   source {
-    url     = "https://github.com/josephmfaulkner/webapp-boilerplate-frontend/archive/refs/tags/0.0.1.tar.gz"
+    url     = var.github_tar_url
   }
 }
 

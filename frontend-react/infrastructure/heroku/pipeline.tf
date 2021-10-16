@@ -1,5 +1,9 @@
+locals {
+  heroku_pipeline_name = "${var.application_name}-pipeline"
+}
+
 resource "heroku_pipeline" "pipeline" {
-    name = "${var.heroku_pipeline_name}"
+    name = local.heroku_pipeline_name
 }
 
 resource "heroku_pipeline_coupling" "testing" {

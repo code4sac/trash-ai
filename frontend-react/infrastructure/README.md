@@ -8,6 +8,10 @@ The cloud resources can be provisioned automatically using Terraform
 Terraform (v0.13.0) can be installed and managed using [Terraform Version Manager](https://github.com/tfutils/tfenv)
 
 ```
+echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile
+```
+
+```
 tfenv install 0.13.0
 tfenv use 0.13.0
 ```

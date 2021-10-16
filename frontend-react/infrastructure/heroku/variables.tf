@@ -8,13 +8,13 @@ variable "heroku_api_key" {
     type        = string
 }
 
-variable "heroku_pipeline_name" {}
+variable "github_tar_url" {}
+
+variable "repo_app_path" {}
+
+variable "application_name" {}
 
 variable "heroku_region" {}
-
-variable "heroku_testing_app" {}
-
-variable "heroku_production_app" {}
 
 variable "heroku_app_buildpacks" {
     type = "list"

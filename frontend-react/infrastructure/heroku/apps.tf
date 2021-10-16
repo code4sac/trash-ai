@@ -1,7 +1,6 @@
 locals {
   heroku_testing_app = "${var.application_name}-test"
   heroku_production_app = "${var.application_name}-prod"
-  procfile_location = "${var.repo_app_path}/Procfile"
 }
 
 
@@ -13,7 +12,6 @@ resource "heroku_app" "testing" {
     APP_ENV = "testing"
     NODE_ENV = "testing"
     APP_BASE = var.repo_app_path
-    PROCFILE = local.procfile_location
   }
 
   buildpacks = "${var.heroku_app_buildpacks}"
@@ -27,7 +25,6 @@ resource "heroku_app" "production" {
     APP_ENV = "production"
     NODE_ENV = "production"
     APP_BASE = var.repo_app_path
-    PROCFILE = local.procfile_location
   }
 
   buildpacks = "${var.heroku_app_buildpacks}"

@@ -12,6 +12,7 @@ resource "heroku_app" "testing" {
   config_vars = {
     APP_ENV = "testing"
     NODE_ENV = "testing"
+    APP_BASE = var.repo_app_path
     PROCFILE = local.procfile_location
   }
 
@@ -25,6 +26,7 @@ resource "heroku_app" "production" {
   config_vars = {
     APP_ENV = "production"
     NODE_ENV = "production"
+    APP_BASE = var.repo_app_path
     PROCFILE = local.procfile_location
   }
 

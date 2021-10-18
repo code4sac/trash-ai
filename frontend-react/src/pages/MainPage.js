@@ -1,12 +1,14 @@
 import React from "react";
 
+
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 
-import MessageService from "../data/services/MessageService";
-
 import SimpleCard from "./components/SimpleCard";
+
+import { apiGetMessages } from "../data/store/sagas/actions/apiMessageActions";
 
 const useStyles = theme => ({
     root: {
@@ -17,42 +19,36 @@ const useStyles = theme => ({
 
 class MainPage extends React.Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            messages : []
-        };
-    }
-
     componentDidMount() {
-        console.log("Mounted");
-        MessageService.getMessages()
-            .then( ( newMessages ) => { 
-                this.setState({
-                    messages : newMessages
-                })
-            })
-            .catch( (error) => {console.log(error); });
+        this.props.apiGetMessages();
     }
 
     render(){
         const { classes } = this.props; 
 
-        
-
         return (
             <Container maxWidth="sm"> 
                 <Box my={4} className={classes.root}>
                     {
-                        this.state.messages.map((message, index) => {
+                        this.props.messages.map((message, index) => {
                             return ( <SimpleCard key={message.id} message={ message.message } /> );
                         })
                     }
                 </Box>
             </Container>
         );
+
     }
 }
 
-export default withStyles(useStyles)(MainPage); 
+const mapStateToProps = (state) => {
+    return {
+      messages: state.messages
+    }
+};
+  
+const mapDispatchToProps = { apiGetMessages  };
+
+export default connect( mapStateToProps, mapDispatchToProps )
+    (withStyles(useStyles)(MainPage)); 
 

@@ -21,7 +21,8 @@ tfenv use 0.13.0
 You'll need a set of credentials to your Heroku account stored in a file *secret.tfvars* that looks like this
 
 ```
-
+heroku_account_email = "<account email>"
+heroku_api_key = "<heroku api key>"
 ```
 
 Once that file is setup in the *infrastructure/heroku* directory, you're ready to deploy the application: 

@@ -1,3 +1,4 @@
+[Main](../README.md)
 # Webapp Boilerplate (frontend)
 
 This repository goes with [webapp-boilerplate-backend](https://github.com/josephmfaulkner/webapp-boilerplate-backend)
@@ -7,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 ## Deploying to Heroku
-Instructions for deploying this app to Heroku can be found [by clicking here](infrastructure/README.md)
+Instructions for deploying this app to Heroku can be found [by clicking here](./infrastructure/README.md)
 
 ---
 

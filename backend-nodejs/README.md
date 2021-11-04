@@ -1,12 +1,11 @@
+[Main](../README.md)
 # Webapp Boilerplate (backend)
 This repository goes with [webapp-boilerplate-frontend](https://github.com/josephmfaulkner/webapp-boilerplate-frontend)
 
-## Deploy to Heroku
-```
-heroku create
-heroku addons:create heroku-postgresql:hobby-dev
-git push heroku master
-```
+
+## Deploying to Heroku
+Instructions for deploying this app to Heroku can be found [by clicking here](./infrastructure/README.md)
+
 
 ## Local DB Development
 ```

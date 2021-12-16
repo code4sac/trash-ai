@@ -1,0 +1,25 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  pgadmin:
+    container_name: pgadmin_app_container_trashai
+    image: dpage/pgadmin4
+    environment:
+        PGADMIN_DEFAULT_EMAIL: admin@example.com
+        PGADMIN_DEFAULT_PASSWORD: password
+        PGADMIN_CONFIG_SERVER_MODE: 'False'
+        PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+        - "53603:53603"
+        - "8080:80"

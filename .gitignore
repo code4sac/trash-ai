@@ -4,3 +4,10 @@ npm-debug.log
 
 #Local Dockerfiles
 data
+
+# application things
+.env
+backend-nodejs/uploads
+
+# other
+.DS_Store

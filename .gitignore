@@ -7,7 +7,6 @@ data
 
 # application things
 .env
-backend-nodejs/uploads
 
 # other
 .DS_Store

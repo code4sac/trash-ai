@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import axios from "axios";
 
@@ -13,8 +13,6 @@ const Upload = () => {
 
     const file = e.target.files[0];
 
-    console.log(file);
-
     if (file.size > 10000000) {
       window.alert("Please upload a file smaller than 10 MB");
       return false;
@@ -26,7 +24,6 @@ const Upload = () => {
     e.preventDefault();
     const data = new FormData();
     data.append("file", fileData);
-    console.log(JSON.stringify(fileData, undefined, 2));
     axios({
       method: "POST",
       url: "http://localhost:3080/upload",
@@ -70,26 +67,13 @@ const Upload = () => {
           <label className={"p-3"}>{fileName}</label>
 
           <input
-            class="btn btn-primary"
+            className="btn btn-primary"
             type="submit"
             name="upload"
             value="Upload"
           />
         </form>
       </div>
-      {/* <br></br>
-      <div>
-        <a
-          id="downloadData4"
-          class="btn btn-primary"
-          href="testdata.csv"
-          target="_blank"
-          download=""
-          aria-live="polite"
-        >
-          Sample File
-        </a>
-      </div> */}
       <br></br>
       <div
         style={{

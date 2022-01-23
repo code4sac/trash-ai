@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,12 +14,17 @@ function MainTemplate() {
     <div>
       <AppBar position="fixed">
           <Toolbar variant="dense">
-          <IconButton edge="start" color="inherit" aria-label="menu">
-              <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" color="inherit">
-              Trash API
-          </Typography>
+            <IconButton edge="start" color="inherit" aria-label="menu">
+                <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit">
+                Trash API
+            </Typography>
+            <Typography variant="h6" color="inherit">
+              <NavLink to="/upload">
+                Upload
+              </NavLink>
+            </Typography>
           </Toolbar>
       </AppBar> 
       <MainPage />  

@@ -6,6 +6,7 @@ import { env } from "process";
 export class Config {
     prefix: string = "trash-ai";
     account: string;
+    profile: string;
     region: string;
     stage: string;
     branch: string;
@@ -17,17 +18,32 @@ export class Config {
     zone_name: string;
 
     constructor(map_value: { [key: string]: string }) {
-        this.repo = map_value["github_repo_name"];
-        this.repo_owner = map_value["github_repo_owner"];
-        this.account = map_value["aws_account_number"];
-        this.region = map_value["region"];
-        this.branch = map_value["branch"];
-        this.stage = map_value["branch"].replace(/^aws\//, "");
-        this.zone_name = map_value["dns_domain"];
+        this.repo = this._get_map_val(map_value, "github_repo_name");
+        this.repo_owner = this._get_map_val(map_value, "github_repo_owner");
+        this.profile = this._get_map_val(map_value, "aws_profile");
+        this.account = this._get_map_val(map_value, "aws_account_number");
+        this.region = this._get_map_val(map_value, "region");
+        this.branch = this._get_map_val(map_value, "branch");
+        this.stage = this._get_map_val(map_value, "branch").replace(
+            /^aws\//,
+            ""
+        );
+        this.zone_name = this._get_map_val(map_value, "dns_domain");
         this.mainBucketName = `${this.prefix}-${this.region}-main`;
     }
 
-    is_bootstrap() {
+    _get_map_val(_map_value: { [key: string]: string }, key: string) {
+        if (_map_value[key] === undefined) {
+            const display = JSON.stringify(_map_value, null, 4);
+            console.error(
+                `key: "${key}" not found in deploy_map.json file, section:\n${display}`
+            );
+            process.exit(1);
+        }
+        return _map_value[key];
+    }
+
+    get is_bootstrap() {
         return env.BOOTSTRAP === "true";
     }
 
@@ -35,23 +51,23 @@ export class Config {
         this.test_role = role;
     }
 
-    secret_name() {
+    get secret_name() {
         return `${this.prefix}/${this.region}/secret`;
     }
 
-    is_production() {
+    get is_production() {
         return this.stage === "production";
     }
 
-    is_github() {
+    get is_github() {
         return env.GITHUB_ACTIONS === "true";
     }
 
-    is_local() {
+    get is_local() {
         return this.stage === "local";
     }
 
-    skip_frontend() {
+    get skip_frontend() {
         return env.SKIP_FRONTEND === "true";
     }
 
@@ -64,7 +80,7 @@ export class Config {
     }
 
     async get_api_host() {
-        if (this.is_local()) {
+        if (this.is_local) {
             return "localhost";
         }
         const data = await this.get_exports();
@@ -76,7 +92,7 @@ export class Config {
             null;
         if (!dval) {
             console.error("Could not find API URL");
-            if (!this.skip_frontend()) {
+            if (!this.skip_frontend) {
                 process.exit(1);
             } else {
                 return "cdk-get-api-error.local";
@@ -86,7 +102,7 @@ export class Config {
         }
     }
     async get_secret_dict() {
-        if (this.is_local()) {
+        if (this.is_local) {
             return {
                 BASIC_USERNAME: "MOCK",
                 BASIC_PASSWORD: "MOCK",
@@ -97,11 +113,11 @@ export class Config {
             });
             try {
                 const secval = await secretsmanager
-                    .getSecretValue({ SecretId: this.secret_name() })
+                    .getSecretValue({ SecretId: this.secret_name })
                     .promise();
                 return JSON.parse(secval.SecretString || "{}");
             } catch (e) {
-                console.error(`Secret ${this.secret_name()} not found`);
+                console.error(`Secret ${this.secret_name} not found`);
                 throw e;
             }
         }
@@ -128,6 +144,21 @@ export class Config {
             api_id: `${prefix}-HttpApiId`,
         };
     }
+    public toJSON(): { [key: string]: any } {
+        let classvalues: { [key: string]: any } = {};
+        Object.entries(this).forEach(([key, value]) => {
+            classvalues[key] = value;
+        });
+        Object.entries(
+            Object.getOwnPropertyDescriptors(Reflect.getPrototypeOf(this))
+        ).forEach(([key, val]) => {
+            if (val.get) {
+                let injval = val.get.bind(this);
+                classvalues[key] = injval();
+            }
+        });
+        return classvalues;
+    }
 }
 
 export interface IEnvConf {
@@ -138,14 +169,11 @@ const deployment_map = JSON.parse(
     fs.readFileSync(path.join(__dirname, "../../deploy_map.json"), "utf8")
 );
 const EnvConf: IEnvConf = {};
+
 deployment_map["deployments"].forEach(
     (map_value: { [key: string]: string }) => {
         let conf = new Config(map_value);
-        console.log(
-            `Adding EnvConf: stage:${conf.stage} / ${
-            conf.branch
-            } ${JSON.stringify(map_value)}`
-        );
+        console.log(`Adding EnvConf: stage:${conf.stage} branch:${conf.branch}`);
         EnvConf[conf.branch] = conf;
     }
 );

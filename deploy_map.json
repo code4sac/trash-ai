@@ -1,6 +1,7 @@
 {
     "deployments": [
         {
+            "aws_profile": "personal",
             "aws_account_number": "668805947503",
             "region": "us-west-2",
             "branch": "aws/shollingsworth-staging",
@@ -9,6 +10,7 @@
             "github_repo_owner": "shollingsworth"
         },
         {
+            "aws_profile": "localstack",
             "aws_account_number": "000000000000",
             "region": "us-east-2",
             "branch": "local",

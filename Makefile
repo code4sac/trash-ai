@@ -1,19 +1,11 @@
-GIT_BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
-IMAGE = trash_ai_bs
-
-ifeq ($(GIT_BRANCH),local)
-	export BOOT_PROFILE = localstack
-	export STAGE = local
-else
-	export BOOT_PROFILE = personal
-	export STAGE = $(GIT_BRANCH)
-endif
-
 local:
-	bash -c "cd ./localdev && make up"
+	make -C localdev up
+
+down:
+	make -C ./localdev/ down
 
 list:
-	bash -c "cd ./infra && cdk list"
+	make -C infra list
 
 diff:
-	bash -c "cd ./infra && cdk diff"
+	make -C infra diff

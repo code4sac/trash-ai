@@ -17,7 +17,7 @@ export class FrontEndStack extends cdk.Stack {
             },
         });
         this.conf = conf;
-        if (!this.conf.is_local()) {
+        if (!this.conf.is_local) {
             this.amplify = new AmplifyStack(this, conf);
         }
     }

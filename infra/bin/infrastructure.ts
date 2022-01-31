@@ -8,11 +8,10 @@ import { FrontEndStack } from "../lib/frontend/main";
 import { env } from "process";
 import { execSync } from "child_process";
 
-
-let branch
+let branch;
 if (env.GITHUB_REF_NAME) {
     // we're on github actions
-    branch = env.GITHUB_REF_NAME
+    branch = env.GITHUB_REF_NAME;
 } else if (env.STAGE) {
     // override branch for local testing
     branch = env.STAGE;
@@ -21,20 +20,25 @@ if (env.GITHUB_REF_NAME) {
     branch = execSync("git rev-parse --abbrev-ref HEAD").toString().trim();
 }
 
-console.log(`Deploying to ${branch}`);
 let conf = EnvConf[branch];
-env.AWS_DEFAULT_REGION = conf.region;
 if (!conf) {
-    console.log(`No config found for "${branch}"`);
+    const display = `key: "${branch}" not found in deploy_map.json file inside "deployments" list/array`;
+    console.log(display);
     process.exit(1);
 }
-console.log(`Using config:`, EnvConf[branch]);
+console.log(`Deploying to ${branch}`);
+if (!conf.is_github) {
+    console.log(`Setting profile to ${conf.profile}`);
+    env.AWS_PROFILE = conf.profile;
+}
+env.AWS_DEFAULT_REGION = conf.region;
+console.log(`Using config:\n`, JSON.stringify(conf, null, 2));
 
 const app = new cdk.App();
-if (!conf.is_bootstrap()) {
+if (!conf.is_bootstrap) {
     new RegionStack(app, EnvConf[branch]);
     // this takes a lot of time
-    if (!conf.skip_frontend()) {
+    if (!conf.skip_frontend) {
         new FrontEndStack(app, EnvConf[branch]);
     }
 }

@@ -35,7 +35,7 @@ export class RegionStack extends cdk.Stack {
         this.secret = secretmanager.Secret.fromSecretNameV2(
             this,
             "secret",
-            this.conf.secret_name()
+            this.conf.secret_name
         );
         this.secret.grantRead(role);
         this.storage = new StorageStack(this, conf);

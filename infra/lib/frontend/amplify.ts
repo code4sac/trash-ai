@@ -98,14 +98,14 @@ export class AmplifyStack extends cdk.NestedStack {
         const secret = await this.conf.get_secret_dict();
         if (!secret.BASIC_USERNAME) {
             throw new Error(
-                `No BASIC_USERNAME basic_username found in secret ${this.conf.secret_name()}, ${JSON.stringify(
+                `No BASIC_USERNAME basic_username found in secret ${this.conf.secret_name}, ${JSON.stringify(
                     secret
                 )}`
             );
         }
         if (!secret.BASIC_PASSWORD) {
             throw new Error(
-                `No BASIC_PASSWORD found in secret ${this.conf.secret_name()}, ${JSON.stringify(
+                `No BASIC_PASSWORD found in secret ${this.conf.secret_name}, ${JSON.stringify(
                     secret
                 )}`
             );
@@ -138,7 +138,7 @@ export class AmplifyStack extends cdk.NestedStack {
             domainName: this.conf.zone_name,
         });
 
-        if (this.conf.is_production()) {
+        if (this.conf.is_production) {
             let main_branch = amp.addBranch(this.conf.stage, {
                 autoBuild: true,
                 asset: asset,

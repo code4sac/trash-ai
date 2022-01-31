@@ -11,7 +11,7 @@ export class Route53Stack extends cdk.NestedStack {
         super(scope, "r53");
 
         let pval
-        if (!conf.is_local()) {
+        if (!conf.is_local) {
             this.zone = r53.HostedZone.fromLookup(this, "zone", {
                 domainName: conf.zone_name,
                 privateZone: false,

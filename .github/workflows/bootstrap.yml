@@ -1,0 +1,72 @@
+name: Bootstrap AWS Account/Region (runs against config in /deploy_map.json)
+on:
+  workflow_dispatch:
+    inputs:
+      BASIC_USERNAME:
+        description: "Basic Auth username (for non production branches)"
+        required: true
+
+      BASIC_PASSWORD:
+        description: "Basic Auth Password (for non production branches)"
+        required: true
+
+      AWS_REGION:
+        description: "Region to deploy to."
+        required: true
+      AWS_ACCESS_KEY_ID:
+        description: "AWS_ACCESS_KEY_ID: Access Key ID with Permissions to deploy IAM, and OIDC"
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        description: "AWS_SECRET_ACCESS_KEY: Secret Access Key with Permissions to deploy IAM, and OIDC"
+        required: true
+      AWS_SESSION_TOKEN:
+        description: "::OPTIONAL:: AWS_SESSION_TOKEN: Session Token - Only needed if you are using temp creds / sso"
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v1
+
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-access-key-id: ${{ github.event.inputs.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ github.event.inputs.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ github.event.inputs.AWS_SESSION_TOKEN }}
+          aws-region: ${{ github.event.inputs.AWS_REGION }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Set initial Secret values
+        run: ./set_secret.sh
+        working-directory: ./bin
+        env:
+          BASIC_USERNAME: ${{ github.event.inputs.BASIC_USERNAME }}
+          BASIC_PASSWORD: ${{ github.event.inputs.BASIC_PASSWORD }}
+          REGION: ${{ github.event.inputs.AWS_REGION }}
+
+      - run: yarn
+        working-directory: ./infra
+
+      - name: Synth stack
+        run: yarn run cdk synth
+        working-directory: ./infra
+        env:
+          BOOTSTRAP: "true"
+
+      - name: Bootstrap Stack
+        run: yarn run cdk bootstrap
+        working-directory: ./infra
+        env:
+          BOOTSTRAP: "true"
+
+      - name: Setup Github Actions Role
+        run: yarn run cdk deploy trash-ai-github
+        working-directory: ./infra
+        env:
+          BOOTSTRAP: "true"

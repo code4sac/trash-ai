@@ -1,0 +1,5 @@
+export B=$(dirname $0)
+export J=$B/frontend
+export S=$B/frontend/src
+export K=$B/infra
+export C=$B/backend

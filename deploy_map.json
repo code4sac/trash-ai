@@ -1,0 +1,20 @@
+{
+    "deployments": [
+        {
+            "aws_account_number": "668805947503",
+            "region": "us-west-2",
+            "branch": "aws/shollingsworth-staging",
+            "dns_domain": "stev0.me",
+            "github_repo_name": "trash-ai",
+            "github_repo_owner": "shollingsworth"
+        },
+        {
+            "aws_account_number": "000000000000",
+            "region": "us-east-2",
+            "branch": "local",
+            "dns_domain": "",
+            "github_repo_name": "",
+            "github_repo_owner": ""
+        }
+    ]
+}

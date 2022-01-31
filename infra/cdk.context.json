@@ -1,0 +1,14 @@
+{
+  "hosted-zone:account=668805947503:domainName=stev0.me:privateZone=false:region=us-east-2": {
+    "Id": "/hostedzone/Z0095202SCYR3WT3FST3",
+    "Name": "stev0.me."
+  },
+  "hosted-zone:account=668805947503:domainName=stev0.me:region=us-west-2": {
+    "Id": "/hostedzone/Z0095202SCYR3WT3FST3",
+    "Name": "stev0.me."
+  },
+  "hosted-zone:account=668805947503:domainName=stev0.me:privateZone=false:region=us-west-2": {
+    "Id": "/hostedzone/Z0095202SCYR3WT3FST3",
+    "Name": "stev0.me."
+  }
+}

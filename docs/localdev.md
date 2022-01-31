@@ -7,7 +7,6 @@ with automatically update.
 The listening port for the web frontend defaults to `http://localhost:5150`,
 The backend is exposed via `http://localhost:4000` by default.
 
-
 These values can be adjusted by editing the localdev env file [.env](../localdev/.env)
 
 ---

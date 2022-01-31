@@ -9,8 +9,7 @@ import { Asset } from "@aws-cdk/aws-s3-assets";
 import { hashElement } from "folder-hash";
 import * as os from "os";
 
-const user_id = os.userInfo().uid
-
+const user_id = os.userInfo().uid;
 
 export class AmplifyStack extends cdk.NestedStack {
     amplify: amplify.IApp;
@@ -106,13 +105,13 @@ export class AmplifyStack extends cdk.NestedStack {
         }
         if (!secret.BASIC_PASSWORD) {
             throw new Error(
-                `No basic_password found in secret ${this.conf.secret_name()}, ${JSON.stringify(
+                `No BASIC_PASSWORD found in secret ${this.conf.secret_name()}, ${JSON.stringify(
                     secret
                 )}`
             );
         }
-        console.log(`setting basic_username: ${secret.BASIC_USERNAME}`);
-        console.log(`setting basic_password: ${secret.BASIC_PASSWORD}`);
+        console.log(`setting BASIC_USERNAME: ${secret.BASIC_USERNAME}`);
+        console.log(`setting BASIC_PASSWORD: ${secret.BASIC_PASSWORD}`);
 
         let amp = new amplify.App(
             this,

@@ -12,18 +12,8 @@ endif
 local:
 	bash -c "cd ./localdev && make up"
 
-build:
-	docker-compose -f ./localdev/docker-compose.build.yml build
-
 list:
 	bash -c "cd ./infra && cdk list"
 
 diff:
 	bash -c "cd ./infra && cdk diff"
-
-github_role_update:
-	bash -c "cd ./infra && cdk deploy trash-ai-github"
-
-frontend_update:
-	rm -rfv /tmp/asset-output/*
-	bash -c "cd ./infra && cdk deploy trash-ai-us-west-2-shollingsworth-staging-frontend"

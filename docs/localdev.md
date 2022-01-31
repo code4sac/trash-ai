@@ -37,7 +37,7 @@ Pushing / merging PR's to any branches with a prefix of `aws/` will trigger depl
 
 -   gnu make
     -   ubuntu/debian: `apt-get install build-essential`
-    -   mac: `brew install mac`
+    -   mac: `brew install make`
 
 ## Running the dev environment
 

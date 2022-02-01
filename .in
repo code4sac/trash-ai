@@ -1,3 +1,4 @@
+source $HOME/.config/nvm/nvm.sh
 export B=$(dirname $0)
 export J=$B/frontend
 export S=$B/frontend/src

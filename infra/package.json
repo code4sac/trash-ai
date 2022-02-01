@@ -1,46 +1,35 @@
 {
-  "name": "infrastructure",
-  "version": "0.1.0",
-  "bin": {
-    "infrastructure": "bin/infrastructure.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "test": "jest",
-    "cdk": "cdk"
-  },
-  "devDependencies": {
-    "@types/jest": "^26.0.10",
-    "aws-cdk": "1.141.0",
-    "jest": "^26.4.2",
-    "serverless-localstack": "^0.4.35",
-    "serverless-offline": "^8.4.0",
-    "ts-jest": "^26.2.0",
-    "ts-node": "^9.0.0",
-    "typescript": "~3.9.7"
-  },
-  "dependencies": {
-    "@aws-cdk/aws-amplify": "1.141.0",
-    "@aws-cdk/aws-cloudfront": "1.141.0",
-    "@aws-cdk/aws-iam": "1.141.0",
-    "@aws-cdk/aws-route53": "1.141.0",
-    "@aws-cdk/aws-s3": "1.141.0",
-    "@aws-cdk/aws-s3-assets": "1.141.0",
-    "@aws-cdk/aws-secretsmanager": "1.141.0",
-    "@aws-cdk/aws-ssm": "^1.141.0",
-    "@aws-cdk/core": "^1.141.0",
-    "@types/folder-hash": "^4.0.1",
-    "@types/node": "^17.0.12",
-    "aws-cdk-local": "^1.65.8",
-    "aws-sdk": "^2.1063.0",
-    "child_process": "^1.0.2",
-    "constructs": "^10.0.0",
-    "folder-hash": "^4.0.1",
-    "serverless": "^2.72.1",
-    "serverless-localstack": "^0.4.35",
-    "serverless-offline": "^8.3.1",
-    "source-map-support": "^0.5.16",
-    "typescript-language-server": "^0.9.4"
-  }
+    "name": "trash-ai-infrasturcture",
+    "version": "1.0.0",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "@aws-cdk/aws-amplify": "1.x",
+        "@aws-cdk/aws-cloudfront": "1.x",
+        "@aws-cdk/aws-iam": "1.x",
+        "@aws-cdk/aws-route53": "1.x",
+        "@aws-cdk/aws-s3": "1.x",
+        "@aws-cdk/aws-s3-assets": "1.x",
+        "@aws-cdk/aws-secretsmanager": "1.x",
+        "@aws-cdk/aws-ssm": "1.x",
+        "@aws-cdk/core": "1.x",
+        "@types/folder-hash": "4.x",
+        "@types/node": "17.x",
+        "aws-cdk": "1.x",
+        "aws-cdk-local": "1.x",
+        "aws-sdk": "2.x",
+        "child_process": "1.x",
+        "constructs": "10.x",
+        "diff": "5.x",
+        "folder-hash": "4.x",
+        "serverless": "2.x",
+        "serverless-localstack": "0.x",
+        "serverless-offline": "8.x",
+        "source-map-support": "0.x",
+        "typescript": "3.x",
+        "typescript-language-server": "0.x"
+    },
+    "devDependencies": {
+        "shrinkwrap": "^0.4.0"
+    }
 }

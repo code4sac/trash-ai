@@ -12,10 +12,11 @@ RUN apt update
 RUN apt install -y python3-pip
 RUN pip3 install awscli-local localstack-client "boto3<2" awscli aws-cdk-lib
 
+WORKDIR  /home/${USER}
+RUN ln -s /home/${USER}/node_modules /
+USER  ${USER}
 COPY infra/package.json .
 RUN yarn
-
-USER ${USER}
 
 RUN mkdir -p ~/.aws
 RUN echo "[localstack]" >> ~/.aws/credentials

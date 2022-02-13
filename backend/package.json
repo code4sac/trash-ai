@@ -1,0 +1,25 @@
+{
+  "name": "aws-node-express-api-project",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "go": "yarn && serverless offline -s local -r ${AWS_DEFAULT_REGION}",
+    "watch": "nodemon --watch src --watch serverless.yml --watch package.json -x 'npm run go'",
+    "start": "npm run watch"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1062.0",
+    "cors": "^2.8.5",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.1",
+    "multer": "^1.4.4",
+    "multer-s3": "^2.10.0",
+    "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "serverless": "^2.72.1",
+    "serverless-localstack": "^0.4.35",
+    "serverless-offline": "^8.3.1"
+  }
+}

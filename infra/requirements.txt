@@ -1,0 +1,5 @@
+awscli-local
+localstack-client
+boto3<2
+awscli
+aws-cdk-lib

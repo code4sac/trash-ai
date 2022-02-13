@@ -6,7 +6,9 @@ npm-debug.log
 data
 
 # application things
-.env
+**/yarn-error.log
 
 # other
 .DS_Store
+
+**/*.pyc

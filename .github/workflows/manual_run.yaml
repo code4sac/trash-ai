@@ -1,0 +1,57 @@
+name: Manual Actions
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_frontend:
+        type: choice
+        description: Skip Frontend Deployment
+        required: true
+        default: "false"
+        options:
+          - "true"
+          - "false"
+      stack:
+        required: true
+        description: "Manual Stack to Deploy"
+        type: choice
+        options:
+          - all_stack
+          - backend_stack
+          - frontend_stack
+          - global_stack
+          - region_stack
+          - first_run_stack
+          - synth_only_stack
+          - github_actions_testerr_stack
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Git clone the repository
+              uses: actions/checkout@v1
+
+            - name: register variables
+              id: setregion
+              run: |
+                  echo "::set-output name=aws-region::$(./bin/github_actions.py region)"
+
+            - name: Configure aws credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  role-to-assume: ${{ secrets.AWS_ROLE }}
+                  aws-region: ${{ steps.setregion.outputs.aws-region }}
+
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: "14"
+
+            - name: Run Deploy
+              run: ./bin/github_actions.py manual --stack ${{ github.event.inputs.stack }}
+              env:
+                SKIP_FRONTEND: ${{ github.event.inputs.skip_frontend }}

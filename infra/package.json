@@ -1,0 +1,35 @@
+{
+    "name": "trash-ai-infrasturcture",
+    "version": "1.0.0",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "@aws-cdk/aws-amplify": "1.x",
+        "@aws-cdk/aws-cloudfront": "1.x",
+        "@aws-cdk/aws-iam": "1.x",
+        "@aws-cdk/aws-route53": "1.x",
+        "@aws-cdk/aws-s3": "1.x",
+        "@aws-cdk/aws-s3-assets": "1.x",
+        "@aws-cdk/aws-secretsmanager": "1.x",
+        "@aws-cdk/aws-ssm": "1.x",
+        "@aws-cdk/core": "1.x",
+        "@types/folder-hash": "4.x",
+        "@types/node": "17.x",
+        "aws-cdk": "1.x",
+        "aws-cdk-local": "1.x",
+        "aws-sdk": "2.x",
+        "child_process": "1.x",
+        "constructs": "10.x",
+        "diff": "5.x",
+        "folder-hash": "4.x",
+        "serverless": "2.x",
+        "serverless-localstack": "0.x",
+        "serverless-offline": "8.x",
+        "source-map-support": "0.x",
+        "typescript": "3.x",
+        "typescript-language-server": "0.x"
+    },
+    "devDependencies": {
+        "shrinkwrap": "^0.4.0"
+    }
+}

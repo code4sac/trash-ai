@@ -2,12 +2,12 @@
     "deployments": [
         {
             "aws_profile": "personal",
-            "aws_account_number": "668805947503",
-            "region": "us-west-2",
-            "branch": "aws/shollingsworth-staging",
-            "dns_domain": "stev0.me",
+            "aws_account_number": "834723192900",
+            "region": "us-west-1
+            "branch": "aws/trashai-staging",
+            "dns_domain": "codefordev.org"
             "github_repo_name": "trash-ai",
-            "github_repo_owner": "shollingsworth"
+            "github_repo_owner": "code4sac"
         },
         {
             "aws_profile": "localstack",

@@ -1,7 +1,7 @@
 <template>
     <v-footer app>
         <v-row align="center" justify="start">
-        Logo Here
+        Logo There
         </v-row>
         <div v-if="is_dev">
             <v-icon class="ml-5">

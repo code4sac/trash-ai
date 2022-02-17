@@ -24,7 +24,7 @@ https://github.com/shollingsworth/trash-ai
 
 ## Step 1 - Bootstrap AWS Deployment
 
-Start the bootstrap process by going to [the bootstrap workflow](https://github.com/shollingsworth/trash-ai/actions/workflows/bootstrap.yml)
+Start the bootstrap process by going to [the bootstrap workflow](/actions/workflows/bootstrap.yml)
 
 Click `Run Workflow` and select from the following options
 ![Boostrap Screenshot](./aws_bootstrap.png)

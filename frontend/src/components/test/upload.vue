@@ -3,14 +3,14 @@
     <v-container v-else>
         <vue-dropzone id="upload" :options="dropzoneOptions" />
         <div id="output" />
-        <canvas id="canvas" width="640" height="640" />
     </v-container>
 </template>
 <script>
 // import * as tf from "@tensorflow/tfjs"
 // import { loadGraphModel } from "@tensorflow/tfjs-converter"
-import cocoSsd from "@tensorflow-models/coco-ssd"
-console.log('coco', cocoSsd)
+require("@tensorflow/tfjs-backend-cpu")
+require("@tensorflow/tfjs-backend-webgl")
+const cocoSsd = require("@tensorflow-models/coco-ssd")
 // const MODEL_URL = "web_model/model.json"
 
 export default {
@@ -76,14 +76,14 @@ export default {
     },
     async fetch() {
         this.model = await cocoSsd.load()
-            /* loadGraphModel(MODEL_URL).then((model) => { */
-            /*     this.model = model */
-            /*     resolve() */
-            /* }) */
-            /* this.$axios.get("/list_files").then((response) => { */
-            /*     console.log("list_files", response) */
-            /*     this.list = response.data.files */
-            /* }) */
+        /* loadGraphModel(MODEL_URL).then((model) => { */
+        /*     this.model = model */
+        /*     resolve() */
+        /* }) */
+        /* this.$axios.get("/list_files").then((response) => { */
+        /*     console.log("list_files", response) */
+        /*     this.list = response.data.files */
+        /* }) */
     },
     methods: {
         async submitfile(file) {
@@ -117,15 +117,21 @@ export default {
                     this.$error("Upload failed", err)
                 })
         },
-        upload(val) {
+        async upload(val) {
             const output = document.getElementById("output")
+            const reader = new FileReader()
             output.innerHTML = ""
             this.file = val[0]
-            const img = document.createElement("img")
-            img.src = URL.createObjectURL(this.file)
-            output.appendChild(img)
-            const predictions = this.model.detect(this.file)
-            console.log("predictions", predictions)
+            console.log("fileurl", reader.readAsDataURL(val[0]))
+            /* const img = document.createElement("img") */
+            /* img.style.width = this.file.width + "px" */
+            /* img.style.height = this.file.height + "px" */
+            /* console.log("file", this.file) */
+            /* img.src = this.file.dataURL */
+            /* output.appendChild(img) */
+            /* console.log("img", img) */
+            /* const predictions = this.model.detect(img) */
+            /* console.log("predictions", predictions) */
             // const img = new Image(this.file.width, this.file.height)
             /* // const blob = new Blob([this.file], { type: "image/jpeg" }) */
             /* const dat = Uint8Array.from(this.file.arrayBuffer()) */

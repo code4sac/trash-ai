@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
+    "@tensorflow-models/coco-ssd": "^2.2.2",
+    "@tensorflow/tfjs": "^3.13.0",
     "core-js": "^3.19.3",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.10.7",
@@ -20,6 +22,7 @@
     "vue-lodash": "^2.1.2",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
+    "vue2-dropzone": "^3.6.0",
     "vuetify": "^2.6.1",
     "vuex-persistedstate": "^4.1.0",
     "webpack": "^4.46.0"

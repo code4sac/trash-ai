@@ -12,3 +12,4 @@ data
 .DS_Store
 
 **/*.pyc
+.python-version

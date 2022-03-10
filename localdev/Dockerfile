@@ -10,7 +10,7 @@ RUN grep ${USER_ID} /etc/passwd || \
 
 RUN apt update
 RUN apt install -y python3-pip
-RUN pip3 install awscli-local localstack-client "boto3<2" awscli aws-cdk-lib
+RUN pip3 install awscli-local localstack-client "boto3<2" awscli
 
 WORKDIR  /home/${USER}
 RUN ln -s /home/${USER}/node_modules /

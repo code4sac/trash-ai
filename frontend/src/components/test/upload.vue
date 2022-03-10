@@ -8,6 +8,7 @@
             :options="dropzoneOptions"
         />
         <canvas ref="canvas" :width="resultWidth" :height="resultHeight" />
+        <div id="output" ref="output" />
     </v-container>
 </template>
 <script>
@@ -89,7 +90,10 @@ export default {
             const ref = await this.get_ref("canvas")
             const ctx = ref.getContext("2d")
             const dz = await this.get_ref("dropzone")
+            const out = await this.get_ref("output")
             this.model.detect(img).then((predictions) => {
+                console.log("predictions", predictions)
+                out.innerHTML = `<pre>${JSON.stringify(predictions, null, 2)}</pre>`
                 img.onload = () => {
                     ctx.clearRect(0, 0, this.resultWidth, this.resultHeight)
                     ctx.drawImage(

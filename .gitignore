@@ -8,6 +8,9 @@ data
 # application things
 **/yarn-error.log
 
+# ide configuration
+.idea
+
 # other
 .DS_Store
 

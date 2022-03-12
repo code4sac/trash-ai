@@ -21,7 +21,7 @@ Pushing / merging PR's to any branches with a prefix of `aws/` will trigger depl
 ## Operating System Requirements
 
 -   Linux
--   MacOS (need testing)
+-   MacOS (testing)
 -   Windows using WSL2
    -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
    -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
@@ -33,7 +33,12 @@ Pushing / merging PR's to any branches with a prefix of `aws/` will trigger depl
 -   docker ce
     -   ubuntu/debian: https://docs.docker.com/engine/install/ubuntu/
     -   mac: https://docs.docker.com/desktop/mac/install/
--   docker-compose (`>3.7`) [Instructions](https://docs.docker.com/compose/install/)
+- docker-compose [Instructions](https://docs.docker.com/compose/install/)
+    - Docker-compose file version `>3.7` are supported
+    - For MacOS, use docker-compose version 1.x
+    ```shell
+     $ docker-compose disable-v2
+     ```
 
 ---
 

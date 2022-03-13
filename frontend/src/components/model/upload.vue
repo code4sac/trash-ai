@@ -24,8 +24,8 @@
             </v-card-title>
             <v-card-text>
                 <v-row
-                    v-for="(item, idx) in uploads"
-                    :key="item.key + idx"
+                    v-for="item in uploads"
+                    :key="item.key"
                     align="center"
                     no-gutters
                 >
@@ -47,7 +47,11 @@
             reverse-transition="fade-transition"
             transition="fade-transition"
         >
-            <model-canvas :model="model" :item="item" />
+            <model-canvas
+                :key="item.key + 'canv'"
+                :model="model"
+                :item="item"
+            />
         </div>
     </v-container>
 </template>

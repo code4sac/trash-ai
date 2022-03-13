@@ -36,7 +36,7 @@ export default {
     computed: {
         dropzoneOptions() {
             return {
-                url: this.noop,
+                url: `${this.api_url}/upload`,
                 thumbnailWidth: 200,
                 addRemoveLinks: true,
                 maxFilesize: 10,
@@ -52,16 +52,6 @@ export default {
         console.log("model loaded", this.model)
     },
     methods: {
-        async noop() {},
-        async submitfile(file) {
-            let formData = new FormData()
-            formData.append("file", file)
-            await this.$axios.post("/upload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-        },
         async doremove(file) {
             console.log("remove", file)
             this.uploads = this.uploads.filter(
@@ -70,9 +60,11 @@ export default {
         },
         async doupload(file) {
             console.log("upload", file)
-            await this.submitfile(file)
             this.uploads.push(file)
         },
+    },
+    mounted() {
+        console.log("mount-upload.vue", this.api_url)
     },
 }
 </script>

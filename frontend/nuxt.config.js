@@ -74,7 +74,13 @@ const export_config = {
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
-
+    env: {
+        BACKEND_URL:
+            process.env.NODE_ENV === "local"
+                ? `/api`
+                : `https://${process.env.BACKEND_FQDN}`,
+        NODE_ENV: process.env.NODE_ENV,
+    },
     /*
      ** Nuxt.js modules
      ** Doc: https://modules.nuxtjs.org

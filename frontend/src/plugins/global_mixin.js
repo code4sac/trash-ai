@@ -17,6 +17,9 @@ var GlobalMixin = {
                 this.$store.commit("title/set", value)
             },
         },
+        api_url() {
+            return this.$root.context.env.BACKEND_URL
+        },
         dark_mode: {
             get() {
                 let val = this.$store.state.web_settings.dark_mode

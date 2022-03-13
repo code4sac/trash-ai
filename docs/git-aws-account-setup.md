@@ -78,3 +78,10 @@ Click `Run Workflow` and select from the following options
 ## Step 6 - Wait
 
 -   Grab a coffee, first run will take ~15 - 20 minutes
+
+## Step 7 - SSL Configuration
+
+You may need to configure a CNAME in route53 in order to active the domain in Amplify
+
+-   Navigate in AWS to Amplify -> trash-ai-* -> Domain management
+-   Follow the instructions for SSL Configuration (if the domain is not activated)

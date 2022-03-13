@@ -129,7 +129,6 @@ const export_config = {
      */
     plugins: [
         "~/plugins/lodash.js",
-        "~/plugins/dropzone.js",
         "~plugins/clippy.js",
         "~plugins/crypto.js",
         "~plugins/filters.js",

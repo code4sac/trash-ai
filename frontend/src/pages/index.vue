@@ -204,7 +204,7 @@ export default {
                         id: this.default_id,
                         name: "Upload",
                         icon: "mdi-upload",
-                        component: "test-upload",
+                        component: "model-upload",
                         attrs: {},
                     },
                     {

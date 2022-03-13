@@ -1,125 +1,77 @@
 <template>
     <meta-busy v-if="$fetchState.pending" />
-    <v-container v-else class="pa-10">
-        <v-form ref="uploadform" enctype="multipart/form-data">
-            <v-file-input
-                v-model="file"
-                counter
-                chips
-                show-size
-                truncate-length="15"
-                label="Upload"
-                clearable
-            />
-            <v-btn color="primary" @click="upload">Submit</v-btn>
-        </v-form>
-        <v-data-table
-            :headers="headers"
-            :items="list"
-            :search="filter"
-            sort-by="['LastModified']"
+    <v-container ref="cont" v-else>
+        <vue-dropzone
+            id="dropzone"
+            ref="dropzone"
+            @vdropzone-file-added="doupload"
+            @vdropzone-removed-file="doremove"
+            :options="dropzoneOptions"
+        />
+        <div
+            v-for="item in uploads"
+            :key="item.name"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
         >
-            <template v-slot:top>
-                <fmt-table-header
-                    filename="file-list.json"
-                    :filter.sync="filter"
-                    :list="list"
-                    :title="title"
-                >
-                </fmt-table-header>
-            </template>
-        </v-data-table>
+            <model-canvas :model="model" :file="item" />
+        </div>
     </v-container>
 </template>
 <script>
+require("@tensorflow/tfjs-backend-cpu")
+require("@tensorflow/tfjs-backend-webgl")
+const cocoSsd = require("@tensorflow-models/coco-ssd")
+
 export default {
     data() {
         return {
-            file: null,
             filter: "",
-            in_progress: false,
-            uploads: {},
-            list: [],
+            /**
+             * @type {Array<File>}
+             */
+            uploads: [],
         }
     },
     computed: {
-        title() {
-            return `Uploaded Files (${this.list.length})`
+        dropzoneOptions() {
+            return {
+                url: this.noop,
+                thumbnailWidth: 200,
+                addRemoveLinks: true,
+                maxFilesize: 10,
+                acceptedFiles: "image/*",
+            }
         },
-        headers() {
-            return [
-                {
-                    text: "key",
-                    value: "Key",
-                    sortable: true,
-                },
-                {
-                    text: "Last Modified",
-                    value: "LastModified",
-                    sortable: true,
-                },
-                {
-                    text: "ETag",
-                    value: "ETag",
-                    sortable: true,
-                },
-                {
-                    text: "Size",
-                    value: "Size",
-                    sortable: true,
-                },
-                {
-                    text: "Storage Class",
-                    value: "StorageClass",
-                    sortable: true,
-                },
-            ]
+        title() {
+            return `Upload File(s)`
         },
     },
-    fetch() {
-        return new Promise((resolve, _reject) => {
-            this.$axios.get("/list_files").then((response) => {
-                console.log("list_files", response)
-                this.list = response.data.files
-                resolve()
-            })
-        })
+    async fetch() {
+        this.model = await cocoSsd.load()
+        console.log("model loaded", this.model)
     },
     methods: {
+        async noop() {},
         async submitfile(file) {
-            this.uploads[file.name] = {
-                file: file,
-                progress: 0,
-                status: "pending",
-            }
             let formData = new FormData()
             formData.append("file", file)
-            await this.$axios
-                .post("/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    onUploadProgress: (e) => {
-                        this.uploads[file.name].progress = Math.round(
-                            (e.loaded * 100) / e.total
-                        )
-                        console.log(
-                            "progress",
-                            this.uploads[file.name].progress
-                        )
-                    },
-                })
-                .then((res) => {
-                    this.$success("Uploaded successfully", res)
-                    this.$fetch()
-                })
-                .catch((err) => {
-                    this.$error("Upload failed", err)
-                })
+            await this.$axios.post("/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
         },
-        upload() {
-            console.log("upload", this.file)
-            this.submitfile(this.file)
+        async doremove(file) {
+            console.log("remove", file)
+            this.uploads = this.uploads.filter(
+                (item) => item.name !== file.name
+            )
+        },
+        async doupload(file) {
+            console.log("upload", file)
+            await this.submitfile(file)
+            this.uploads.push(file)
         },
     },
 }

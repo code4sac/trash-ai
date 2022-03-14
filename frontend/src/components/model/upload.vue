@@ -12,6 +12,7 @@
         <v-card
             min-height="300px"
             id="droparea"
+            ref="droparea"
             v-cloak
             @drop.prevent="doupload($event.dataTransfer.files)"
             @dragover.prevent
@@ -23,36 +24,55 @@
                 <v-spacer />
             </v-card-title>
             <v-card-text>
-                <v-row
-                    v-for="item in uploads"
-                    :key="item.key"
-                    align="center"
-                    no-gutters
+                <v-data-table
+                    v-if="uploads.length > 0"
+                    :headers="headers"
+                    :items="uploads"
+                    item-key="key"
+                    disable-pagination
+                    hide-default-footer
+                    show-expand
+                    :expanded="expanded"
+                    @click:row="(item, slot) => slot.expand(!slot.isExpanded)"
                 >
-                    <v-col cols="11">
-                        <v-btn small icon color="red" @click="doremove(item)">
-                            <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                        {{ item.file.name }} ({{ item.file.size }})
-                    </v-col>
-                    <v-col cols="1">
-                        <v-img :src="item.src" contain height="100" />
-                    </v-col>
-                </v-row>
+                    <template v-slot:[`item.actions`]="{ item }">
+                        <v-tooltip z-index="1000" top>
+                            <template v-slot:activator="{ on: tt }">
+                                <v-btn
+                                    v-on="tt"
+                                    small
+                                    icon
+                                    color="red"
+                                    @click="doremove(item)"
+                                >
+                                    <v-icon>mdi-delete</v-icon>
+                                </v-btn>
+                            </template>
+                            <span> Remove from list </span>
+                        </v-tooltip>
+                        <model-download :item="item" :model="model" />
+                    </template>
+                    <template v-slot:[`item.thumb`]="{ item }">
+                        <v-img
+                            :src="item.src"
+                            max-width="100"
+                            contain
+                            height="100"
+                            aspect-ratio="1"
+                        />
+                    </template>
+                    <template v-slot:expanded-item="{ item }">
+                        <td colspan="100%" class="pa-0">
+                            <model-canvas
+                                :model="model"
+                                :item="item"
+                                :pwidth="dropwidth"
+                            />
+                        </td>
+                    </template>
+                </v-data-table>
             </v-card-text>
         </v-card>
-        <div
-            v-for="item in uploads"
-            :key="item.name"
-            reverse-transition="fade-transition"
-            transition="fade-transition"
-        >
-            <model-canvas
-                :key="item.key + 'canv'"
-                :model="model"
-                :item="item"
-            />
-        </div>
     </v-container>
 </template>
 <script>
@@ -63,6 +83,10 @@ const cocoSsd = require("@tensorflow-models/coco-ssd")
 export default {
     data() {
         return {
+            /**
+             * @type {cocoSsd.DetectedObject}
+             */
+            model: null,
             filter: "",
             /**
              * @type {Array<Object<{
@@ -72,11 +96,44 @@ export default {
              }>}
              */
             uploads: [],
+            expanded: [],
         }
     },
     computed: {
         title() {
             return `Upload File(s)`
+        },
+        dropwidth() {
+            const width = document.getElementById("droparea").clientWidth - 100
+            return `${width}`
+        },
+        headers() {
+            return [
+                {
+                    text: "Actions",
+                    value: "actions",
+                    align: "left",
+                    sortable: false,
+                },
+                {
+                    text: "Name",
+                    value: "file.name",
+                    align: "left",
+                    sortable: false,
+                },
+                {
+                    text: "Size",
+                    value: "file.size",
+                    align: "left",
+                    sortable: false,
+                },
+                {
+                    text: "Thumb",
+                    value: "thumb",
+                    align: "left",
+                    sortable: false,
+                },
+            ]
         },
     },
     async fetch() {
@@ -108,16 +165,17 @@ export default {
                         return
                     }
                     img.onload = async () => {
-                        file.width = img.width
-                        file.height = img.height
                         await this.submitfile(file)
                         const ins = {
+                            width: img.width,
+                            height: img.height,
                             key: key,
                             src: reader.result,
                             file: file,
                         }
                         this.uploads.push(ins)
-                        console.log("upload", ins.key)
+                        this.expanded.push(ins)
+                        console.log("upload", ins)
                     }
                     img.src = reader.result
                 }

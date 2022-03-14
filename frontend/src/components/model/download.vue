@@ -1,17 +1,22 @@
 <template>
-    <v-card>
-        <v-card-title>
-            {{ item.file.name }}
-            <model-meta :item="item" />
-        </v-card-title>
-        <v-card-text>
-            <canvas
-                :ref="item.key"
-                :width="resultWidth"
-                :height="resultHeight"
-            />
-        </v-card-text>
-    </v-card>
+    <span>
+        <v-tooltip z-index="1000" top>
+            <template v-slot:activator="{ on: tt }">
+                <span v-on="tt">
+                    <v-btn icon @click="download">
+                        <v-icon>mdi-download</v-icon>
+                    </v-btn>
+                </span>
+            </template>
+            <span> Download Full Size Image </span>
+        </v-tooltip>
+        <canvas
+            style="display: none"
+            :ref="item.key"
+            :width="item.width"
+            :height="item.height"
+        />
+    </span>
 </template>
 <script>
 export default {
@@ -24,45 +29,23 @@ export default {
             type: Object,
             required: true,
         },
-        pwidth: {
-            type: String,
-            required: true,
-        },
     },
     data() {
         return {
-            img: null,
-            curtab: "image",
-            resultWidth: 0,
-            resultHeight: 0,
-            dialog: false,
-            maximize: false,
-            json_txt: "",
+            dodownload: null,
         }
     },
     async mounted() {
         console.log("loaded", this.item)
         const img = document.createElement("img")
         const ref = await this.get_ref(this.item.key)
-
         const ctx = ref.getContext("2d")
-
-        if (this.pwidth < this.item.width) {
-            this.resultWidth = this.pwidth
-            this.resultHeight =
-                (this.item.height * this.resultWidth) /
-                this.item.width
-        } else {
-            this.resultWidth = this.item.width
-            this.resultHeight = this.item.height
-        }
-
         img.onload = () => {
             this.model.detect(img).then(async (predictions) => {
                 console.log("predictions", predictions)
                 this.json_txt = JSON.stringify(predictions, null, 2)
-                ctx.clearRect(0, 0, this.resultWidth, this.resultHeight)
-                ctx.drawImage(img, 0, 0, this.resultWidth, this.resultHeight)
+                ctx.clearRect(0, 0, this.item.width, this.item.height)
+                ctx.drawImage(img, 0, 0, this.item.width, this.item.height)
                 predictions.forEach((prediction) => {
                     const x = prediction.bbox[0]
                     const y = prediction.bbox[1]
@@ -81,9 +64,21 @@ export default {
                 })
             })
         }
-        img.width = this.resultWidth
-        img.height = this.resultHeight
+        img.width = this.item.width
+        img.height = this.item.height
         img.src = this.item.src
+    },
+    methods: {
+        async download() {
+            var canvas = await this.get_ref(this.item.key)
+            var image = canvas
+                .toDataURL("image/png")
+                .replace("image/png", "image/octet-stream")
+            var link = document.createElement("a")
+            link.download = `${this.item.key}.png`
+            link.href = image
+            link.click()
+        },
     },
 }
 </script>

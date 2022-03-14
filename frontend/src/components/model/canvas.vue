@@ -2,7 +2,7 @@
     <v-card>
         <v-card-title>
             {{ item.file.name }}
-            <model-meta :item="item" />
+            <model-meta :item="item" :jtxt="json_txt" />
         </v-card-title>
         <v-card-text>
             <canvas
@@ -50,8 +50,7 @@ export default {
         if (this.pwidth < this.item.width) {
             this.resultWidth = this.pwidth
             this.resultHeight =
-                (this.item.height * this.resultWidth) /
-                this.item.width
+                (this.item.height * this.resultWidth) / this.item.width
         } else {
             this.resultWidth = this.item.width
             this.resultHeight = this.item.height

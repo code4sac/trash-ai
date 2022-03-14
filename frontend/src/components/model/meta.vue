@@ -25,7 +25,7 @@
                 </v-btn>
             </v-card-title>
             <v-card-text class="mt-3">
-                <pre>{{ item.jtxt }}</pre>
+                <pre>{{ jtxt }}</pre>
             </v-card-text>
         </v-card>
     </v-dialog>
@@ -41,6 +41,10 @@ export default {
     props: {
         item: {
             type: Object,
+            required: true,
+        },
+        jtxt: {
+            type: String,
             required: true,
         },
     },

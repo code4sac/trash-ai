@@ -13,3 +13,4 @@ data
 
 **/*.pyc
 .python-version
+**/*.zip

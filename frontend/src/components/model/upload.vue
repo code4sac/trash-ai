@@ -78,6 +78,7 @@
 <script>
 require("@tensorflow/tfjs-backend-cpu")
 require("@tensorflow/tfjs-backend-webgl")
+import * as tf from "@tensorflow/tfjs"
 const cocoSsd = require("@tensorflow-models/coco-ssd")
 
 export default {
@@ -137,7 +138,8 @@ export default {
         },
     },
     async fetch() {
-        this.model = await cocoSsd.load()
+        const path = `/model/model.json`
+        this.model = await tf.loadGraphModel(path)
         console.log("model loaded", this.model)
     },
     methods: {

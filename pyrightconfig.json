@@ -1,0 +1,7 @@
+{
+   "venv" : "3.9.4_trash_ai",
+   "venvPath" : "/home/shollingsworth/.pyenv/versions",
+   "extraPaths" : [
+      "./model/yolov5/"
+   ]
+}

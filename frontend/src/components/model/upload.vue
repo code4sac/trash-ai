@@ -50,7 +50,11 @@
                             </template>
                             <span> Remove from list </span>
                         </v-tooltip>
-                        <model-download :item="item" :model="model" />
+                        <model-download
+                            :item="item"
+                            :model="model"
+                            :name_map="name_map"
+                        />
                     </template>
                     <template v-slot:[`item.thumb`]="{ item }">
                         <v-img
@@ -65,6 +69,7 @@
                         <td colspan="100%" class="pa-0">
                             <model-canvas
                                 :model="model"
+                                :name_map="name_map"
                                 :item="item"
                                 :pwidth="dropwidth"
                             />
@@ -79,13 +84,12 @@
 require("@tensorflow/tfjs-backend-cpu")
 require("@tensorflow/tfjs-backend-webgl")
 import * as tf from "@tensorflow/tfjs"
-const cocoSsd = require("@tensorflow-models/coco-ssd")
 
 export default {
     data() {
         return {
             /**
-             * @type {cocoSsd.DetectedObject}
+             * @type {tf.GraphModel}
              */
             model: null,
             filter: "",
@@ -98,6 +102,7 @@ export default {
              */
             uploads: [],
             expanded: [],
+            name_map: {},
         }
     },
     computed: {
@@ -139,8 +144,10 @@ export default {
     },
     async fetch() {
         const path = `/model/model.json`
+        const name_map_file = `/model/name_map.json`
+        this.name_map = await (await fetch(name_map_file)).json()
         this.model = await tf.loadGraphModel(path)
-        console.log("model loaded", this.model)
+        console.log("model loaded", this.name_map, this.model)
     },
     methods: {
         async submitfile(file) {

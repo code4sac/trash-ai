@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  kaggledl:
+    image: kaggledl
+    build:
+      context: .
+
+  # test_gpu:
+  #   image: tensorflow/tensorflow:latest-gpu
+  #   command: python -c "import tensorflow as tf;tf.test.gpu_device_name()"
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - capabilities: [gpu]
+
+  dltacodataset:
+    image: kaggledl
+    volumes:
+      - ${HOME}/.kaggle:/home/kaggle/.kaggle
+      - ${PWD}:/home/kaggle/download
+    working_dir: /home/kaggle/download
+    command: kaggle datasets download -d kneroma/tacotrashdataset
+
+  dlyolov5-taco:
+    image: kaggledl
+    volumes:
+      - ${HOME}/.kaggle:/home/kaggle/.kaggle
+      - ${PWD}:/home/kaggle/download
+    working_dir: /home/kaggle/download
+    command: kaggle datasets download -d trngvhong/yolov5-taco
+
+  notebook:
+    image: jupyter/datascience-notebook:b418b67c225b
+    volumes:
+      - ${PWD}:/home/jovyan/work
+      - /dev/shm:/dev/shm
+    ports:
+      - 8888:8888

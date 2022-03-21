@@ -142,12 +142,15 @@ export default {
             ]
         },
     },
-    async fetch() {
-        const path = `/model/model.json`
-        const name_map_file = `/model/name_map.json`
-        this.name_map = await (await fetch(name_map_file)).json()
-        this.model = await tf.loadGraphModel(path)
-        console.log("model loaded", this.name_map, this.model)
+    fetch() {
+        return new Promise(async (resolve, _reject) => {
+            const path = `/model/model.json`
+            const name_map_file = `/model/name_map.json`
+            this.model = await tf.loadGraphModel(path)
+            this.name_map = await (await fetch(name_map_file)).json()
+            console.log("model loaded", this.name_map, this.model)
+            resolve()
+        })
     },
     methods: {
         async submitfile(file) {

@@ -84,7 +84,6 @@
 require("@tensorflow/tfjs-backend-cpu")
 require("@tensorflow/tfjs-backend-webgl")
 import * as tf from "@tensorflow/tfjs"
-import name_map from "@/static/model/name_map.json"
 
 export default {
     data() {
@@ -103,7 +102,7 @@ export default {
              */
             uploads: [],
             expanded: [],
-            name_map: name_map,
+            name_map: [],
         }
     },
     computed: {
@@ -147,6 +146,9 @@ export default {
         return new Promise(async (resolve, _reject) => {
             const path = `/model/model.json`
             this.model = await tf.loadGraphModel(path)
+            this.name_map = await (
+                await fetch(path, { credentials: "include" })
+            ).json()
             console.log("model loaded", this.name_map, this.model)
             resolve()
         })

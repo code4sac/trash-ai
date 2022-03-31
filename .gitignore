@@ -13,3 +13,6 @@ data
 
 **/*.pyc
 .python-version
+**/*.zip
+pyrightconfig.json
+archive/

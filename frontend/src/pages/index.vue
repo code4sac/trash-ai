@@ -198,45 +198,55 @@ export default {
             })
         },
         get_initial_data() {
-            return {
+            let retval = {
                 children: [
+                    {
+                        id: uid(),
+                        name: "About",
+                        icon: "mdi-information-outline",
+                        component: "about",
+                        attrs: {},
+                    },
                     {
                         id: this.default_id,
                         name: "Upload",
                         icon: "mdi-upload",
-                        component: "test-upload",
+                        component: "model-upload",
                         attrs: {},
-                    },
-                    {
-                        id: uid(),
-                        name: "Lab",
-                        icon: "mdi-test-tube",
-                        children: [
-                            {
-                                id: uid(),
-                                name: "Icons",
-                                icon: "mdi-image",
-                                component: "test-iconfilter",
-                                attrs: {},
-                            },
-                            {
-                                id: uid(),
-                                name: "Color Chooser",
-                                icon: "mdi-palette",
-                                component: "test-colorchooser",
-                                attrs: {},
-                            },
-                            {
-                                id: uid(),
-                                name: "Scratch Page",
-                                icon: "mdi-ab-testing",
-                                component: "test-scratch",
-                                attrs: {},
-                            },
-                        ],
                     },
                 ],
             }
+            if (this.is_dev) {
+                retval.children.push({
+                    id: uid(),
+                    name: "Lab",
+                    icon: "mdi-test-tube",
+                    children: [
+                        {
+                            id: uid(),
+                            name: "Icons",
+                            icon: "mdi-image",
+                            component: "test-iconfilter",
+                            attrs: {},
+                        },
+                        {
+                            id: uid(),
+                            name: "Color Chooser",
+                            icon: "mdi-palette",
+                            component: "test-colorchooser",
+                            attrs: {},
+                        },
+                        {
+                            id: uid(),
+                            name: "Scratch Page",
+                            icon: "mdi-ab-testing",
+                            component: "test-scratch",
+                            attrs: {},
+                        },
+                    ],
+                })
+            }
+            return retval
         },
     },
     watch: {
@@ -274,6 +284,9 @@ export default {
             })
             resolve()
         })
+    },
+    mounted() {
+        console.log("mount-index.vue", this)
     },
 }
 </script>

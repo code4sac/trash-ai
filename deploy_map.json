@@ -4,8 +4,17 @@
             "aws_profile": "personal",
             "aws_account_number": "834723192900",
             "region": "us-west-1",
+            "branch": "production",
+            "dns_domain": "trashai.org",
+            "github_repo_name": "trash-ai",
+            "github_repo_owner": "code4sac"
+        },
+        {
+            "aws_profile": "personal",
+            "aws_account_number": "834723192900",
+            "region": "us-west-1",
             "branch": "aws/trashai-staging",
-            "dns_domain": "codefordev.org",
+            "dns_domain": "trashai.org",
             "github_repo_name": "trash-ai",
             "github_repo_owner": "code4sac"
         },

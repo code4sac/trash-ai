@@ -8,9 +8,28 @@
         @mouseleave="mresume"
     >
         <template>
-            <v-dialog v-model="expand_dialog">
+            <v-dialog
+                v-model="expand_dialog"
+                :fullscreen="maximize_expand"
+                width="500"
+            >
                 <v-card max-width="500px">
-                    <v-card-title> {{ item.title }}</v-card-title>
+                    <v-card-title>
+                        {{ item.title }}
+                        <v-spacer />
+                        <v-btn
+                            icon
+                            @click="maximize_expand = !maximize_expand"
+                        >
+                            <v-icon v-if="!maximize_expand">
+                                mdi-fullscreen
+                            </v-icon>
+                            <v-icon v-else>mdi-fullscreen-exit</v-icon>
+                        </v-btn>
+                        <v-btn icon @click="$emit('close', 'expand_dialog')">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                    </v-card-title>
 
                     <v-card-text>
                         {{ item.message }}
@@ -29,9 +48,25 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-            <v-dialog v-model="expand_code">
+            <v-dialog
+                v-model="expand_code"
+                :fullscreen="maximize_code"
+                width="500"
+            >
                 <v-card max-width="500px">
-                    <v-card-title> {{ item.title }}</v-card-title>
+                    <v-card-title>
+                        {{ item.title }}
+                        <v-spacer />
+                        <v-btn icon @click="maximize_code = !maximize_code">
+                            <v-icon v-if="!maximize_code">
+                                mdi-fullscreen
+                            </v-icon>
+                            <v-icon v-else>mdi-fullscreen-exit</v-icon>
+                        </v-btn>
+                        <v-btn icon @click="$emit('close', 'expand_code')">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                    </v-card-title>
 
                     <v-card-text style="overflow: scroll">
                         <pre>{{
@@ -127,6 +162,8 @@ export default {
     },
     data() {
         return {
+            maximize_code: false,
+            maximize_expand: false,
             pin_state: null,
             expand_dialog: false,
             expand_code: false,

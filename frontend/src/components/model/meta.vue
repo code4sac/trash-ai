@@ -4,7 +4,7 @@
             <v-tooltip z-index="1000" top>
                 <template v-slot:activator="{ on: tt }">
                     <span v-on="tt">
-                        <v-btn v-bind="attrs" v-on="on" icon>
+                        <v-btn v-bind="attrs" v-on="on" fab small>
                             <v-icon>mdi-file</v-icon>
                         </v-btn>
                     </span>
@@ -14,7 +14,7 @@
         </template>
         <v-card>
             <v-card-title>
-                {{ item.file.name }}
+                {{ item.filename }}
                 <v-spacer />
                 <v-btn icon @click="maximize = !maximize">
                     <v-icon v-if="!maximize">mdi-fullscreen</v-icon>
@@ -43,9 +43,10 @@ export default {
             type: Object,
             required: true,
         },
-        jtxt: {
-            type: String,
-            required: true,
+    },
+    computed: {
+        jtxt() {
+            return JSON.stringify(this.item.metadata, null, 2)
         },
     },
 }

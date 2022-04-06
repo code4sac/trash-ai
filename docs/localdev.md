@@ -23,10 +23,10 @@ Pushing / merging PR's to any branches with a prefix of `aws/` will trigger depl
 -   Linux
 -   MacOS (testing)
 -   Windows using WSL2
-   -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
-   -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
-   -   Make local must be run from a WSL (Ubuntu) terminal
-   -   Take note of docker-compose installation (installing through apt may not install the correct version)
+    -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
+    -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
+    -   Make local must be run from a WSL (Ubuntu) terminal
+    -   Take note of docker-compose installation (installing through apt may not install the correct version)
 
 ## Software Requirements
 

@@ -52,7 +52,6 @@ export class Config {
         return _map_value[key];
     }
 
-    //    this._dns_domain_map_root = this._get_map_val(map_value, "dns_domain_map_root")
     get is_bootstrap() {
         return env.BOOTSTRAP === "true";
     }

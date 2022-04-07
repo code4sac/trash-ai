@@ -219,6 +219,7 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                 ],
                 Resource: [
                     `arn:aws:lambda:${this.conf.region}:${this.conf.account}:function:${this.conf.prefix}*`,
+                    `arn:aws:lambda:${this.conf.region}:${this.conf.account}:layer:${this.conf.prefix}*`,
                 ],
             },
             {

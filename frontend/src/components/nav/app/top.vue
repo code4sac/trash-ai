@@ -5,7 +5,7 @@
             align="center"
             @click="$route.path !== '/' && $router.push('/')"
         >
-            <h2 v-if="!is_mobile" class="ml-2 pa-2">
+            <h2 class="ml-2 pa-2">
                 <v-icon> mdi-delete-variant </v-icon>
                 Trash AI
             </h2>

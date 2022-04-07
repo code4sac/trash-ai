@@ -1,5 +1,7 @@
 <template>
-    <meta-busy v-if="$fetchState.pending" />
+    <v-card v-if="$fetchState.pending">
+        <meta-busy />
+    </v-card>
     <v-card v-else v-bind="outerProps">
         <v-card-title class="accent2 pl-0 py-0">
             <fmt-tree-trail
@@ -8,7 +10,6 @@
                 :additions="title_additions"
             />
             <v-spacer />
-            <fmt-btn-refresh />
         </v-card-title>
         <v-row class="mt-5">
             <v-col v-bind="col1">
@@ -272,17 +273,14 @@ export default {
         }
     },
     async fetch() {
-        return new Promise((resolve, _reject) => {
-            this.$nuxt.$on("title", (title) => {
-                this.title = title
-            })
-            this.data = this.get_initial_data()
-            this.active = [this.default_id]
-            this.get_ref("indextreeview").then((treeview) => {
-                console.log("treeview", treeview)
-                treeview.updateAll(true)
-            })
-            resolve()
+        this.$nuxt.$on("title", (title) => {
+            this.title = title
+        })
+        this.data = this.get_initial_data()
+        this.active = [this.default_id]
+        this.get_ref("indextreeview").then((treeview) => {
+            console.log("treeview", treeview)
+            treeview.updateAll(true)
         })
     },
     mounted() {

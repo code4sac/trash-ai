@@ -45,6 +45,7 @@ services:
       - "bootstrap"
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
+    restart: always
 
   frontend:
     image: trash_ai_bs
@@ -57,4 +58,4 @@ services:
 
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
-
+    restart: always

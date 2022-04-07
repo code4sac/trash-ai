@@ -2,11 +2,12 @@ import * as amplify from "@aws-cdk/aws-amplify";
 import * as cdk from "@aws-cdk/core";
 import * as path from "path";
 import * as fs from "fs";
-import * as r53 from "@aws-cdk/aws-route53";
 import { Config } from "../config";
 import { DockerImage } from "@aws-cdk/core";
 import { Asset } from "@aws-cdk/aws-s3-assets";
 import { hashElement } from "folder-hash";
+import * as r53 from "@aws-cdk/aws-route53";
+import { DnsValidatedCertificate } from "@aws-cdk/aws-certificatemanager";
 import * as os from "os";
 
 const user_id = os.userInfo().uid;
@@ -98,16 +99,16 @@ export class AmplifyStack extends cdk.NestedStack {
         const secret = await this.conf.get_secret_dict();
         if (!secret.BASIC_USERNAME) {
             throw new Error(
-                `No BASIC_USERNAME basic_username found in secret ${this.conf.secret_name}, ${JSON.stringify(
-                    secret
-                )}`
+                `No BASIC_USERNAME basic_username found in secret ${
+                    this.conf.secret_name
+                }, ${JSON.stringify(secret)}`
             );
         }
         if (!secret.BASIC_PASSWORD) {
             throw new Error(
-                `No BASIC_PASSWORD found in secret ${this.conf.secret_name}, ${JSON.stringify(
-                    secret
-                )}`
+                `No BASIC_PASSWORD found in secret ${
+                    this.conf.secret_name
+                }, ${JSON.stringify(secret)}`
             );
         }
         console.log(`setting BASIC_USERNAME: ${secret.BASIC_USERNAME}`);
@@ -118,6 +119,16 @@ export class AmplifyStack extends cdk.NestedStack {
             `${this.conf.prefix}-${this.conf.region}-${this.conf.stage}-amplify`,
             {}
         );
+
+        const zone = r53.HostedZone.fromLookup(this, "HostedZone", {
+            domainName: this.conf.zone_name,
+        });
+
+        new DnsValidatedCertificate(this, "Certificate", {
+            hostedZone: zone,
+            domainName: this.conf.zone_name,
+            cleanupRoute53Records: true,
+        });
 
         amp.addCustomRule(amplify.CustomRule.SINGLE_PAGE_APPLICATION_REDIRECT);
 
@@ -134,11 +145,7 @@ export class AmplifyStack extends cdk.NestedStack {
             path: await this.getAssetFile(),
         });
 
-        let zone = r53.HostedZone.fromLookup(this, "zone", {
-            domainName: this.conf.zone_name,
-        });
-
-        if (this.conf.is_production) {
+        if (this.conf.dns_domain_map_root) {
             let main_branch = amp.addBranch(this.conf.stage, {
                 autoBuild: true,
                 asset: asset,
@@ -146,18 +153,6 @@ export class AmplifyStack extends cdk.NestedStack {
             domain.mapRoot(main_branch);
             domain.mapSubDomain(main_branch, this.conf.stage);
             domain.mapSubDomain(main_branch, "www");
-
-            new r53.CnameRecord(this, "cname", {
-                zone,
-                recordName: `${this.conf.stage}.${this.conf.zone_name}`,
-                domainName: amp.defaultDomain,
-            });
-
-            new r53.CnameRecord(this, "cname", {
-                zone,
-                recordName: `www.${this.conf.zone_name}`,
-                domainName: amp.defaultDomain,
-            });
         } else {
             let main_branch = amp.addBranch(this.conf.stage, {
                 autoBuild: true,
@@ -165,12 +160,6 @@ export class AmplifyStack extends cdk.NestedStack {
                 asset: asset,
             });
             domain.mapSubDomain(main_branch, this.conf.stage);
-
-            new r53.CnameRecord(this, "cname", {
-                zone,
-                recordName: `${this.conf.stage}.${this.conf.zone_name}`,
-                domainName: amp.defaultDomain,
-            });
         }
 
         return amp;

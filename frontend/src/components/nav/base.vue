@@ -54,11 +54,11 @@ export default {
             this.$vuetify.goTo(document.body.scrollHeight)
         },
         scroller_class() {
-            if (this.is_mobile) {
-                return "bottom-mobile"
-            } else {
-                return "bottom-right"
-            }
+            return "bottom-right"
+            /* if (this.is_mobile) { */
+            /*     return "bottom-mobile" */
+            /* } else { */
+            /* } */
         },
     },
 }

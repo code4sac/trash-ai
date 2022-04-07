@@ -12,13 +12,14 @@ https://github.com/shollingsworth/trash-ai
                    ^ `github_repo_owner`
 ```
 
-| Deployment Field Key | Description                                                   |
-| -------------------- | ------------------------------------------------------------- |
-| aws_account_number   | AWS numerica account number                                   |
-| branch               | github branch, if hosted in aws, branch prefix must be `aws/` |
-| dns_domain           | Route53 hosted domain name                                    |
-| github_repo_name     | github repo name                                              |
-| github_repo_owner    | organization / individual owner                               |
+| Deployment Field Key | Description                                                                    |
+| -------------------- | ------------------------------------------------------------------------------ |
+| aws_account_number   | AWS numeric account number                                                     |
+| branch               | github branch, if hosted in aws, branch prefix must be `aws/`                  |
+| dns_domain           | Route53 hosted domain name, normal branches will map to only `branch.<domain>` |
+| dns_domain_map_root  | map `<domain>`, `www.<domain>` in addition to `branch.<domain>`                |
+| github_repo_name     | github repo name                                                               |
+| github_repo_owner    | organization / individual owner                                                |
 
 ---
 
@@ -83,5 +84,5 @@ Click `Run Workflow` and select from the following options
 
 You may need to configure a CNAME in route53 in order to active the domain in Amplify
 
--   Navigate in AWS to Amplify -> trash-ai-* -> Domain management
+-   Navigate in AWS to Amplify -> trash-ai-\* -> Domain management
 -   Follow the instructions for SSL Configuration (if the domain is not activated)

@@ -10,6 +10,7 @@ export class Config {
     region: string;
     stage: string;
     branch: string;
+    dns_domain_map_root: boolean;
     mainBucketName: string;
     test_role: string = "";
 
@@ -17,7 +18,7 @@ export class Config {
     repo_owner: string;
     zone_name: string;
 
-    constructor(map_value: { [key: string]: string }) {
+    constructor(map_value: { [key: string]: any }) {
         this.repo = this._get_map_val(map_value, "github_repo_name");
         this.repo_owner = this._get_map_val(map_value, "github_repo_owner");
         this.profile = this._get_map_val(map_value, "aws_profile");
@@ -29,7 +30,15 @@ export class Config {
             ""
         );
         this.zone_name = this._get_map_val(map_value, "dns_domain");
+        this.dns_domain_map_root = this._get_map_boolean(map_value, "dns_domain_map_root");
         this.mainBucketName = `${this.prefix}-${this.region}-main`;
+    }
+
+    _get_map_boolean(map_value: { [key: string]: boolean }, key: string) {
+        if (map_value[key] === undefined) {
+            return false;
+        }
+        return map_value[key]
     }
 
     _get_map_val(_map_value: { [key: string]: string }, key: string) {
@@ -92,11 +101,7 @@ export class Config {
             null;
         if (!dval) {
             console.error("Could not find API URL");
-            if (!this.skip_frontend) {
-                process.exit(1);
-            } else {
-                return "cdk-get-api-error.local";
-            }
+            return "ERROR-cdk-get-api-error.local";
         } else {
             return dval.Value && dval.Value.replace(/^https?:\/\//, "");
         }
@@ -136,7 +141,7 @@ export class Config {
     }
 
     backend_cfn_keys() {
-        const prefix = `sls-${this.prefix}-serverless-backend-${this.stage}`;
+        const prefix = `sls-${this.prefix}-${this.region}-${this.stage}`;
         return {
             api_url: `${prefix}-HttpApiUrl`,
             deploy_bucket: `${prefix}-ServerlessDeploymentBucketName`,

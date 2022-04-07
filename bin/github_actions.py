@@ -11,12 +11,13 @@ import sys
 from itertools import chain
 from pathlib import Path
 from typing import Iterable, List
+import boto3
 
 IS_GITHUB = os.environ.get("GITHUB_ACTIONS", "false") == "true"
 
+
 class GHOut:
     """GHOut."""
-
 
     @staticmethod
     def error(msg: str) -> None:
@@ -76,7 +77,7 @@ class GHOut:
 class Cmd:
     """Cmd."""
 
-    def __init__(self, _type: str, working_dir: Path, cmd: str) -> None:
+    def __init__(self, name: str, working_dir: Path, cmd: str, callback = None) -> None:
         """__init__.
 
         Args:
@@ -86,7 +87,8 @@ class Cmd:
         Returns:
             None:
         """
-        self.type = _type
+        self.callback = callback
+        self.name = name
         self.working_dir = working_dir
         self.cmd = shlex.split(cmd)
 
@@ -95,7 +97,7 @@ class Cmd:
         has_err = False
         if doit:
             cmd_txt = " ".join(self.cmd)
-            GHOut.groupstart(f"{self.type} {cmd_txt}")
+            GHOut.groupstart(f"{self.name} {cmd_txt}")
             GHOut.notice(f"Executing {cmd_txt}, working dir: {self.working_dir}")
             try:
                 with subprocess.Popen(
@@ -128,6 +130,10 @@ class Cmd:
                 GHOut.groupend()
                 if has_err:
                     raise SystemExit(":(")
+                if self.callback:
+                    GHOut.notice(f"Running callback for {self.name}")
+                    self.callback()
+
 
 class Config:
     """Config class."""
@@ -138,6 +144,13 @@ class Config:
     PREFIX = "trash-ai"
 
     ACTION_CHANGE_DIRS = {
+        "deploy_role_stack": chain(
+            set(
+                chain(
+                    BASE.glob("infra/lib/bootstrap/*"),
+                )
+            )
+        ),
         "all_stack": chain(
             set(
                 chain(
@@ -179,15 +192,25 @@ class Config:
     def __init__(self) -> None:
         """Init."""
         try:
-            self.skip_frontend = os.environ.get("SKIP_FRONTEND", "false") == "true" # type: bool
+            self.skip_frontend = (
+                os.environ.get("SKIP_FRONTEND", "false") == "true"
+            )  # type: bool
             json_data = self._get_config()
             self.aws_account_number = json_data["aws_account_number"]
             self.region = json_data["region"]
             self.github_repo_owner = json_data["github_repo_owner"]
             self.github_repo_name = json_data["github_repo_name"]
             self.dns_domain = json_data["dns_domain"]
+            self.log_retention_days = int(json_data["log_retention_days"])
+            self.dns_domain_root = (
+                True if json_data["dns_domain_map_root"] == "true" else False
+            )
             self.branch = json_data["branch"]
             self.stage = re.sub(r"^aws/", "", self.branch)
+            os.environ.update({"DOMAIN": self.dns_domain})
+            os.environ.update(
+                {"IS_ROOT_DOMAIN": "true" if self.dns_domain_root else "false"}
+            )
         except KeyError as e:
             raise SystemExit(f"Missing config key: {e}") from e
 
@@ -244,6 +267,26 @@ class Config:
         ]
 
     @property
+    def deploy_role_stack(self):
+        """deploy_role."""
+        stack = f"{self.PREFIX}-github"
+        cmd = f"yarn cdk deploy {stack}"
+        return [
+            # update yarn
+            Cmd(
+                "deploy_role_stack",
+                working_dir=self.BASE.joinpath("infra"),
+                cmd="yarn",
+            ),
+            # deploy
+            Cmd(
+                "deploy_role_stack",
+                working_dir=self.BASE.joinpath("infra"),
+                cmd=cmd,
+            ),
+        ]
+
+    @property
     def frontend_stack(self):
         """frontend_stack."""
         if self.skip_frontend:
@@ -264,6 +307,22 @@ class Config:
             ),
         ]
 
+    def set_log_retention(self) -> str:
+        """Set log retention."""
+        cli = boto3.client("logs", region_name=self.region)
+        for log_group_name in cli.describe_log_groups()["logGroups"]:
+            if log_group_name["logGroupName"].startswith(f"/aws/lambda/{self.PREFIX}-"):
+                GHOut.notice(
+                    f"Setting log retention for {log_group_name['logGroupName']} for {self.log_retention_days} days"
+                )
+                cli.put_retention_policy(
+                    logGroupName=log_group_name["logGroupName"],
+                    retentionInDays=self.log_retention_days,
+                )
+            else:
+                GHOut.warning(f"Skipping log group {log_group_name['logGroupName']}")
+        return "Log retention set"
+
     @property
     def backend_stack(self) -> List[Cmd]:
         """backend_stack.
@@ -273,7 +332,6 @@ class Config:
         Returns:
             List[Cmd]:
         """
-        cmd = f"yarn serverless deploy -r {self.region} -s {self.stage}"
         return [
             Cmd(
                 "backend_stack",
@@ -283,7 +341,18 @@ class Config:
             Cmd(
                 "backend_stack",
                 working_dir=self.BASE.joinpath("backend"),
-                cmd=cmd,
+                cmd="mkdir -p layers/requirements/python/lib/python3.8/site-packages",
+            ),
+            Cmd(
+                "backend_stack",
+                working_dir=self.BASE.joinpath("backend"),
+                cmd="pip install -t layers/requirements/python/lib/python3.8/site-packages -r requirements.txt",
+            ),
+            Cmd(
+                "backend_stack",
+                working_dir=self.BASE.joinpath("backend"),
+                cmd=f"yarn serverless deploy -r {self.region} -s {self.stage}",
+                callback=self.set_log_retention,
             ),
         ]
 
@@ -308,6 +377,7 @@ class Config:
         Args:
 
         """
+        yield from self.deploy_role_stack
         yield from self.global_stack
         yield from self.region_stack
         yield from self.backend_stack
@@ -321,7 +391,6 @@ class Config:
         """
         yield from self.order
 
-    @property
     def action_map(self):
         """action_map."""
         retval = []
@@ -381,7 +450,7 @@ class Config:
             cmd.execute(True)
 
     @property
-    def first_run_stack(self) -> List[Cmd]:
+    def first_run_stack(self) -> Iterable[Cmd]:
         """first_run."""
         GHOut.notice("Initial run, running all stacks")
         os.environ.update({"SKIP_FRONTEND": "true"})
@@ -393,19 +462,25 @@ class Config:
 
     def run(self, args):
         """Run."""
-        GHOut.notice(f"Actions defined: {self.action_map}")
-        if "all_stack" in self.action_map:
+        lst = list(self.action_map())
+        GHOut.notice(f"Actions defined: {lst}")
+        if "all_stack" in lst:
             self.runall()
         else:
             for cmd in self.order:
-                if cmd.type in self.action_map:
+                if cmd.name in lst:
+                    GHOut.notice(f"Running {cmd.name}")
                     cmd.execute(args.doit)
+                else:
+                    GHOut.notice(f"Skipping {cmd.name}")
 
 
 FUNCION_MAP = {
     "deploy": lambda args: Config().run(args),
     "region": lambda _: Config().region,
+    "domain": lambda _: Config().dns_domain,
     "manual": lambda args: Config().run_manual(args),
+    "set_log_retention": lambda _: Config().set_log_retention(),
     "first_run": lambda args: Config().run_manual(args),
 }
 

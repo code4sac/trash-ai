@@ -3,6 +3,7 @@ import * as iam from "@aws-cdk/aws-iam";
 import * as cdk from "@aws-cdk/core";
 import * as aws_ssm from "@aws-cdk/aws-ssm";
 
+
 function chunk(arr: Array<any>, chunkSize: number) {
     if (chunkSize <= 0) throw "Invalid chunk size";
     var R = [];
@@ -207,6 +208,8 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                     "lambda:UpdateFunctionConfiguration",
                     "lambda:UpdateFunctionCode",
                     "lambda:PublishVersion",
+                    "lambda:PublishLayerVersion",
+                    "lambda:DeleteLayerVersion",
                     "lambda:CreateAlias",
                     "lambda:DeleteAlias",
                     "lambda:UpdateAlias",
@@ -216,6 +219,7 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                 ],
                 Resource: [
                     `arn:aws:lambda:${this.conf.region}:${this.conf.account}:function:${this.conf.prefix}*`,
+                    `arn:aws:lambda:${this.conf.region}:${this.conf.account}:layer:${this.conf.prefix}*`,
                 ],
             },
             {
@@ -237,6 +241,8 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                 Resource: [
                     `arn:aws:log:${this.conf.region}:${this.conf.account}:log-group:/aws/lambda/${this.conf.prefix}*`,
                     `arn:aws:log:${this.conf.region}:${this.conf.account}:log-group:/aws/http-api/${this.conf.prefix}*`,
+                    `arn:aws:logs:${this.conf.region}:${this.conf.account}:log-group:/aws/lambda/${this.conf.prefix}*`,
+                    `arn:aws:logs:${this.conf.region}:${this.conf.account}:log-group:/aws/http-api/${this.conf.prefix}*`,
                 ],
             },
             {
@@ -306,10 +312,13 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                     "apigateway:PUT",
                     "apigateway:PATCH",
                     "apigateway:DELETE",
+                    "apigateway:TagResource",
                 ],
                 Resource: [
                     `arn:aws:apigateway:${this.conf.region}::/apis`,
                     `arn:aws:apigateway:${this.conf.region}::/apis/*`,
+                    `arn:aws:apigateway:${this.conf.region}::/tags`,
+                    `arn:aws:apigateway:${this.conf.region}::/tags/*`,
                 ],
             },
             {

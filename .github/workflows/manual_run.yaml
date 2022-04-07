@@ -19,6 +19,7 @@ on:
           - all_stack
           - backend_stack
           - frontend_stack
+          - deploy_role_stack
           - global_stack
           - region_stack
           - first_run_stack
@@ -35,6 +36,17 @@ jobs:
         steps:
             - name: Git clone the repository
               uses: actions/checkout@v1
+
+            - name: Setup python
+              uses: actions/setup-python@v3
+              with:
+                python-version: '3.8'
+                architecture: 'x64'
+
+            - name: setup boto3
+              run: |
+                pip3 install --upgrade pip
+                pip3 install boto3
 
             - name: register variables
               id: setregion

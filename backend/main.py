@@ -128,7 +128,7 @@ async def upload(
     """Upload a file to S3."""
     LOG.info("Processing: %s", filename)
     dct = await get_barr(upload, str(key))
-    fileext = Path(filename).suffix
+    fileext = Path(str(filename)).suffix.lstrip('.')
     data = dct.pop("data")
     dig = dct.pop("sha256")
     if dig != key:
@@ -157,9 +157,9 @@ async def upload(
         s3.put_object(
             Bucket=MAIN_BUCKET, Key=metakey, Body=json.dumps(save_data).encode()
         )
-        LOG.info("Uploaded metadata for %s", dig)
+        LOG.info("Uploaded metadata to %s", metakey)
         s3.put_object(Bucket=MAIN_BUCKET, Key=imgkey, Body=data)  # type: ignore
-        LOG.info("Uploaded image for %s", dig)
+        LOG.info("Uploaded image for %s", imgkey)
         uploaded = True
 
     return {

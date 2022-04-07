@@ -1,0 +1,5 @@
+fastapi
+mangum==0.12.4
+aws-lambda-powertools[pydantic]
+python-multipart==0.0.5
+boto3<2

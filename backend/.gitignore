@@ -1,2 +1,5 @@
 node_modules
 .serverless
+tmp/
+layers/requirements/
+.in

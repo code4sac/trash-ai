@@ -16,3 +16,4 @@ data
 **/*.zip
 pyrightconfig.json
 archive/
+tmp/

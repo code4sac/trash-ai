@@ -15,9 +15,6 @@ export const mutations = {
         db.trash.clear()
     },
     setModelState(state, val) {
-        // offline
-        // loading
-        // online
         state.model_loaded = val
     },
     addInProgress(state, obj) {

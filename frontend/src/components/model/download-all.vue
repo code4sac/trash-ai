@@ -32,7 +32,7 @@ export default {
             const out = this.uploads.map(async (upload) => {
                 const dat = await db.trash.get(upload.hash)
                 const blob = dataURLtoBlob(dat.processedDataUrl)
-                const meta = dat.metadata
+                const meta = await this.getMetaData(upload)
                 const filenamebase = upload.filename.replace(/\.[^/.]+$/, "")
                 const fbase = `${filenamebase}-${upload.hash}`
                 const mname = `${fbase}.json`

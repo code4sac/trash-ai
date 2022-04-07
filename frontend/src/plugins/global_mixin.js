@@ -249,6 +249,13 @@ var GlobalMixin = {
                 }
             })
         },
+        async getMetaData(item) {
+            return {
+                metadata: item.metadata,
+                hash: item.hash,
+                ...item,
+            }
+        },
         async BackendUpload(item, metadata) {
             console.log("item", item)
             let formData = new FormData()

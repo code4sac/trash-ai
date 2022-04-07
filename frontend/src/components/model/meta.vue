@@ -1,5 +1,6 @@
 <template>
-    <v-dialog v-model="dialog" :fullscreen="maximize" width="500">
+    <meta-busy v-if="$fetchState.pending" />
+    <v-dialog v-else v-model="dialog" :fullscreen="maximize" width="500">
         <template v-slot:activator="{ on, attrs }">
             <v-tooltip z-index="1000" top>
                 <template v-slot:activator="{ on: tt }">
@@ -36,6 +37,7 @@ export default {
         return {
             dialog: false,
             maximize: false,
+            jtxt: null,
         }
     },
     props: {
@@ -44,15 +46,13 @@ export default {
             required: true,
         },
     },
-    computed: {
-        jtxt() {
-            const show = {
-                metadata: this.item.metadata,
-                hash: this.item.hash,
-                ...this.item,
-            }
-            return JSON.stringify(show, null, 2)
-        },
+    async fetch() {
+        while (this.item.uploaded === null) {
+            console.log('waiting for upload')
+            await this.$nextTick()
+        }
+        const meta = await this.getMetaData(this.item)
+        this.jtxt = JSON.stringify(meta, null, 2)
     },
 }
 </script>

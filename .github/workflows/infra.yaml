@@ -3,6 +3,7 @@ on:
     push:
         branches:
             - "aws/**"
+            - "production"
 
 permissions:
   id-token: write

@@ -208,6 +208,8 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                     "lambda:UpdateFunctionConfiguration",
                     "lambda:UpdateFunctionCode",
                     "lambda:PublishVersion",
+                    "lambda:PublishLayerVersion",
+                    "lambda:DeleteLayerVersion",
                     "lambda:CreateAlias",
                     "lambda:DeleteAlias",
                     "lambda:UpdateAlias",

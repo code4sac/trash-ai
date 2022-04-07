@@ -53,6 +53,7 @@ plugins:
 
 layers:
   apprequirements:
+    name: ${self:custom.prefix}-${opt:region}-apprequirements
     path: layers/requirements
     compatibleRuntimes:
       - python3.8

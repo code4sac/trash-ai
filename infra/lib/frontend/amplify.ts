@@ -7,7 +7,7 @@ import { DockerImage } from "@aws-cdk/core";
 import { Asset } from "@aws-cdk/aws-s3-assets";
 import { hashElement } from "folder-hash";
 import * as r53 from "@aws-cdk/aws-route53";
-import { DnsValidatedCertificate } from "@aws-cdk/aws-certificatemanager"
+import { DnsValidatedCertificate } from "@aws-cdk/aws-certificatemanager";
 import * as os from "os";
 
 const user_id = os.userInfo().uid;
@@ -117,8 +117,7 @@ export class AmplifyStack extends cdk.NestedStack {
         let amp = new amplify.App(
             this,
             `${this.conf.prefix}-${this.conf.region}-${this.conf.stage}-amplify`,
-            {
-            }
+            {}
         );
 
         const zone = r53.HostedZone.fromLookup(this, "HostedZone", {

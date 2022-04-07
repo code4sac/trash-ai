@@ -46,7 +46,12 @@ export default {
     },
     computed: {
         jtxt() {
-            return JSON.stringify(this.item.metadata, null, 2)
+            const show = {
+                metadata: this.item.metadata,
+                hash: this.item.hash,
+                ...this.item,
+            }
+            return JSON.stringify(show, null, 2)
         },
     },
 }

@@ -1,8 +1,13 @@
 <template>
-    <v-chip class="success">
-        <slot />
-        {{ filename }}
-    </v-chip>
+    <v-tooltip z-index="1000" top>
+        <template v-slot:activator="{ on: tt }">
+            <v-chip v-on="tt" class="success">
+                <slot />
+                {{ filename }}
+            </v-chip>
+        </template>
+        <span> SHA256 Hash: {{ item.hash }} </span>
+    </v-tooltip>
 </template>
 <script>
 export default {

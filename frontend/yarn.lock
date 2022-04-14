@@ -7529,6 +7529,11 @@ pnp-webpack-plugin@^1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
+portal-vue@^2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-2.1.7.tgz#ea08069b25b640ca08a5b86f67c612f15f4e4ad4"
+  integrity sha512-+yCno2oB3xA7irTt0EU5Ezw22L2J51uKAacE/6hMPMoO/mx3h4rXFkkBkT4GFsMDv/vEe8TNKC3ujJJ0PTwb6g==
+
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -9928,6 +9933,13 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
+
+vue-inner-image-zoom@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vue-inner-image-zoom/-/vue-inner-image-zoom-1.1.1.tgz#69237e412f955fa3ab7399bf2c1a7961b788a967"
+  integrity sha512-0yzWkdfOv7b6YJSkbkObeI+5TwXDvHBl5YJzQRwaXxmLP88tvvfC0ksC8ZmMi/hAdf2SnegW+UED+nB3uZPQyg==
+  dependencies:
+    portal-vue "^2.1.7"
 
 vue-jest@^3.0.4:
   version "3.0.7"

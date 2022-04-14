@@ -1,14 +1,15 @@
 <template>
     <meta-busy v-if="$fetchState.pending" />
-    <v-img
+    <inner-image-zoom
         v-else
         :src="dataUrl"
-        contain
         :width="item.width > page_width ? page_width : item.width"
     />
 </template>
 <script>
 import { db } from "@/lib/libstore"
+
+import InnerImageZoom from 'vue-inner-image-zoom'
 
 export default {
     props: {
@@ -16,6 +17,9 @@ export default {
             type: Object,
             required: true,
         },
+    },
+    components: {
+        InnerImageZoom,
     },
     data() {
         return {

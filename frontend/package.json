@@ -22,6 +22,7 @@
     "nuxt": "^2.15.8",
     "tiny-timer": "^1.6.0",
     "vue": "^2.6.14",
+    "vue-inner-image-zoom": "^1.1.1",
     "vue-lodash": "^2.1.2",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",

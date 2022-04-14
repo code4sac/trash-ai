@@ -18,7 +18,7 @@
 
         <h2> How does it work? </h2>
         <p>
-            Trash AI builds a model using <a href="https://github.com/ultralytics/yolov5">YoloV5 toolset</a> trained on the <a href="http://tacodataset.org/">TACO dataset</a>.  The model takes an image containing trash and returns a list of annotations and bounding boxes of trash within the image.  
+            Trash AI builds a model using the <a href="https://github.com/ultralytics/yolov5">YoloV5 toolset</a> trained on the <a href="http://tacodataset.org/">TACO dataset</a>.  The model takes an image containing trash and returns a list of annotations and bounding boxes of trash within the image.  
             The model is imported into the front-end <a href="https://vuejs.org/">Vue.js</a> application where it is invoked when an image is uploaded.
             The Vue application then displayes the results of the model on the image.
         </p>

@@ -157,7 +157,7 @@ async def upload(
         s3.put_object(
             Bucket=MAIN_BUCKET, Key=metakey, Body=json.dumps(save_data).encode()
         )
-        LOG.info("Uploaded metadata to %s", metakey)
+        LOG.info("Uploaded metadata for %s", metakey)
         s3.put_object(Bucket=MAIN_BUCKET, Key=imgkey, Body=data)  # type: ignore
         LOG.info("Uploaded image for %s", imgkey)
         uploaded = True

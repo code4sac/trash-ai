@@ -19,7 +19,7 @@
                         :open.sync="open_vals"
                         :items="data.children"
                         activatable
-                        item-key="id"
+                        item-key="name"
                         ref="indextreeview"
                         open-on-click
                     >
@@ -43,7 +43,7 @@
                 </component>
             </v-col>
             <v-col v-bind="col2">
-                <div v-bind="innerprops" :ref="selected.id">
+                <div v-bind="innerprops" :ref="selected.name">
                     <component
                         :is="selected.component"
                         v-bind="selected.attrs"
@@ -57,8 +57,6 @@
 </template>
 
 <script>
-const uid = () => Math.random().toString(34)
-
 export default {
     layout: "innertab",
     data() {
@@ -69,7 +67,7 @@ export default {
             stub_active: [],
             data: {},
             open_vals: [],
-            default_id: uid(),
+            default_id: "About",
         }
     },
     computed: {
@@ -150,7 +148,7 @@ export default {
         },
         innerprops() {
             let vif = !_.isEmpty(this.selected)
-            let key = this.selected.id
+            let key = this.selected.name
             return {
                 "v-if": vif,
                 key: key,
@@ -172,7 +170,7 @@ export default {
     },
     methods: {
         find_id(id, child) {
-            if (child.id == id) {
+            if (child.name == id) {
                 return child
             }
             let retval = null
@@ -188,7 +186,7 @@ export default {
             if (!child.parents) {
                 child.parents = []
             }
-            if (child.id == val) {
+            if (child.name == val) {
                 child.parents.push(child)
                 this.selected = child
             }
@@ -202,14 +200,12 @@ export default {
             let retval = {
                 children: [
                     {
-                        id: uid(),
                         name: "About",
                         icon: "mdi-information-outline",
                         component: "about",
                         attrs: {},
                     },
                     {
-                        id: this.default_id,
                         name: "Upload",
                         icon: "mdi-upload",
                         component: "model-upload",
@@ -219,26 +215,22 @@ export default {
             }
             if (this.is_dev) {
                 retval.children.push({
-                    id: uid(),
                     name: "Lab",
                     icon: "mdi-test-tube",
                     children: [
                         {
-                            id: uid(),
                             name: "Icons",
                             icon: "mdi-image",
                             component: "test-iconfilter",
                             attrs: {},
                         },
                         {
-                            id: uid(),
                             name: "Color Chooser",
                             icon: "mdi-palette",
                             component: "test-colorchooser",
                             attrs: {},
                         },
                         {
-                            id: uid(),
                             name: "Scratch Page",
                             icon: "mdi-ab-testing",
                             component: "test-scratch",
@@ -253,7 +245,8 @@ export default {
     watch: {
         selected: {
             async handler(val) {
-                console.log("selected", val)
+                // console.log("selected", val)
+                this.$router.push(`/?tab=${val.name}`)
                 this.page_title = val.name
                 if (val.func) {
                     val.func()
@@ -277,14 +270,19 @@ export default {
             this.title = title
         })
         this.data = this.get_initial_data()
-        this.active = [this.default_id]
+        // console.log("data", this.$route.query)
+        if (this.$route.query.tab) {
+            this.active = [this.$route.query.tab]
+        } else {
+            this.active = [this.default_id]
+        }
         this.get_ref("indextreeview").then((treeview) => {
-            console.log("treeview", treeview)
+            // console.log("treeview", treeview)
             treeview.updateAll(true)
         })
     },
     mounted() {
-        console.log("mount-index.vue", this)
+        // console.log("mount-index.vue", this)
     },
 }
 </script>

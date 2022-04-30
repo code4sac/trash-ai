@@ -17,6 +17,7 @@
     >
         <v-card-title>
             <model-btn-upload v-if="!has_uploads" />
+            <model-btn-samples v-if="!has_uploads" />
             <ModelMainDropdown v-else />
             <v-spacer />
             <span v-if="!is_mobile"> Drag and Drop Images Here </span>

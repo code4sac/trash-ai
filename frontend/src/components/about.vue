@@ -46,7 +46,7 @@
         <p>
             If you would like to report an issue or request a feature, please 
             <a href="https://github.com/code4sac/trash-ai/issues/new">open a Github Issue</a> in our repository.
-            If you would like to provide more general feedback, please fill out our <a href="https://forms.gle/CwZvegq1oCUYLRjM7">feedback form here </a>.
+            If you would like to provide more general feedback, please fill out our <a href="https://forms.gle/CwZvegq1oCUYLRjM7">feedback form here</a>.
         </p>
 
         <h2> How to cite </h2>

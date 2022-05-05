@@ -10,6 +10,9 @@
             and Walter Yu from <a href="https://dot.ca.gov/">CALTRANS</a>. There have also been 
             <a href="https://github.com/code4sac/trash-ai/graphs/contributors">many contributors</a> to the code base.
         </p>
+        <p>
+            To get started, visit the Upload Tab or <a href='/?tab=Upload'>click here</a>.
+        </p>
 
         <h2> What is it? </h2>
         <p>

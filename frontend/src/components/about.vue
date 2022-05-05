@@ -22,20 +22,16 @@
 
         <h2> How does it work? </h2>
         <p>
-            Trash AI builds a model using the <a href="https://github.com/ultralytics/yolov5">YoloV5 toolset</a> trained on the 
-            <a href="http://tacodataset.org/">TACO dataset</a>.  The model takes an image containing trash and returns a list of 
-            annotations and bounding boxes of trash within the image.  The model is imported into the front-end 
-            <a href="https://vuejs.org/">Vue.js</a> application where it is invoked when an image is uploaded.
+            Trash AI builds a model using the <a href="https://github.com/ultralytics/yolov5">YoloV5 toolset</a> trained on the <a href="http://tacodataset.org/">TACO dataset</a>.  
+            The model takes an image containing trash and returns a list of annotations and bounding boxes of trash within the image.  
+            The model is imported into the front-end <a href="https://vuejs.org/">Vue.js</a> application where it is invoked when an image is uploaded.
             The Vue application then displayes the results of the model on the image.
         </p>
 
         <h2> How can I use Trash AI? </h2>
         <p>
             Trash AI is open source and free to use however you see fit.  You may classify images and download the data.  
-            You may copy and modify the code for your own use. If you are using the tool for research purposes, we recommend 
-            you ensure quality (QA/QC) of the output, and we make no guarantee about the accuracy of the model for your specific images. 
-            Our overall goal is a generalizable AI, but there is still more work to do to get us there.  Please feel free to 
-            <a href="https://forms.gle/CwZvegq1oCUYLRjM7">provide feedback</a> on how we might improve the application and/or model.
+            You may copy and modify the code for your own use.
         </p>
 
         <h2> Disclaimer about uploaded images </h2>
@@ -49,13 +45,6 @@
         <p>
             If you would like to report an issue or request a feature, please 
             <a href="https://github.com/code4sac/trash-ai/issues/new">open a Github Issue</a> in our repository.
-            If you would like to provide more general feedback, please fill out our <a href="https://forms.gle/CwZvegq1oCUYLRjM7">feedback form here</a>.
-        </p>
-
-        <h2> How to cite </h2>
-        <p>
-            We are working on a manuscript for the software, but in the meantime please cite as:
-            "Code for Sacramento, Trash AI, www.trashai.org, 2022."
         </p>
     </v-sheet>
 </template>

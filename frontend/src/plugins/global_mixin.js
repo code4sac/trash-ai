@@ -51,6 +51,27 @@ var GlobalMixin = {
         },
     },
     methods: {
+        async sample_files() {
+            var files = [
+                "sample01.jpg",
+                "sample02.jpg",
+                "sample03.jpg",
+                "sample05.jpg",
+                "sample06.jpg",
+                "sample07.jpg",
+                "sample08.jpg",
+            ]
+            var retval = []
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i]
+                var url = `/samples/${file}`
+                var blob = await fetch(url).then((r) => r.blob())
+                retval.push(new File([blob], file, {
+                    type: blob.type,
+                }))
+            }
+            return retval
+        },
         async clear() {
             await this.$store.dispatch("images/clear")
         },

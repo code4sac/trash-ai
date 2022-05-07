@@ -6,8 +6,12 @@
         <p>
             This is an <a href="https://github.com/code4sac/trash-ai">open source project</a> 
             developed and maintained by <a href="https://codeforsacramento.org">Code For Sacramento</a> 
-            in partnership with Win Cowger from UC Riverside and Walter Yu from CALTRANS. 
-            There have also been <a href="https://github.com/code4sac/trash-ai/graphs/contributors">many contributors</a> to the code base.
+            in partnership with Win Cowger from <a href="https://mooreplasticresearch.org/">The Moore Institute for Plastic Pollution Research</a>
+            and Walter Yu from <a href="https://dot.ca.gov/">CALTRANS</a>. There have also been 
+            <a href="https://github.com/code4sac/trash-ai/graphs/contributors">many contributors</a> to the code base.
+        </p>
+        <p>
+            To get started, visit the Upload Tab or <a href='/?tab=Upload'>click here</a>.
         </p>
 
         <h2> What is it? </h2>

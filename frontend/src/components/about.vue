@@ -46,6 +46,7 @@
             If you would like to report an issue or request a feature, please 
             <a href="https://github.com/code4sac/trash-ai/issues/new">open a Github Issue</a> in our repository.
         </p>
+        &nbsp;
     </v-sheet>
 </template>
 <script>

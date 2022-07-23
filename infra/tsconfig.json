@@ -8,9 +8,10 @@
     "lib": [
       "es2018"
     ],
+    "importsNotUsedAsValues": "preserve",
     "declaration": true,
-    "strict": true,
-    "noImplicitAny": true,
+    "strict": false,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "noImplicitThis": true,
     "alwaysStrict": true,

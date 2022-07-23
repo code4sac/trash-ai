@@ -8,6 +8,7 @@ function chunk(arr: Array<any>, chunkSize: number) {
     if (chunkSize <= 0) throw "Invalid chunk size";
     var R = [];
     for (var i = 0, len = arr.length; i < len; i += chunkSize)
+        // @ts-ignore
         R.push(arr.slice(i, i + chunkSize));
     return R;
 }
@@ -73,6 +74,7 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
         let idx = 0;
         for (const statements of statement_chunks) {
             idx += 1;
+            // @ts-ignore
             console.log(`Chunk ${idx} - ${statements.length}`);
             const policy_document = iam.PolicyDocument.fromJson({
                 Version: "2012-10-17",

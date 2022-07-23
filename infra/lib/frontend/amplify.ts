@@ -65,7 +65,7 @@ export class AmplifyStack extends cdk.NestedStack {
         } else {
             let gen_cmd = [
                 `BACKEND_FQDN=${this.api_host}`,
-                "./node_modules/.bin/nuxt generate",
+                "yarn build",
             ];
 
             let cmd_arr = [

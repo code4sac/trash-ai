@@ -22,6 +22,7 @@
         "crypto-js": "^4.1.1",
         "dexie": "^3.2.2",
         "file-saver": "^2.0.5",
+        "jszip": "^3.10.0",
         "loglevel": "^1.8.0",
         "p-queue": "^7.2.0",
         "pinia": "^2.0.16",

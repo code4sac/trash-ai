@@ -1,24 +1,14 @@
 <template>
     <Busy v-if="displays.length < 1" />
     <v-sheet>
-        <v-row
-            class="border ma-5"
-            v-if="displays.length > 0"
-        >
-            <v-col
-                align="center"
-                justify="center"
-            >
-                <div class="d-flex flex-wrap">
-                    <Thumb
-                        v-for="(img, idx) in displays"
-                        @click="doroute(img.hash)"
-                        :key="idx"
-                        :item="img"
-                    />
-                </div>
-            </v-col>
-        </v-row>
+        <div class="d-flex flex-wrap">
+            <Thumb
+                v-for="(img, idx) in displays"
+                @click="doroute(img.hash)"
+                :key="idx"
+                :item="img"
+            />
+        </div>
     </v-sheet>
 </template>
 <script lang="ts">

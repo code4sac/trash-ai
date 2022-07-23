@@ -20,7 +20,7 @@ app.use(pinia)
     .use(GlobalComponents)
     .use(VueGoogleMaps, {
         load: {
-            key: 'AIzaSyCHnqg9uMYsX8r9V_FjzL8YOnNqn97PwXc',
+            key: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
         },
     })
     .use(vuetify)

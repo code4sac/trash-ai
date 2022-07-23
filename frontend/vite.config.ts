@@ -1,42 +1,40 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify from 'vite-plugin-vuetify'
 
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [
-        vue(),
-        // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
-        vuetify({
-            autoImport: true,
-        }),
-    ],
-    // css: {
-    //     preprocessorOptions: {
-    //         scss: {
-    //             additionalData: `@import "@/scss/_variables.scss";`,
-    //         },
-    //     },
-    // },
-    define: { 'process.env': {} },
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'src'),
+export default ({ mode }: any) => {
+    process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
+
+    const isDev = process.env.VITE_BACKEND_FQDN === 'backend'
+    const proxySettings = {
+        '/api': {
+            target: 'http://backend:4000',
+            changeOrigin: true,
+            secure: false,
+            rewrite: (path: any) => path.replace(/^\/api/, ''),
         },
-    },
-    /* remove the need to specify .vue files https://vitejs.dev/config/#resolve-extensions
-  resolve: {
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
-    ]
-  },
-  */
-})
+    }
+    console.log('proxySettings', proxySettings)
+    const conf = defineConfig({
+        server: {
+            port: parseInt(process.env.VITE_FRONTEND_PORT ?? '443'),
+            proxy: isDev ? proxySettings : undefined,
+        },
+        plugins: [
+            vue(),
+            vuetify({
+                autoImport: true,
+            }),
+        ],
+        resolve: {
+            alias: {
+                '@': path.resolve(__dirname, 'src'),
+            },
+        },
+    })
+    console.log('conf: ', conf)
+    return conf
+}

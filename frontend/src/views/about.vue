@@ -5,20 +5,20 @@
         <h2>Welcome to Trash AI!</h2>
         <p>
             This is an
-            <a href="https://github.com/code4sac/trash-ai"
-                >open source project</a
-            >
+            <a href="https://github.com/code4sac/trash-ai">
+                open source project
+            </a>
             developed and maintained by
             <a href="https://codeforsacramento.org">Code For Sacramento</a> in
             partnership with Win Cowger from
-            <a href="https://mooreplasticresearch.org/"
-                >The Moore Institute for Plastic Pollution Research</a
-            >
+            <a href="https://mooreplasticresearch.org/">
+                The Moore Institute for Plastic Pollution Research
+            </a>
             and Walter Yu from <a href="https://dot.ca.gov/">CALTRANS</a>. There
             have also been
-            <a href="https://github.com/code4sac/trash-ai/graphs/contributors"
-                >many contributors</a
-            >
+            <a href="https://github.com/code4sac/trash-ai/graphs/contributors">
+                many contributors
+            </a>
             to the code base.
         </p>
         <p>

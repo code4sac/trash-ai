@@ -20,7 +20,7 @@ export default defineComponent({
         }
     },
     mounted() {
-        console.log('mounted', this)
+        m.log.debug('mounted', this)
     },
 })
 </script>

@@ -10,9 +10,12 @@
                     v-if="store.hash_ids.length > 0"
                     v-model="vpage"
                     :length="store.hash_ids.length"
-                    total-visible="7"
+                    :total-visible="is_mobile ? 3 : 7"
                     circle
                     variant="elevated"
+                    center-active
+                    centered
+                    :show-arrows="is_mobile"
                 />
                 <v-tabs
                     v-model="selected_tab"
@@ -24,7 +27,7 @@
                         :class="tclass('image')"
                     >
                         <v-icon start> mdi-image </v-icon>
-                        Image
+                        <span v-if="!is_mobile"> Image </span>
                     </v-tab>
                     <v-tab
                         value="meta"
@@ -32,7 +35,7 @@
                         :class="tclass('meta')"
                     >
                         <v-icon start> mdi-code-json </v-icon>
-                        Metadata
+                        <span v-if="!is_mobile"> Metadata </span>
                     </v-tab>
                     <v-tab
                         value="map"
@@ -40,7 +43,7 @@
                         :class="tclass('map')"
                     >
                         <v-icon start> mdi-map </v-icon>
-                        Map
+                        <span v-if="!is_mobile"> Map </span>
                     </v-tab>
                 </v-tabs>
             </v-col>
@@ -236,6 +239,9 @@ export default defineComponent({
         },
         x_of_y() {
             return `${this.selected_idx + 1} of ${this.store.hash_ids.length}`
+        },
+        is_mobile(): boolean {
+            return this.$vuetify.display.mobile
         },
     },
     methods: {

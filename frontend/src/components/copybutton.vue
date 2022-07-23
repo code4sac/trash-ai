@@ -9,6 +9,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import useClipboard from 'vue-clipboard3'
+import * as m from '@/lib'
 export default defineComponent({
     name: 'CopyButton',
     props: {
@@ -33,7 +34,7 @@ export default defineComponent({
                 icon: 'mdi-check',
                 timer: 3000,
             })
-            console.log('copied', this.text)
+            m.log.debug('copied', this.text)
         },
     },
 })

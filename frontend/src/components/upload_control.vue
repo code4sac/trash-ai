@@ -83,12 +83,12 @@ export default defineComponent({
             if (target.files) {
                 this.store.doupload(target.files)
             } else {
-                console.log('No files selected')
+                m.log.debug('No files selected')
             }
         },
     },
     mounted() {
-        console.log('UploadControl mounted', this.file)
+        m.log.debug('UploadControl mounted', this.file)
     },
 })
 </script>

@@ -6,3 +6,7 @@ https://github.com/code4sac/trash-ai/issues/55
     const usedSpace = quota.usage;
 
 https://codesandbox.io/s/mjlnllm77j?file=/layouts/default.vue
+https://markerjs.com/docs/getting-started
+https://madewithvuejs.com/coco-annotator
+https://www.vuescript.com/drawing-annotation-with-vue-js-and-svg-vue-annotator/
+https://github.com/ManzarIMalik/YOLO-Annotation-Tool

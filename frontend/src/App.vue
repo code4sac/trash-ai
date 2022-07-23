@@ -199,9 +199,9 @@ export default defineComponent({
         }
         this.theme.global.name.value = this.appstore.theme
         this.imgstore.doinit()
-        console.log('veutify', this.$vuetify)
-        console.log('mounted', this)
-        console.log(navigator.storage.estimate())
+        m.log.debug('veutify', this.$vuetify)
+        m.log.debug('mounted', this)
+        m.log.debug(navigator.storage.estimate())
         // this.$root!.$snack = this.snackbar!.value
     },
     data(): Data {

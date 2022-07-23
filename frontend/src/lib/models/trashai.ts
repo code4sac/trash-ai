@@ -1,8 +1,7 @@
 import { GpsGroup } from './gps'
 import type { ExifSave } from './exif'
-import TensorFlow from '@/lib/tensorflow'
-import type { BaseImage } from './db'
 import type { Coordinate } from '.'
+import { log } from '@/lib/logging'
 
 export class TrashObject {
     name: string
@@ -88,47 +87,21 @@ export class Display {
     hash: string
     filename: string
     has_detection: boolean
-    thumbdataUrl?: string
+    smalldataUrl?: string
     gps?: Coordinate
 
     constructor(
         hash: string,
         filename: string,
-        thumbdata: string,
+        imagedata: string,
         has_detection = false,
         gps?: Coordinate,
     ) {
         this.has_detection = has_detection
         this.hash = hash
         this.filename = filename
-        this.thumbdataUrl = thumbdata
+        this.smalldataUrl = imagedata
         this.gps = gps
-    }
-}
-
-export class ImageCollection {
-    private static instance: ImageCollection
-    public files: File[]
-    public tf: TensorFlow
-    public origImages: BaseImage[]
-
-    private constructor() {
-        this.tf = new TensorFlow()
-        this.files = []
-        this.origImages = []
-    }
-
-    public static async getInstance(): Promise<ImageCollection> {
-        if (!ImageCollection.instance) {
-            ImageCollection.instance = new ImageCollection()
-            // console.log("ImageCollection created");
-            await ImageCollection.instance.tf.load()
-        }
-        return ImageCollection.instance
-    }
-    public clear() {
-        this.files = []
-        this.origImages = []
     }
 }
 
@@ -174,7 +147,7 @@ export class Progress {
 
     get percent(): number {
         const val = this.total > 0 ? (this.complete / this.total) * 100 : 0
-        console.log(`${this.name} progress: ${val}%`)
+        log.debug(`${this.name} progress: ${val}%`)
         return Math.round(val)
     }
 }

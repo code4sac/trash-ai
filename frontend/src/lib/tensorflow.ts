@@ -3,6 +3,7 @@ import { TFMetaData } from '@/lib/models'
 import * as m from '@/lib/models'
 import '@tensorflow/tfjs-backend-cpu'
 import '@tensorflow/tfjs-backend-webgl'
+import { log } from '@/lib/logging'
 
 const resizeImage = async (
     imgsrc: string,
@@ -18,26 +19,26 @@ const resizeImage = async (
             // Get current dimensions
             let width = img.width
             let height = img.height
-            console.log('dimensions: ' + width + 'x' + height)
+            log.debug('dimensions: ' + width + 'x' + height)
 
             // If the current width is larger than the max, scale height
             // to ratio of max width to current and then set width to max.
             if (width > maxWidth) {
-                console.log('Shrinking width (and scaling height)')
+                log.debug('Shrinking width (and scaling height)')
                 ratio = maxWidth / width
                 height = height * ratio
                 width = maxWidth
-                console.log('new dimensions: ' + width + 'x' + height)
+                log.debug('new dimensions: ' + width + 'x' + height)
             }
 
             // If the current height is larger than the max, scale width
             // to ratio of max height to current and then set height to max.
             if (height > maxHeight) {
-                console.log('Shrinking height (and scaling width)')
+                log.debug('Shrinking height (and scaling width)')
                 ratio = maxHeight / height
                 width = width * ratio
                 height = maxHeight
-                console.log('new dimensions: ' + width + 'x' + height)
+                log.debug('new dimensions: ' + width + 'x' + height)
             }
 
             const oc = document.createElement('canvas')
@@ -57,17 +58,17 @@ export class TensorFlow {
     loaded = false
 
     private constructor() {
-        console.log('TensorFlow constructor')
+        log.debug('TensorFlow constructor')
     }
 
     public static getInstance() {
         if (!TensorFlow.instance) {
             TensorFlow.instance = new TensorFlow()
             TensorFlow.instance.load().then(() => {
-                console.log('TensorFlow loaded')
+                log.debug('TensorFlow loaded')
                 TensorFlow.instance.loaded = true
             })
-            console.log('TensorFlow created')
+            log.debug('TensorFlow created')
         }
         return TensorFlow.instance
     }
@@ -79,22 +80,22 @@ export class TensorFlow {
         )
         try {
             this.model = await tf.loadGraphModel(indexeddb_name)
-            console.log('loaded model from indexeddb')
+            log.debug('loaded model from indexeddb')
         } catch (e) {
-            console.log(`No cached model found.`)
+            log.debug(`No cached model found.`)
             this.model = await tf.loadGraphModel(`/model/model.json`)
             this.model.save(indexeddb_name)
         }
         this.loaded = true
-        console.log('modal initialized: name_map', this.name_map)
-        console.log('modal initialized: model', this.model)
+        log.debug('modal initialized: name_map', this.name_map)
+        log.debug('modal initialized: model', this.model)
     }
 
     async processImage(itemOrig: m.BaseImage): Promise<m.SaveData> {
         return new Promise<m.SaveData>(async (resolve) => {
             const image = new Image()
             image.onload = async () => {
-                console.log('processing Image', itemOrig)
+                log.debug('processing Image', itemOrig)
                 // await preCb(itemOrig)
                 const item = new m.SaveData({
                     hash: itemOrig.hash!,
@@ -104,7 +105,7 @@ export class TensorFlow {
                 const ctx = canvas.getContext('2d')
                 canvas.width = image.width + 100
                 canvas.height = image.height + 100
-                console.log('size: ', canvas.width, canvas.height)
+                log.debug('size: ', canvas.width, canvas.height)
                 if (ctx == null) {
                     throw new Error('no context')
                 }
@@ -134,10 +135,10 @@ export class TensorFlow {
                 const scores_data = scores.dataSync()
                 const classes_data = classes.dataSync()
                 const valid_detections_data = valid_detections.dataSync()[0]
-                console.log('boxes', boxes_data)
-                console.log('scores', scores_data)
-                console.log('classes', classes_data)
-                console.log('valid_detections', valid_detections_data)
+                log.debug('boxes', boxes_data)
+                log.debug('scores', scores_data)
+                log.debug('classes', classes_data)
+                log.debug('valid_detections', valid_detections_data)
                 tf.dispose(res)
 
                 const font = '14px sans-serif'
@@ -176,7 +177,7 @@ export class TensorFlow {
                     const textHeight = parseInt(font, 10) // base 10
                     ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4)
                 }
-                console.log('jarr', jarr)
+                log.debug('jarr', jarr)
 
                 // Draw the bounding box.
                 for (i = 0; i < valid_detections_data; ++i) {
@@ -208,7 +209,7 @@ export class TensorFlow {
                 await item.save()
                 image.remove()
                 canvas.remove()
-                console.log('processed Image', item)
+                log.debug('processed Image', item)
                 resolve(item)
             }
             image.src = itemOrig.dataUrl!

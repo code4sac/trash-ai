@@ -6,6 +6,7 @@ import JSZip from 'jszip'
 import lodash from 'lodash'
 import { defineStore } from 'pinia'
 import type { _GettersTree } from 'pinia'
+import { log } from '@/lib/logging'
 import PQueue from 'p-queue'
 
 let initialized = false
@@ -23,7 +24,7 @@ class QueueManager {
     public static getInstance() {
         if (!QueueManager.instance) {
             QueueManager.instance = new QueueManager()
-            console.log('QueueManager created')
+            log.debug('QueueManager created')
         }
         return QueueManager.instance
     }
@@ -88,8 +89,6 @@ export const useImageStore = defineStore('images', {
         },
 
         async clear() {
-            const coll = await m.ImageCollection.getInstance()
-            coll.clear()
             this.summary.reset()
             this.hash_ids = []
             await imagedb.removeAll()
@@ -127,15 +126,15 @@ export const useImageStore = defineStore('images', {
             const qm = QueueManager.getInstance()
             qm.upload_queue.addListener('add', () => {
                 this.upload.total++
-                console.warn('upload add')
+                log.debug('upload add')
             })
             qm.upload_queue.addListener('error', (err) => {
-                console.warn('upload error', err)
+                log.debug('upload error', err)
             })
             qm.upload_queue.addListener('idle', () => {
                 this.upload.reset()
                 this.process.current = null
-                console.warn('upload queue idle')
+                log.debug('upload queue idle')
             })
             qm.upload_queue.addListener(
                 'completed',
@@ -144,12 +143,12 @@ export const useImageStore = defineStore('images', {
                     if (!image) {
                         return
                     }
-                    console.warn('upload complete', image, qm.upload_queue.size)
+                    log.debug('upload complete', image, qm.upload_queue.size)
                     qm.processor_queue.add(async () => {
-                        console.warn('adding image', image)
+                        log.debug('adding image', image)
                         let pimg = await m.SaveData.getData(image.hash!)
                         if (pimg == null) {
-                            console.log('pimg is null')
+                            log.debug('pimg is null')
                             pimg = await TensorFlow.getInstance().processImage(
                                 image,
                             )
@@ -162,27 +161,14 @@ export const useImageStore = defineStore('images', {
             )
         },
 
-        // setStateRefreshQueue() {
-        //     const qm = QueueManager.getInstance()
-        //     qm.state_refresh_queue.addListener('error', (err) => {
-        //         console.error('refresh error', err)
-        //     })
-        //     qm.state_refresh_queue.addListener('idle', () => {
-        //         console.warn('refresh queue idle')
-        //     })
-        //     qm.state_refresh_queue.addListener('completed', () => {
-        //         console.warn('refresh complete')
-        //     })
-        // },
-
         setProcessorQueue() {
             const qm = QueueManager.getInstance()
             qm.processor_queue.addListener('add', () => {
-                console.log('processor queue add')
+                log.debug('processor queue add')
                 this.process.total++
             })
             qm.processor_queue.addListener('error', (err) => {
-                console.error('process error', err)
+                log.error('process error', err)
             })
             qm.processor_queue.addListener('idle', async () => {
                 this.process.reset()
@@ -190,7 +176,7 @@ export const useImageStore = defineStore('images', {
                 this.process.current = null
                 this.summary.update()
                 this.capacity = await m.StorageCapacity.getCapacity()
-                console.warn('process queue idle')
+                log.debug('process queue idle')
             })
             qm.processor_queue.addListener(
                 'completed',
@@ -236,13 +222,13 @@ export const useImageStore = defineStore('images', {
                 return
             }
             const qm = QueueManager.getInstance()
-            console.log('uploading files', typeof files, files)
+            log.debug('uploading files', typeof files, files)
             lodash.forEach(files, (file: File) => {
                 qm.upload_queue.add(async () => {
                     const image = await m.BaseImage.fromFile(file)
                     const exist = await imagedb.savedata.get(image.hash!)
                     if (exist) {
-                        console.log('image already exists', image.hash!)
+                        log.debug('image already exists', image.hash!)
                         return null
                     }
                     this.upload.current = image.filename ?? ''
@@ -301,7 +287,7 @@ export const useImageStore = defineStore('images', {
                         }),
                     )
                     zp.complete++
-                    console.log('Zip progress: ', zp.percent)
+                    log.debug('Zip progress: ', zp.percent)
                 })
                 zip.generateAsync({ type: 'blob' }).then(function (blob) {
                     saveAs(blob, zname)

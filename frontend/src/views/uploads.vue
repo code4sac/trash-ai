@@ -9,7 +9,7 @@
                     v-if="store.hash_ids.length > 0"
                     v-model="vpage"
                     :length="store.nav_length"
-                    total-visible="7"
+                    :total-visible="is_mobile ? 3 : 7"
                     circle
                     variant="elevated"
                 />
@@ -19,29 +19,26 @@
             variant="outlined"
             min-height="70vh"
         >
-            <DragDropTitle />
             <v-row
-                class="border ma-5"
-                v-if="store.current_save_data != null"
                 align="center"
                 justify="center"
-            >
-                <Thumb :item="store.current_save_data" />
-            </v-row>
-            <v-row
-                class="border ma-5"
-                v-if="displays.length > 0"
             >
                 <v-col
                     align="center"
                     justify="center"
                 >
+                    <DragDropTitle />
+                    <Thumb
+                        :item="store.current_save_data"
+                        v-if="store.current_save_data != null"
+                    />
                     <div class="d-flex flex-wrap">
                         <Thumb
                             v-for="(img, idx) in displays"
-                            @click="doroute(idx)"
+                            @click="doroute(img.hash)"
                             :key="idx"
                             :item="img"
+                            class="mx-1"
                         />
                     </div>
                 </v-col>
@@ -112,6 +109,9 @@ export default defineComponent({
                 this.nav_idx = newval - 1
             },
         },
+        is_mobile(): boolean {
+            return this.$vuetify.display.mobile
+        },
     },
     methods: {
         scolor(obj: string | null) {
@@ -120,7 +120,8 @@ export default defineComponent({
             }
             return 'red'
         },
-        async doroute(idx: number) {
+        async doroute(hash: string) {
+            const idx = this.store.hash_ids.indexOf(hash)
             this.$router.push({
                 name: 'image',
                 params: {
@@ -134,7 +135,7 @@ export default defineComponent({
             /*     return */
             /* } */
             const hids = this.store.nav_hash_ids(idx)
-            console.log('setDisplays', hids)
+            m.log.debug('setDisplays', hids)
             const data = await m.imagedb.savedata.bulkGet(hids)
             this.displays = data.map((d) => d!.display)
         },

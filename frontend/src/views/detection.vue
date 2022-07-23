@@ -9,13 +9,13 @@
                 <v-pagination
                     v-model="vpage"
                     :length="summary?.detected_objects.length"
-                    total-visible="7"
+                    :total-visible="is_mobile ? 3 : 7"
                     circle
                     variant="elevated"
                 />
             </v-col>
         </v-row>
-        <h1>
+        <h1 class="text-center">
             {{ obj?.name }}
             <v-chip
                 class="mx-5"
@@ -25,24 +25,17 @@
                 {{ obj?.count }}
             </v-chip>
         </h1>
-        <v-row
-            class="border ma-5"
+        <div
+            class="d-flex flex-wrap my-5"
             v-if="displays.length > 0"
         >
-            <v-col
-                align="center"
-                justify="center"
-            >
-                <div class="d-flex flex-wrap">
-                    <Thumb
-                        v-for="(img, idx) in displays"
-                        @click="doroute(img.hash)"
-                        :key="idx"
-                        :item="img"
-                    />
-                </div>
-            </v-col>
-        </v-row>
+            <Thumb
+                v-for="(img, idx) in displays"
+                @click="doroute(img.hash)"
+                :key="idx"
+                :item="img"
+            />
+        </div>
     </v-sheet>
 </template>
 <script lang="ts">
@@ -80,8 +73,10 @@ export default defineComponent({
         selected_idx: {
             async handler(idx: number | null) {
                 if (idx != null) {
-                    const name = this.summary!.detected_objects[idx].name
-                    await this.setupObjects(name)
+                    const name = this.summary?.detected_objects[idx].name
+                    if (name != null) {
+                        await this.setupObjects(name)
+                    }
                 }
             },
             deep: true,
@@ -100,6 +95,19 @@ export default defineComponent({
             },
             deep: true,
         },
+        'imgstore.hash_ids': {
+            async handler(val: string[]) {
+                if (val.length === 0) {
+                    this.$router.push({
+                        name: 'uploads',
+                        params: {
+                            idx: 0,
+                        },
+                    })
+                }
+            },
+            deep: true,
+        },
     },
     computed: {
         vpage: {
@@ -107,9 +115,12 @@ export default defineComponent({
                 return this.selected_idx! + 1
             },
             async set(v: number) {
-                console.log('set', v, this.selected_idx)
+                m.log.debug('set', v, this.selected_idx)
                 this.selected_idx = toInteger(v) - 1
             },
+        },
+        is_mobile(): boolean {
+            return this.$vuetify.display.mobile
         },
     },
     async mounted() {
@@ -128,13 +139,19 @@ export default defineComponent({
         async setupObjects(name: string | null) {
             const sum: m.Summary = this.summary!
             this.selected_name = name!
-            this.selected_idx = sum.detected_objects.findIndex(
+            const idx = sum.detected_objects.findIndex(
                 (obj) => obj.name === name,
             )
+            if (idx < 0) {
+                this.obj = null
+                this.displays = []
+                return
+            }
+            this.selected_idx = idx
             this.obj = sum.detection_by_name(this.selected_name) ?? null
             const tmp = await m.imagedb.savedata.bulkGet(this.obj!.hashes)
             this.displays = tmp?.map((x) => x!.display)
-            console.log('detection mounted', this.displays)
+            m.log.debug('detection mounted', this.displays)
             this.appstore.setTitle(
                 `Detections: ${this.obj?.name} (${this.obj?.count})`,
             )

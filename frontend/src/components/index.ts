@@ -67,7 +67,3 @@ const componentList = [
     GMapSummary,
     NoDetectGroup,
 ]
-
-componentList.forEach((Comp) => {
-    console.log(Comp.name, Comp.__file)
-})

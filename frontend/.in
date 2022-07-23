@@ -7,4 +7,6 @@ case ":$PYTHONPATH:" in
   *:${PWD}/src:*) ;;
   *) export PYTHONPATH="${PYTHONPATH}:${PWD}/src" ;;
 esac
-
+export VITE_FRONTEND_PORT="5150"
+export VITE_BACKEND_FQDN="localhost"
+export VITE_BACKEND_PORT="4000"

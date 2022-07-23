@@ -1,5 +1,5 @@
 <template>
-    <div class="ma-0 border">
+    <div class="mx-0 border">
         <div class="ml-3">
             <b>{{ item.filename }}</b>
         </div>
@@ -31,11 +31,14 @@
             class="my-0"
             thickness="2"
         />
-        <v-img
-            width="200"
-            :aspect-ratio="1"
-            :src="item.thumbdataUrl"
-        />
+        <div>
+            <v-img
+                class="align-center"
+                width="300"
+                aspect-ratio="1"
+                :src="item.smalldataUrl"
+            />
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -64,7 +67,7 @@ export default defineComponent({
     mounted() {
         // @ts-ignore
         this.display = this.item
-        console.log('item', this.display)
+        m.log.debug('item', this.display)
     },
 })
 </script>

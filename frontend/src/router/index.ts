@@ -5,6 +5,8 @@ import Uploads from '@/views/uploads.vue'
 import Summary from '@/views/summary.vue'
 import Image from '@/views/image.vue'
 import Detection from '@/views/detection.vue'
+import Test from '@/views/test.vue'
+import { log } from '@/lib/logging'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -32,6 +34,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'detection',
         component: Detection,
     },
+    {
+        path: '/test',
+        name: 'test',
+        component: Test,
+    },
 ]
 
 const router = createRouter({
@@ -42,7 +49,7 @@ const router = createRouter({
 // browser back button
 
 router.onError((error) => {
-    console.log(error)
+    log.debug(error)
 })
 
 export default router

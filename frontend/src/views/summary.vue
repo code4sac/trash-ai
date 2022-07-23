@@ -10,7 +10,9 @@
                     v-model="selected"
                     dark
                     grow
-                    direction="vertical"
+                    center-active
+                    centered
+                    :show-arrows="is_mobile"
                 >
                     <v-tab
                         value="detections"
@@ -26,7 +28,7 @@
                         <v-icon start>
                             mdi-file-document-multiple-outline
                         </v-icon>
-                        Detections
+                        <span v-if="!is_mobile"> Detections </span>
                     </v-tab>
                     <v-tab
                         value="nodetections"
@@ -40,7 +42,7 @@
                         "
                     >
                         <v-icon start> mdi-alert-octagram </v-icon>
-                        No Detections
+                        <span v-if="!is_mobile"> No Detections </span>
                     </v-tab>
                     <v-tab
                         value="maps"
@@ -54,7 +56,7 @@
                         "
                     >
                         <v-icon start> mdi-map </v-icon>
-                        Map Summary
+                        <span v-if="!is_mobile"> Map Summary </span>
                     </v-tab>
                 </v-tabs>
             </v-col>
@@ -155,9 +157,12 @@ export default defineComponent({
             }
             return sum.page_list()
         },
+        is_mobile(): boolean {
+            return this.$vuetify.display.mobile
+        },
     },
     async mounted() {
-        console.log('summary this', this)
+        m.log.debug('summary this', this)
         this.summary = this.store.summary
         // @ts-ignore
         this.selected = this.$route.params.tab

@@ -44,7 +44,7 @@ services:
     links:
       - "bootstrap"
     ports:
-      - ${BACKEND_PORT}:${BACKEND_PORT}
+      - ${VITE_BACKEND_PORT}:${VITE_BACKEND_PORT}
     restart: always
 
   frontend:
@@ -56,6 +56,9 @@ services:
     links:
       - "backend"
 
+    environment:
+      VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY}
+
     ports:
-      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+      - ${VITE_FRONTEND_PORT}:${VITE_FRONTEND_PORT}
     restart: always

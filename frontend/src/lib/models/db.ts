@@ -6,6 +6,7 @@ import { ExifSave } from './exif'
 import { imagedb } from '@/lib/imagedb'
 import { TFMetaData } from './tfmeta'
 import { Display } from './trashai'
+import { log } from '@/lib/logging'
 
 export interface ISaveData {
     hash: string
@@ -68,7 +69,7 @@ export class SaveData {
         return new Display(
             this.hash!,
             this.filename!,
-            this.thumbdataUrl!,
+            this.smalldataUrl!,
             this.detectedObjects.length > 0,
             gps,
         )
@@ -152,17 +153,17 @@ export class BaseImage {
                         img.exifdata = await img.exif()
                         img.save()
                         img.complete = true
-                        console.log('image saved', this)
+                        log.debug('image saved', this)
                         resolve(img)
                     } else {
                         img.complete = true
-                        console.log('image already saved', img)
+                        log.debug('image already saved', img)
                         resolve(img)
                     }
                 } else {
                     img.err = 'unknown error'
                     img.complete = true
-                    console.error('image load failed!')
+                    log.error('image load failed!')
                     reject(img)
                 }
             }

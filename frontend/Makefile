@@ -5,10 +5,12 @@ help:
 	@cat Makefile | grep '^\w.*:$$' | cut -d ':' -f 1 | grep -v '^help$$'
 
 dev:
-	yarn vite \
-		--port 5150 \
-		--force \
-		-l info
+	yarn vite dev
+
+preview:
+	rm -rfv ./dist/*
+	yarn vite build
+	yarn vite preview 
 
 build:
 	yarn vite build
@@ -23,3 +25,4 @@ clean:
 pretty:
 	yarn prettier --write $$(find ./src -name '*.ts')
 	yarn prettier --write $$(find ./src -name '*.vue')
+	yarn prettier --write $$(find ./src -name '*.scss')

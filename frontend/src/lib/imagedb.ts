@@ -1,5 +1,6 @@
 import Dexie from 'dexie'
 import * as m from '@/lib/models'
+import { log } from '@/lib/logging'
 
 export const dataURLtoBlob = (dataUrl: string) => {
     let arr = dataUrl!.split(','),
@@ -32,11 +33,11 @@ export class ImageDb extends Dexie {
     async removeAll() {
         await Promise.all([
             this.transaction('rw', this.images, async () => {
-                console.log('removing all images')
+                log.debug('removing all images')
                 await this.images.clear()
             }),
             this.transaction('rw', this.savedata, async () => {
-                console.log('removing all savedata')
+                log.debug('removing all savedata')
                 await this.savedata.clear()
             }),
         ])

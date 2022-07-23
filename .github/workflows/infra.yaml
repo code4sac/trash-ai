@@ -43,4 +43,6 @@ jobs:
                   node-version: "14"
 
             - name: Run Deploy
+              env:
+                VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
               run: ./bin/github_actions.py deploy --doit

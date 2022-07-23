@@ -59,7 +59,7 @@
                 </v-tabs>
             </v-col>
         </v-row>
-        <v-card height="100vh">
+        <v-card>
             <v-window v-model="selected">
                 <v-window-item
                     value="nodetections"

@@ -17,7 +17,7 @@
         </v-row>
         <v-card
             variant="outlined"
-            height="70vh"
+            min-height="70vh"
         >
             <DragDropTitle />
             <v-row

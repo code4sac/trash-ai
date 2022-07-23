@@ -1,0 +1,8 @@
+https://github.com/code4sac/trash-ai/issues/56
+    https://www.npmjs.com/package/@types/exif
+https://github.com/code4sac/trash-ai/issues/55
+    const quota = await navigator.storage.estimate();
+    const totalSpace = quota.quota;
+    const usedSpace = quota.usage;
+
+https://codesandbox.io/s/mjlnllm77j?file=/layouts/default.vue

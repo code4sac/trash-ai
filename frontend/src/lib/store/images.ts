@@ -34,6 +34,7 @@ export interface ImageState {
     current_save_data: m.Display | null
     upload: m.Progress
     process: m.Progress
+    is_processing: boolean
     zip: m.Progress
     state_busy: boolean
     hash_ids: string[]
@@ -50,6 +51,7 @@ export const useImageStore = defineStore('images', {
 
         state_busy: false,
         thumb_idx: 0,
+        is_processing: false,
         summary: new m.Summary(),
         current_save_data: null,
         capacity: {
@@ -91,6 +93,7 @@ export const useImageStore = defineStore('images', {
         async clear() {
             this.summary.reset()
             this.hash_ids = []
+            this.is_processing = false
             await imagedb.removeAll()
             this.capacity = await m.StorageCapacity.getCapacity()
         },
@@ -176,6 +179,7 @@ export const useImageStore = defineStore('images', {
                 this.process.current = null
                 this.summary.update()
                 this.capacity = await m.StorageCapacity.getCapacity()
+                this.is_processing = false
                 log.debug('process queue idle')
             })
             qm.processor_queue.addListener(
@@ -221,6 +225,7 @@ export const useImageStore = defineStore('images', {
             if (!files) {
                 return
             }
+            this.is_processing = true
             const qm = QueueManager.getInstance()
             log.debug('uploading files', typeof files, files)
             lodash.forEach(files, (file: File) => {

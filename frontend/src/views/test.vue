@@ -1,7 +1,5 @@
 <template>
-    <v-sheet>
-        <pre>{{ JSON.stringify(env, null, 2) }}</pre>
-    </v-sheet>
+    <b> The cake is a lie. </b>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -22,7 +20,7 @@ export default defineComponent({
     async mounted() {
         this.appstore.setTitle('Test')
         const val = await m.Axios.getInstance().test()
-        m.log.debug("Test Response", val.data)
+        m.log.debug('Test Response', val.data)
         m.log.debug('mounted', import.meta.env)
     },
 })

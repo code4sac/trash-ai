@@ -99,6 +99,8 @@ export class AmplifyStack extends cdk.NestedStack {
                     },
                 ],
             });
+            // copy to /tmp/foo.zip
+            fs.copyFileSync(localfilename, '/tmp/test.zip');
             return localfilename;
         }
     }

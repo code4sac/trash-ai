@@ -6,12 +6,13 @@
         striped
         height="25"
     >
-        <strong>
-            {{ progress.name }} {{ progress.current }} ({{
-                progress.complete
-            }}
-            / {{ progress.total }})
-        </strong>
+        <span class="text-truncate">
+            <strong>
+                {{ progress.name }} ({{ progress.complete }} /
+                {{ progress.total }})
+            </strong>
+            {{ progress.current }}
+        </span>
     </v-progress-linear>
 </template>
 <script lang="ts">

@@ -138,14 +138,14 @@
 
             <v-main>
                 <v-container class="pa-10">
-                    <div class="border mb-7">
+                    <div class="mb-7">
                         <Progress
                             :progress="imgstore.upload"
-                            v-if="imgstore.upload_busy"
+                            v-if="imgstore.is_processing"
                         />
                         <Progress
                             :progress="imgstore.process"
-                            v-if="imgstore.process_busy"
+                            v-if="imgstore.is_processing"
                         />
                         <Progress
                             :progress="imgstore.zip"
@@ -238,5 +238,3 @@ export default defineComponent({
     },
 })
 </script>
-<!-- 
--->

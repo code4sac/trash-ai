@@ -46,10 +46,8 @@ const router = createRouter({
     routes,
 })
 
-// browser back button
-
 router.onError((error) => {
-    log.debug(error)
+    log.error(`Error in router: ${error}`)
 })
 
 export default router

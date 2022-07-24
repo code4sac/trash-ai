@@ -5,8 +5,7 @@
             multiple
             ref="form"
             style="display: none"
-            @click="doupload($event)"
-            accept="image/jpeg"
+            @input="doupload($event)"
         />
         <v-menu
             :close-on-content-click="false"

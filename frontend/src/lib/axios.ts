@@ -1,14 +1,16 @@
-import axios from 'axios';
+import axios from 'axios'
 import { log } from '@/lib/logging'
-
 
 export class Axios {
     private static instance: Axios
     private baseUrl: string
 
     private constructor() {
+        const fqdn = import.meta.env.VITE_BACKEND_FQDN
         const port = import.meta.env.DEV ? ':5150' : ''
-        const host = import.meta.env.DEV ? 'http://localhost' : 'https://${process.env.VITE_BACKEND_FQDN}'
+        const host = import.meta.env.DEV
+            ? 'http://localhost'
+            : 'https://' + fqdn
         const urlpath = import.meta.env.DEV ? '/api' : ''
         this.baseUrl = `${host}${port}${urlpath}`
         log.info(`Axios base url: ${this.baseUrl}`)

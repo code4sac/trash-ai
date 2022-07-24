@@ -168,7 +168,9 @@ class Config:
             chain(
                 BASE.glob("frontend/*.json"),
                 BASE.glob("frontend/src/**/*"),
-                BASE.glob("frontend/*.js"),
+                BASE.glob("frontend/**/*.ts"),
+                BASE.glob("frontend/**/*.js"),
+                BASE.glob("frontend/**/*.vue"),
                 BASE.glob("frontend/package.json"),
                 BASE.glob("infra/lib/frontend/**/*"),
             )

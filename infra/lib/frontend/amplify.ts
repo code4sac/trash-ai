@@ -32,6 +32,13 @@ export class AmplifyStack extends cdk.NestedStack {
             console.log(`API Host: ${this.api_host}`);
             this.setAmplify();
         });
+        // check for api key env variable
+        if (!process.env.VITE_GOOGLE_MAPS_API_KEY) {
+            console.log(
+                "VITE_GOOGLE_MAPS_API_KEY not set - exiting"
+            );
+            process.exit(1);
+        }
     }
 
     async getAssetFile() {
@@ -64,8 +71,9 @@ export class AmplifyStack extends cdk.NestedStack {
             return localfilename;
         } else {
             let gen_cmd = [
-                `BACKEND_FQDN=${this.api_host}`,
-                "./node_modules/.bin/nuxt generate",
+                `VITE_BACKEND_FQDN=${this.api_host}`,
+                `VITE_GOOGLE_MAPS_API_KEY=${process.env.VITE_GOOGLE_MAPS_API_KEY}`,
+                "yarn build",
             ];
 
             let cmd_arr = [
@@ -91,6 +99,8 @@ export class AmplifyStack extends cdk.NestedStack {
                     },
                 ],
             });
+            // copy to /tmp/foo.zip
+            fs.copyFileSync(localfilename, '/tmp/test.zip');
             return localfilename;
         }
     }

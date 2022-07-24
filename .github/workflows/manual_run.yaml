@@ -67,3 +67,4 @@ jobs:
               run: ./bin/github_actions.py manual --stack ${{ github.event.inputs.stack }}
               env:
                 SKIP_FRONTEND: ${{ github.event.inputs.skip_frontend }}
+                VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}

@@ -1,6 +1,9 @@
 <template>
     <span>
-        <v-tooltip z-index="1000" bottom>
+        <v-tooltip
+            z-index="1000"
+            bottom
+        >
             <template v-slot:activator="{ on: tt }">
                 <span v-on="tt">
                     <v-btn
@@ -24,6 +27,6 @@ export default {
             let files = await this.sample_files()
             await this.doupload(files)
         },
-    }
+    },
 }
 </script>

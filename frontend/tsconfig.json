@@ -1,28 +1,39 @@
 {
+    "extends": "@vue/tsconfig/tsconfig.web.json",
     "compilerOptions": {
         "target": "esnext",
         "module": "esnext",
+        "strict": true,
+        "strictPropertyInitialization": true,
+        "strictNullChecks": true,
+        "jsx": "preserve",
+        "preserveValueImports": false,
+        "importsNotUsedAsValues": "preserve",
         "moduleResolution": "node",
         "experimentalDecorators": true,
-        "lib": ["esnext", "esnext.asynciterable", "dom"],
+        "skipLibCheck": true,
+        "noImplicitThis": true,
         "esModuleInterop": true,
-        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "useDefineForClassFields": true,
         "sourceMap": true,
-        "strict": true,
-        "noEmit": true,
         "baseUrl": ".",
-        "paths": {
-            "~/*": ["./*"],
-            "@/*": ["./*"]
-        },
         "types": [
-            "@types/node",
-            "@nuxt/types",
-            "vuetify",
-            "@nuxt/axios",
-            "@nuxt/vue-app"
-        ]
+            "webpack-env",
+            "node",
+            "vite/client",
+            "vite-plugin-vue-component-preview/client"
+        ],
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
     },
-    "exclude": ["node_modules"],
-    "include": ["./src/**/*", "./plugins/**/*", "./components/**/*"]
+    "references": [
+        {
+            "path": "./tsconfig.vite-config.json"
+        }
+    ],
+    "include": ["src/**/*"]
 }

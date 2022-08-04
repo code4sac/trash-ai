@@ -1,39 +1,43 @@
 <template>
-    <span>
-        <v-tooltip z-index="1000" top>
-            <template v-slot:activator="{ on: tt }">
-                <span v-on="tt">
-                    <v-btn @click="download" class="success" fab small>
-                        <v-icon>mdi-file-download</v-icon>
-                    </v-btn>
-                </span>
-            </template>
-            <span> Download Full Size Image </span>
-        </v-tooltip>
-    </span>
+    <v-tooltip
+        z-index="1000"
+        location="left"
+    >
+        <template v-slot:activator="tt">
+            <v-icon
+                class="mx-5"
+                v-bind="tt.props"
+                @click="download"
+                size="25"
+            >
+                mdi-file-download
+            </v-icon>
+        </template>
+        <span> Download Full Size Image </span>
+    </v-tooltip>
 </template>
-<script>
-import { db } from "@/lib/libstore"
-
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+import * as m from '@/lib'
+export default defineComponent({
+    name: 'Download',
     props: {
-        item: {
-            type: Object,
+        sdata: {
+            type: [m.SaveData],
             required: true,
         },
     },
     methods: {
         async download() {
-            const dat = await db.trash.get(this.item.hash)
-            const image = dat.processedDataUrl.replace(
-                "image/png",
-                "image/octet-stream"
+            const image = this.sdata?.processeddataUrl?.replace(
+                'image/png',
+                'image/octet-stream',
             )
-            var link = document.createElement("a")
-            link.download = `${this.item.hash}.png`
-            link.href = image
+            const link = document.createElement('a')
+            link.download = `${this.sdata.hash}.png`
+            link.href = image || '#'
             link.click()
         },
     },
-}
+})
 </script>

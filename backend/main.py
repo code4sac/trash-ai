@@ -168,6 +168,11 @@ async def upload(
         "uploaded": uploaded,
     }
 
+@app.get("/test")
+async def test():
+    return {"message": "Hello World"}
+
+
 
 #  def rate(event, context):
 #      current_time = datetime.datetime.now().time()

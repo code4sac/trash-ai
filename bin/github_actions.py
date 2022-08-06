@@ -513,6 +513,9 @@ class Config:
             self.runall()
         else:
             for cmd in self.order:
+                if args.force:
+                    GHOut.notice(f"Forcing Run {cmd.name}")
+                    cmd.execute(True)
                 if cmd.name in lst:
                     GHOut.notice(f"Running {cmd.name}")
                     cmd.execute(args.doit)
@@ -544,6 +547,12 @@ def main():
     parser.add_argument(
         "--doit",
         help="Perform the deployment",
+        default=False,
+        action="store_true",
+    )
+    parser.add_argument(
+        "--force",
+        help="Force the deployment",
         default=False,
         action="store_true",
     )

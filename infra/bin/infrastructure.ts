@@ -8,7 +8,7 @@ import { FrontEndStack } from "../lib/frontend/main";
 import { env } from "process";
 import { execSync } from "child_process";
 
-let branch;
+let branch: string;
 if (env.GITHUB_REF_NAME) {
     // we're on github actions
     branch = env.GITHUB_REF_NAME;
@@ -27,10 +27,6 @@ if (!conf) {
     process.exit(1);
 }
 console.log(`Deploying to ${branch}`);
-if (!conf.is_github) {
-    console.log(`Setting profile to ${conf.profile}`);
-    env.AWS_PROFILE = conf.profile;
-}
 env.AWS_DEFAULT_REGION = conf.region;
 console.log(`Using config:\n`, JSON.stringify(conf, null, 2));
 

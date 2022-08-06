@@ -280,7 +280,7 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                 ],
                 Resource: [
                     `arn:aws:s3:::${this.conf.prefix}*`,
-                    `arn:aws:s3:::${this.conf.public_branch}*`
+                    `arn:aws:s3:::${this.conf.public_bucket}*`
                 ],
             },
             {

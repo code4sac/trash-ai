@@ -9,7 +9,7 @@ export class Config {
     region: string;
     stage: string;
     branch: string;
-    public_branch: string;
+    public_bucket: string;
     dns_domain_map_root: boolean;
     mainBucketName: string;
     test_role: string = "";
@@ -23,7 +23,7 @@ export class Config {
         this.repo_owner = this._get_map_val(map_value, "github_repo_owner");
         this.account = this._get_map_val(map_value, "aws_account_number");
         this.region = this._get_map_val(map_value, "region");
-        this.public_branch = this._get_map_val(map_value, "public_branch");
+        this.public_bucket = this._get_map_val(map_value, "public_bucket");
         this.branch = this._get_map_val(map_value, "branch");
         this.stage = this._get_map_val(map_value, "branch").replace(
             /^aws\//,

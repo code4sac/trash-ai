@@ -1,16 +1,16 @@
 import * as amplify from "@aws-cdk/aws-amplify";
 import * as cdk from "@aws-cdk/core";
-import * as path from "path";
-import * as fs from "fs";
+// import * as path from "path";
+// import * as fs from "fs";
 import { Config } from "../config";
-import { DockerImage } from "@aws-cdk/core";
-import { Asset } from "@aws-cdk/aws-s3-assets";
-import { hashElement } from "folder-hash";
+// import { DockerImage } from "@aws-cdk/core";
+// import { Asset } from "@aws-cdk/aws-s3-assets";
+// import { hashElement } from "folder-hash";
 import * as r53 from "@aws-cdk/aws-route53";
 import { DnsValidatedCertificate } from "@aws-cdk/aws-certificatemanager";
-import * as os from "os";
+// import * as os from "os";
 
-const user_id = os.userInfo().uid;
+// const user_id = os.userInfo().uid;
 
 export class AmplifyStack extends cdk.NestedStack {
     amplify: amplify.IApp;
@@ -34,76 +34,74 @@ export class AmplifyStack extends cdk.NestedStack {
         });
         // check for api key env variable
         if (!process.env.VITE_GOOGLE_MAPS_API_KEY) {
-            console.log(
-                "VITE_GOOGLE_MAPS_API_KEY not set - exiting"
-            );
+            console.log("VITE_GOOGLE_MAPS_API_KEY not set - exiting");
             process.exit(1);
         }
     }
 
-    async getAssetFile() {
-        const frontendpath = path.join(__dirname, "../../../frontend");
-        const fhash = await hashElement(frontendpath, {
-            encoding: "hex",
-            folders: {
-                exclude: [".*", "node_modules", "dist", "build"],
-            },
-            files: {
-                include: [
-                    "**/*.js",
-                    "**/*.css",
-                    "**/*.html",
-                    "**/*.json",
-                    "**/*.vue",
-                    "**/*.ts",
-                ],
-            },
-        });
-        const fname = `${fhash.hash.toString()}.zip`;
-        const localdir = `/tmp/asset-output`;
-        const dockerdir = `/asset-output`;
-        const localfilename = `${localdir}/${fname}`;
-        const dockerfilename = `${dockerdir}/${fname}`;
-
-        console.log(`frontend asset local file ${localfilename}`);
-
-        if (fs.existsSync(localfilename)) {
-            return localfilename;
-        } else {
-            let gen_cmd = [
-                `VITE_BACKEND_FQDN=${this.api_host}`,
-                `VITE_GOOGLE_MAPS_API_KEY=${process.env.VITE_GOOGLE_MAPS_API_KEY}`,
-                "yarn build",
-            ];
-
-            let cmd_arr = [
-                gen_cmd.join(" "),
-                "pwd",
-                "cd dist/",
-                `zip ${dockerfilename} -r .`,
-                `unzip -l ${dockerfilename}`,
-                `ls -l ${dockerfilename}`,
-                `chown -R ${user_id}:${user_id} ${dockerdir}`,
-            ];
-            let img = DockerImage.fromBuild(frontendpath, {
-                file: "build.Dockerfile",
-            });
-
-            let cmd = " && ".concat(cmd_arr.join(" && "));
-            img.run({
-                command: ["sh", "-c", `cd /builder ${cmd}`],
-                volumes: [
-                    {
-                        hostPath: localdir,
-                        containerPath: dockerdir,
-                    },
-                ],
-            });
-            // copy to /tmp/foo.zip
-            fs.copyFileSync(localfilename, '/tmp/test.zip');
-            return localfilename;
-        }
-    }
+    // async getAssetFile() {
+    //     const frontendpath = path.join(__dirname, "../../../frontend");
+    //     const fhash = await hashElement(frontendpath, {
+    //         encoding: "hex",
+    //         folders: {
+    //             exclude: [".*", "node_modules", "dist", "build"],
+    //         },
+    //         files: {
+    //             include: [
+    //                 "**/*.js",
+    //                 "**/*.css",
+    //                 "**/*.html",
+    //                 "**/*.json",
+    //                 "**/*.vue",
+    //                 "**/*.ts",
+    //             ],
+    //         },
+    //     });
+    //     const fname = `${fhash.hash.toString()}.zip`;
+    //     const localdir = `/tmp/asset-output`;
+    //     const dockerdir = `/asset-output`;
+    //     const localfilename = `${localdir}/${fname}`;
+    //     const dockerfilename = `${dockerdir}/${fname}`;
+    //
+    //     console.log(`frontend asset local file ${localfilename}`);
+    //
+    //     if (fs.existsSync(localfilename)) {
+    //         return localfilename;
+    //     } else {
+    //         let gen_cmd = [
+    //             `VITE_BACKEND_FQDN=${this.api_host}`,
+    //             `VITE_GOOGLE_MAPS_API_KEY=${process.env.VITE_GOOGLE_MAPS_API_KEY}`,
+    //             "yarn build",
+    //         ];
+    //
+    //         let cmd_arr = [
+    //             gen_cmd.join(" "),
+    //             "pwd",
+    //             "cd dist/",
+    //             `zip ${dockerfilename} -r .`,
+    //             `unzip -l ${dockerfilename}`,
+    //             `ls -l ${dockerfilename}`,
+    //             `chown -R ${user_id}:${user_id} ${dockerdir}`,
+    //         ];
+    //         // let img = DockerImage.fromBuild(frontendpath, {
+    //         //     file: "build.Dockerfile",
+    //         // });
+    //
+    //         let cmd = " && ".concat(cmd_arr.join(" && "));
+    //         img.run({
+    //             command: ["sh", "-c", `cd /builder ${cmd}`],
+    //             volumes: [
+    //                 {
+    //                     hostPath: localdir,
+    //                     containerPath: dockerdir,
+    //                 },
+    //             ],
+    //         });
+    //         // copy to /tmp/foo.zip
+    //         fs.copyFileSync(localfilename, '/tmp/test.zip');
+    //         return localfilename;
+    //     }
+    // }
 
     async setAmplify() {
         const secret = await this.conf.get_secret_dict();
@@ -151,14 +149,14 @@ export class AmplifyStack extends cdk.NestedStack {
             secret.BASIC_PASSWORD
         );
 
-        let asset = new Asset(this, "deploy.zip", {
-            path: await this.getAssetFile(),
-        });
+        // let asset = new Asset(this, "deploy.zip", {
+        //     path: await this.getAssetFile(),
+        // });
 
         if (this.conf.dns_domain_map_root) {
             let main_branch = amp.addBranch(this.conf.stage, {
                 autoBuild: true,
-                asset: asset,
+                // asset: asset,
             });
             domain.mapRoot(main_branch);
             domain.mapSubDomain(main_branch, this.conf.stage);
@@ -167,7 +165,7 @@ export class AmplifyStack extends cdk.NestedStack {
             let main_branch = amp.addBranch(this.conf.stage, {
                 autoBuild: true,
                 basicAuth: basic_auth,
-                asset: asset,
+                // asset: asset,
             });
             domain.mapSubDomain(main_branch, this.conf.stage);
         }

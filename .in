@@ -5,3 +5,4 @@ export O=$B/frontend.orig
 export S=$B/frontend/src
 export K=$B/infra
 export C=$B/backend
+export AWS_PROFILE="code4sac"

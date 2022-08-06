@@ -278,7 +278,10 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                     "s3:DeleteBucketPolicy",
                     "s3:PutEncryptionConfiguration",
                 ],
-                Resource: [`arn:aws:s3:::${this.conf.prefix}*`],
+                Resource: [
+                    `arn:aws:s3:::${this.conf.prefix}*`,
+                    `arn:aws:s3:::${this.conf.public_branch}*`
+                ],
             },
             {
                 // Any cloudfront operations in our account

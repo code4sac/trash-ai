@@ -341,12 +341,17 @@ class Config:
             ),
             Cmd(
                 "frontend_stack",
+                working_dir=self.BASE.joinpath("frontend"),
+                cmd="yarn",
+            ),
+            Cmd(
+                "frontend_stack",
                 working_dir=self.BASE.joinpath("infra"),
                 cmd=cmd,
             ),
             Cmd(
                 "frontend_stack",
-                working_dir=FRONTEND,
+                working_dir=self.BASE.joinpath("frontend"),
                 cmd="yarn vite build",
                 callback=self.amplify_deploy,
             ),

@@ -15,6 +15,9 @@ preview:
 build:
 	yarn vite build
 
+zip: build
+	bash -c 'cd dist && zip -r ../dist.zip .'
+
 
 clean:
 	rm -rfv ./node_modules/

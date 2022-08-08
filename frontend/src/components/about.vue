@@ -72,6 +72,6 @@
         &nbsp;
     </v-sheet>
 </template>
-<script>
+<script lang="ts">
 export default {}
 </script>

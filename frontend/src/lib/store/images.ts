@@ -1,6 +1,5 @@
 import { imagedb, dataURLtoBlob } from '@/lib/imagedb'
 import { saveAs } from 'file-saver'
-import * as m from '@/lib/models'
 import TensorFlow from '@/lib/tensorflow'
 import JSZip from 'jszip'
 import lodash from 'lodash'
@@ -8,6 +7,19 @@ import { defineStore } from 'pinia'
 import type { _GettersTree } from 'pinia'
 import { log } from '@/lib/logging'
 import PQueue from 'p-queue'
+import { DrawCanvas } from '@/lib/draw'
+import { resizeImage } from '@/lib/util'
+import {
+    Display,
+    Progress,
+    Capacity,
+    Summary,
+    PAGE_SIZE,
+    StorageCapacity,
+    BaseImage,
+    SaveData,
+    TrashObject,
+} from '@/lib/models'
 
 let initialized = false
 
@@ -31,28 +43,51 @@ class QueueManager {
 }
 
 export interface ImageState {
-    current_save_data: m.Display | null
-    upload: m.Progress
-    process: m.Progress
+    current_save_data: Display | null
+    upload: Progress
+    process: Progress
     is_processing: boolean
-    zip: m.Progress
+    zip: Progress
     state_busy: boolean
     hash_ids: string[]
-    capacity: m.Capacity
-    summary: m.Summary
+    capacity: Capacity
+    summary: Summary
 }
 
-export const useImageStore = defineStore('images', {
+interface Actions {
+    doupload(files?: File[] | FileList): Promise<void>
+    nav_hash_ids(idx: number): string[]
+    download_all(): Promise<unknown>
+    clear(): Promise<void>
+    doinit(): Promise<void>
+    do_sampleupload(): Promise<void>
+    setUploadQueue(): void
+    setProcessorQueue(): void
+}
+
+interface Getters extends _GettersTree<ImageState> {
+    process_busy(state: ImageState): boolean
+    zip_busy(state: ImageState): boolean
+    upload_busy(state: ImageState): boolean
+    nav_length(state: ImageState): number
+    busy(state: ImageState): boolean
+}
+
+export const useImageStore = defineStore<
+    'images',
+    ImageState,
+    Getters,
+    Actions
+>('images', {
     persist: true,
-    state: () => ({
-        upload: new m.Progress('Upload'),
-        zip: new m.Progress('Zip'),
-        process: new m.Progress('Tf Process'),
+    state: (): ImageState => ({
+        upload: new Progress('Upload'),
+        zip: new Progress('Zip'),
+        process: new Progress('Tf Process'),
 
         state_busy: false,
-        thumb_idx: 0,
         is_processing: false,
-        summary: new m.Summary(),
+        summary: new Summary(),
         current_save_data: null,
         capacity: {
             remaining: 0,
@@ -63,7 +98,7 @@ export const useImageStore = defineStore('images', {
     }),
     getters: {
         nav_length(state: ImageState): number {
-            const plen = state.hash_ids.length / m.PAGE_SIZE
+            const plen = state.hash_ids.length / PAGE_SIZE
             return Math.ceil(plen)
         },
         upload_busy(state: ImageState) {
@@ -85,8 +120,8 @@ export const useImageStore = defineStore('images', {
     },
     actions: {
         nav_hash_ids(idx: number): string[] {
-            const start = idx * m.PAGE_SIZE
-            const end = start + m.PAGE_SIZE
+            const start = idx * PAGE_SIZE
+            const end = start + PAGE_SIZE
             return this.hash_ids.slice(start, end)
         },
 
@@ -95,7 +130,7 @@ export const useImageStore = defineStore('images', {
             this.hash_ids = []
             this.is_processing = false
             await imagedb.removeAll()
-            this.capacity = await m.StorageCapacity.getCapacity()
+            this.capacity = await StorageCapacity.getCapacity()
         },
         async do_sampleupload() {
             const sample_files = async () => {
@@ -141,20 +176,45 @@ export const useImageStore = defineStore('images', {
             })
             qm.upload_queue.addListener(
                 'completed',
-                async (image: m.BaseImage | null) => {
+                async (image: BaseImage | null) => {
                     this.upload.complete++
                     if (!image) {
                         return
                     }
+                    // })
                     log.debug('upload complete', image, qm.upload_queue.size)
                     qm.processor_queue.add(async () => {
                         log.debug('adding image', image)
-                        let pimg = await m.SaveData.getData(image.hash!)
+                        let pimg = await SaveData.getData(image.hash!)
                         if (pimg == null) {
-                            log.debug('pimg is null')
-                            pimg = await TensorFlow.getInstance().processImage(
-                                image,
+                            pimg = await SaveData.new(image)
+                            const tfmeta =
+                                await TensorFlow.getInstance().processImage(
+                                    image,
+                                )
+                            pimg.tf_meta = tfmeta
+                            log.debug('tfmeta', pimg.tf_meta)
+
+                            await pimg.save()
+                            const c = new DrawCanvas({
+                                imageSrc: image.dataUrl!,
+                                sdata: pimg,
+                                is_tf: true,
+                            })
+                            await c.load()
+                            pimg!.processeddataUrl =
+                                c.canvas!.toDataURL('image/jpeg')
+                            pimg!.smalldataUrl = await resizeImage(
+                                pimg!.processeddataUrl,
+                                1000,
+                                1000,
                             )
+                            pimg!.thumbdataUrl = await resizeImage(
+                                pimg!.processeddataUrl,
+                                200,
+                                200,
+                            )
+                            await pimg!.save()
                         }
                         this.hash_ids.push(image.hash!)
                         this.process.current = pimg.filename ?? ''
@@ -178,13 +238,13 @@ export const useImageStore = defineStore('images', {
                 this.current_save_data = null
                 this.process.current = null
                 this.summary.update()
-                this.capacity = await m.StorageCapacity.getCapacity()
+                this.capacity = await StorageCapacity.getCapacity()
                 this.is_processing = false
                 log.debug('process queue idle')
             })
             qm.processor_queue.addListener(
                 'completed',
-                async (pimg: m.SaveData) => {
+                async (pimg: SaveData) => {
                     this.process.complete++
                     if (pimg?.display?.gps != null) {
                         this.summary.gps.list.push({
@@ -196,12 +256,12 @@ export const useImageStore = defineStore('images', {
                         this.summary.no_detection_hashes.push(pimg?.hash!)
                     }
                     pimg?.tf_meta?.forEach((meta) => {
-                        let s: m.TrashObject | undefined =
+                        let s: TrashObject | undefined =
                             this.summary.detected_objects.find((obj) => {
-                                return obj.name === meta.name
+                                return obj.name === meta.label
                             })
                         if (s == undefined) {
-                            s = new m.TrashObject(meta.name)
+                            s = new TrashObject(meta.label ?? '')
                             s.count++
                             this.summary.detected_objects.push(s)
                         }
@@ -215,7 +275,7 @@ export const useImageStore = defineStore('images', {
                     })
                     this.current_save_data = pimg!.display
                     await imagedb.images.delete(pimg!.hash!)
-                    this.capacity = await m.StorageCapacity.getCapacity()
+                    this.capacity = await StorageCapacity.getCapacity()
                     this.summary.update()
                 },
             )
@@ -230,7 +290,7 @@ export const useImageStore = defineStore('images', {
             log.debug('uploading files', typeof files, files)
             lodash.forEach(files, (file: File) => {
                 qm.upload_queue.add(async () => {
-                    const image = await m.BaseImage.fromFile(file)
+                    const image = await BaseImage.fromFile(file)
                     const exist = await imagedb.savedata.get(image.hash!)
                     if (exist) {
                         log.debug('image already exists', image.hash!)
@@ -266,7 +326,7 @@ export const useImageStore = defineStore('images', {
 
             return new Promise(async (resolve) => {
                 zp.total = await imagedb.savedata.count()
-                await imagedb.savedata.each((image: m.SaveData) => {
+                await imagedb.savedata.each((image: SaveData) => {
                     zp.current = image.filename ?? ''
                     const blob = dataURLtoBlob(image!.processeddataUrl!)
                     const origblob = dataURLtoBlob(image!.origdataUrl!)

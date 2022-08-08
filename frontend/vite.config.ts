@@ -28,6 +28,7 @@ export default ({ mode }: any) => {
             vuetify({
                 autoImport: true,
             }),
+            // splitVendorChunkPlugin(),
         ],
         resolve: {
             alias: {

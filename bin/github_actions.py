@@ -2,18 +2,24 @@
 # -*- coding: utf-8 -*-
 """Show What Files were changed in Git / map actions to those files."""
 import argparse
+from itertools import chain
 import json
 import os
+from pathlib import Path
 import re
 import shlex
 import subprocess
 import sys
-from itertools import chain
-from pathlib import Path
 from typing import Iterable, List
+
 import boto3
 
 IS_GITHUB = os.environ.get("GITHUB_ACTIONS", "false") == "true"
+
+CDIR = Path(__file__).parent
+FRONTEND = CDIR.joinpath("../frontend")
+FRONTEND_DIST = FRONTEND.joinpath("dist")
+FRONTEND_ZIPFILE = Path("/tmp/deploy.zip")
 
 
 class GHOut:
@@ -77,7 +83,7 @@ class GHOut:
 class Cmd:
     """Cmd."""
 
-    def __init__(self, name: str, working_dir: Path, cmd: str, callback = None) -> None:
+    def __init__(self, name: str, working_dir: Path, cmd: str, callback=None) -> None:
         """__init__.
 
         Args:
@@ -168,7 +174,9 @@ class Config:
             chain(
                 BASE.glob("frontend/*.json"),
                 BASE.glob("frontend/src/**/*"),
-                BASE.glob("frontend/*.js"),
+                BASE.glob("frontend/**/*.ts"),
+                BASE.glob("frontend/**/*.js"),
+                BASE.glob("frontend/**/*.vue"),
                 BASE.glob("frontend/package.json"),
                 BASE.glob("infra/lib/frontend/**/*"),
             )
@@ -197,7 +205,9 @@ class Config:
             )  # type: bool
             json_data = self._get_config()
             self.aws_account_number = json_data["aws_account_number"]
+            self.public_bucket = json_data["public_bucket"]
             self.region = json_data["region"]
+            self.session = boto3.Session(region_name=self.region)
             self.github_repo_owner = json_data["github_repo_owner"]
             self.github_repo_name = json_data["github_repo_name"]
             self.dns_domain = json_data["dns_domain"]
@@ -286,6 +296,35 @@ class Config:
             ),
         ]
 
+    def amplify_deploy(self):
+        subprocess.check_call(
+            cwd=FRONTEND_DIST, args=["zip", "-r", str(FRONTEND_ZIPFILE), "."]
+        )
+        s3 = self.session.client("s3")
+        amplifycli = self.session.client("amplify")
+        s3.upload_file(str(FRONTEND_ZIPFILE), self.public_bucket, "deploy.zip")
+        response = amplifycli.list_apps()["apps"]
+        d = {}
+        for app in response:
+            name = app["name"]
+            appid = app["appId"]
+            print(app)
+            if "staging" in name:
+                d["staging"] = appid
+            elif "production" in name:
+                d["production"] = appid
+        if "staging" in self.branch:
+            appid = d["staging"]
+        elif "production" in self.branch:
+            appid = d["production"]
+        else:
+            raise SystemExit(f"Unknown branch: {self.branch}")
+        response = amplifycli.start_deployment(
+            appId=appid,
+            branchName=self.stage,
+            sourceUrl=f"s3://{self.public_bucket}/deploy.zip",
+        )
+
     @property
     def frontend_stack(self):
         """frontend_stack."""
@@ -302,14 +341,25 @@ class Config:
             ),
             Cmd(
                 "frontend_stack",
+                working_dir=self.BASE.joinpath("frontend"),
+                cmd="yarn",
+            ),
+            Cmd(
+                "frontend_stack",
                 working_dir=self.BASE.joinpath("infra"),
                 cmd=cmd,
+            ),
+            Cmd(
+                "frontend_stack",
+                working_dir=self.BASE.joinpath("frontend"),
+                cmd="yarn vite build",
+                callback=self.amplify_deploy,
             ),
         ]
 
     def set_log_retention(self) -> str:
         """Set log retention."""
-        cli = boto3.client("logs", region_name=self.region)
+        cli = self.session.client("logs", region_name=self.region)
         for log_group_name in cli.describe_log_groups()["logGroups"]:
             if log_group_name["logGroupName"].startswith(f"/aws/lambda/{self.PREFIX}-"):
                 GHOut.notice(
@@ -468,6 +518,9 @@ class Config:
             self.runall()
         else:
             for cmd in self.order:
+                if args.force:
+                    GHOut.notice(f"Forcing Run {cmd.name}")
+                    cmd.execute(True)
                 if cmd.name in lst:
                     GHOut.notice(f"Running {cmd.name}")
                     cmd.execute(args.doit)
@@ -499,6 +552,12 @@ def main():
     parser.add_argument(
         "--doit",
         help="Perform the deployment",
+        default=False,
+        action="store_true",
+    )
+    parser.add_argument(
+        "--force",
+        help="Force the deployment",
         default=False,
         action="store_true",
     )

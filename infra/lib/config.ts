@@ -6,10 +6,10 @@ import { env } from "process";
 export class Config {
     prefix: string = "trash-ai";
     account: string;
-    profile: string;
     region: string;
     stage: string;
     branch: string;
+    public_bucket: string;
     dns_domain_map_root: boolean;
     mainBucketName: string;
     test_role: string = "";
@@ -21,9 +21,9 @@ export class Config {
     constructor(map_value: { [key: string]: any }) {
         this.repo = this._get_map_val(map_value, "github_repo_name");
         this.repo_owner = this._get_map_val(map_value, "github_repo_owner");
-        this.profile = this._get_map_val(map_value, "aws_profile");
         this.account = this._get_map_val(map_value, "aws_account_number");
         this.region = this._get_map_val(map_value, "region");
+        this.public_bucket = this._get_map_val(map_value, "public_bucket");
         this.branch = this._get_map_val(map_value, "branch");
         this.stage = this._get_map_val(map_value, "branch").replace(
             /^aws\//,
@@ -52,6 +52,7 @@ export class Config {
         return _map_value[key];
     }
 
+    //    this._dns_domain_map_root = this._get_map_val(map_value, "dns_domain_map_root")
     get is_bootstrap() {
         return env.BOOTSTRAP === "true";
     }

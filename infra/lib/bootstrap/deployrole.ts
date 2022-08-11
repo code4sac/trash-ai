@@ -3,11 +3,11 @@ import * as iam from "@aws-cdk/aws-iam";
 import * as cdk from "@aws-cdk/core";
 import * as aws_ssm from "@aws-cdk/aws-ssm";
 
-
 function chunk(arr: Array<any>, chunkSize: number) {
     if (chunkSize <= 0) throw "Invalid chunk size";
     var R = [];
     for (var i = 0, len = arr.length; i < len; i += chunkSize)
+        // @ts-ignore
         R.push(arr.slice(i, i + chunkSize));
     return R;
 }
@@ -73,6 +73,7 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
         let idx = 0;
         for (const statements of statement_chunks) {
             idx += 1;
+            // @ts-ignore
             console.log(`Chunk ${idx} - ${statements.length}`);
             const policy_document = iam.PolicyDocument.fromJson({
                 Version: "2012-10-17",
@@ -246,7 +247,7 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                 ],
             },
             {
-                // splat log delivery 
+                // splat log delivery
                 Effect: "Allow",
                 Action: [
                     "logs:CreateLogDelivery",
@@ -266,17 +267,21 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
                 // bucket related operations with our prefix
                 Effect: "Allow",
                 Action: [
-                    "s3:Get*",
-                    "s3:List*",
                     "s3:CreateBucket",
                     "s3:DeleteBucket",
-                    "s3:PutObject",
-                    "s3:DeleteObject",
-                    "s3:PutBucketPolicy",
                     "s3:DeleteBucketPolicy",
+                    "s3:DeleteObject",
+                    "s3:Get*",
+                    "s3:List*",
+                    "s3:PutBucketPolicy",
                     "s3:PutEncryptionConfiguration",
+                    "s3:PutObject",
+                    "s3:PutObjectAcl",
+                    "s3:PutObjectVersionAcl",
                 ],
-                Resource: [`arn:aws:s3:::${this.conf.prefix}*`],
+                Resource: [
+                    `arn:aws:s3:::${this.conf.prefix}*`,
+                ],
             },
             {
                 // Any cloudfront operations in our account

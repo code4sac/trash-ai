@@ -1,21 +1,21 @@
 {
     "deployments": [
         {
-            "aws_profile": "personal",
             "aws_account_number": "834723192900",
             "region": "us-west-1",
             "branch": "production",
             "log_retention_days": 30,
             "dns_domain_map_root": true,
+            "public_bucket": "trash-ai-public",
             "dns_domain": "trashai.org",
             "github_repo_name": "trash-ai",
             "github_repo_owner": "code4sac"
         },
         {
-            "aws_profile": "personal",
             "aws_account_number": "834723192900",
             "region": "us-west-1",
             "branch": "aws/trashai-staging",
+            "public_bucket": "trash-ai-public",
             "dns_domain_map_root": false,
             "log_retention_days": 30,
             "dns_domain": "trashai.org",
@@ -23,21 +23,21 @@
             "github_repo_owner": "code4sac"
         },
         {
-            "aws_profile": "personal",
             "aws_account_number": "668805947503",
             "region": "us-west-1",
             "branch": "aws/shollingsworth-root",
             "log_retention_days": 30,
+            "public_bucket": "trash-ai-public",
             "dns_domain_map_root": true,
             "dns_domain": "hostbeat.link",
             "github_repo_name": "trash-ai",
             "github_repo_owner": "shollingsworth"
         },
         {
-            "aws_profile": "localstack",
             "aws_account_number": "000000000000",
             "region": "us-east-2",
             "branch": "local",
+            "public_bucket": "trash-ai-public",
             "dns_domain_map_root": false,
             "dns_domain": "",
             "github_repo_name": "",

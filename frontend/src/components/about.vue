@@ -14,12 +14,10 @@
             <a href="https://mooreplasticresearch.org/"
                 >The Moore Institute for Plastic Pollution Research</a
             >
-            and Walter Yu from <a href="https://dot.ca.gov/">CALTRANS</a>. There
-            have also been
-            <a href="https://github.com/code4sac/trash-ai/graphs/contributors"
-                >many contributors</a
-            >
-            to the code base.
+            and Walter Yu from <a href="https://dot.ca.gov/">CALTRANS</a>. 
+            <a href="https://github.com/shollingsworth" >
+                Steven Hollingsworth developed much of the code.
+            </a>
         </p>
         <p>
             To get started, visit the Upload Tab or
@@ -68,6 +66,8 @@
                 >open a Github Issue</a
             >
             in our repository.
+            If you would like to provide more general feedback, please fill out 
+            our <a href="https://forms.gle/CwZvegq1oCUYLRjM7">feedback form here </a>.
         </p>
         &nbsp;
     </v-sheet>

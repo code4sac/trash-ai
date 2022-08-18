@@ -16,8 +16,8 @@
             >
             and Walter Yu from <a href="https://dot.ca.gov/">CALTRANS</a>. 
             <a href="https://github.com/shollingsworth" >
-                Steven Hollingsworth developed much of the code.
-            </a>
+                Steven Hollingsworth
+            </a> is the lead developer and contributor to the code base.
         </p>
         <p>
             To get started, visit the Upload Tab or

@@ -21,7 +21,7 @@
         </p>
         <p>
             To get started, visit the Upload Tab or
-            <a href="/?tab=Upload">click here</a>.
+            <a href="/uploads/0">click here</a>.
         </p>
 
         <h2>What is it?</h2>

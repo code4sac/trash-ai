@@ -1,30 +1,35 @@
 ---
-title: 'Gala: A Python package for galactic dynamics'
+title: 'Trash AI: Web GUI for Browser-Side Computer Vision Analysis of Trash Images'
 tags:
-  - Python
-  - astronomy
-  - dynamics
-  - galactic dynamics
-  - milky way
+  - tensorflow.js
+  - IndexDB
+  - Plastic Pollution
+  - Trash
+  - Litter
+  - AI
+  - Image Classification
 authors:
-  - name: Adrian M. Price-Whelan
-    orcid: 0000-0000-0000-0000
-    equal-contrib: true
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
-  - name: Author Without ORCID
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: 2
-  - name: Author with no affiliation
+  - name: Win Cowger
+    orcid: 0000-0001-9226-3104
+    affiliation: 1 # (Multiple affiliations must be quoted)
+  - name: Steven Hollingsworth
     corresponding: true # (This is how to denote the corresponding author)
+    # equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
+    affiliation: 2
+  - name: Day Fey
+    affiliation: 2
+  - name: Mary C Norris
+    affiliation: 2
+  - name: Walter Yu
     affiliation: 3
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Moore Institute for Plastic Pollution Research, USA
    index: 1
- - name: Institution Name, Country
+ - name: Code for Sacramento, USA
    index: 2
- - name: Independent Researcher, Country
+ - name: California Department of Transportation, USA
    index: 3
-date: 13 August 2017
+date: 1 September 2022
 bibliography: paper.bib
 
 # Optional fields if submitting to a AAS journal too, see this blog post:

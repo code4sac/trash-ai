@@ -1,4 +1,6 @@
 # AI for Litter Detection (Web Application)
+[![Website](https://img.shields.io/badge/web)](https://www.trashai.org)
+
 
 ### Project Information
 
@@ -30,4 +32,4 @@ Mostly CD at this point.
 Runs the complex stuff so you don't have to.
 
 ## Contribute
-We welcome contributions of all kinds. To get started, open an [issue](https://github.com/code4sac/trash-ai/issues) or [pull request](https://github.com/code4sac/trash-ai/pulls). 
+We welcome contributions of all kinds. To get started, open an [issue](https://github.com/code4sac/trash-ai/issues) or [pull request](https://github.com/code4sac/trash-ai/pulls). Here are some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/). Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).

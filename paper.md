@@ -33,7 +33,8 @@ affiliations:
    index: 2
  - name: California Department of Transportation, USA
    index: 3
- - nam: Let's Do It Foundation, Estonia
+ - name: Let's Do It Foundation, Estonia
+   index: 4
 date: 1 September 2022
 bibliography: paper.bib
 

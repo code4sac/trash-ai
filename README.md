@@ -11,6 +11,9 @@
 
 Trash AI is a web application where users can upload photos of litter which will be labeled using computer vision to detect and categorize litter in the image by type. Trash AI will enhance the abilities of researchers to quickly label trash in photos.
 
+#### Demo
+[![image](https://user-images.githubusercontent.com/26821843/188515526-33e1196b-6830-4187-8fe4-e68b2bd4019e.png)](https://youtu.be/HHrjUpQynUM)
+
 ## Deployment
 
 You can simply go to www.trashai.org to start using the tool or deploy it yourself. Current self-deployment options are local deployment with docker to remote on Amazon Web Services (AWS). 

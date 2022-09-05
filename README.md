@@ -1,4 +1,4 @@
-# Trash AI: Serverless image classification of trash (Web Application)
+# Trash AI: Web application for serverless image classification of trash
 [![Website](https://img.shields.io/badge/Web-TrashAI.org-blue)](https://www.trashai.org)
 
 

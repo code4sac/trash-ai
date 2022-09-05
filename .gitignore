@@ -24,3 +24,5 @@ pyrightconfig.json
 archive/
 tmp/
 .Rproj.user
+delete.bat
+.Rhistory

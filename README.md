@@ -1,4 +1,4 @@
-# AI for Litter Detection (Web Application)
+# Trash AI: Serverless image classification of trash (Web Application)
 [![Website](https://img.shields.io/badge/Web-TrashAI.org-blue)](https://www.trashai.org)
 
 

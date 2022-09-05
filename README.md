@@ -1,5 +1,5 @@
 # AI for Litter Detection (Web Application)
-[![Website](https://img.shields.io/badge/web)](https://www.trashai.org)
+[![Website](https://img.shields.io/badge/Web-TrashAI.org-blue)](https://www.trashai.org)
 
 
 ### Project Information
@@ -17,19 +17,19 @@ You can simply go to www.trashai.org to start using the tool or deploy it yourse
 
 ### [Local Development](./docs/localdev.md)
 
-Run the environment live with localstack and docker.
+- Run the environment live with localstack and docker.
 
-### [AWS Deployments](./docs/git-aws-account-setup.md)
+### [AWS Deployment](./docs/git-aws-account-setup.md)
 
-Instructions on bringing up a new AWS deployment.
+- Instructions on bringing up a new AWS deployment.
 
 #### [Continuous Integration and Continuous Delivery (CI/CD) - Github Actions](./docs/github-actions.md)
 
-Mostly CD at this point.
+- Mostly CD at this point.
 
 #### [Github Actions AWS Deployment Role](./docs/github-actions-deployment-role.md)
 
-Runs the complex stuff so you don't have to.
+- Runs the complex stuff so you don't have to.
 
 ## Contribute
 We welcome contributions of all kinds. To get started, open an [issue](https://github.com/code4sac/trash-ai/issues) or [pull request](https://github.com/code4sac/trash-ai/pulls). Here are some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/). Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).

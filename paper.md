@@ -48,14 +48,26 @@ Although computer vision classification routines have been created for trash, th
 
 The trash in the environment is a widespread problem that is difficult to measure. Classical measurement techniques require surveyors with pen and paper to manually quantify every piece of trash at a site. This method is time-consuming. Scientists are actively trying to address this issue by using imaging to better understand the prevalence and distribution of trash in an `efficient yet effective manner` [@Majchrowska:2022; @Proença:2020; @Moore:2020; @vanLieshout:2020; @WADEAI:2020; @Lynch:2018; @Wuu:2018; @Waterboards:2018]. An app-based reporting of trash using cell phones, laptops, and other devices has been a `valuable solution` [@Lynch:2018]. Applications for AI in detecting trash currently include: images from `bridges` [@vanLieshout:2020], `drone imaging` [@Moore:2020], cameras on `street sweepers` [@Waterboards:2018], and cell phone app based reporting of `trash` [@Lynch:2018]. Although there are many artificial intelligence algorithms developed for trash classification, none are readily accessible to the average data scientist. The primary limitation is that artificial intelligence (AI) algorithms are primarily run through programming languages (not graphic user interfaces), difficult to deploy without AI expertise, and often live on a server (which costs money to host). New developments in browser-side AI (e.g. tensorflow.js) and serverless architecture (e.g. AWS Lambda) have created the opportunity to have browser-side artificial intelligence in a web GUI alleviating both obstacles. We present Trash AI, an open source service for making computer vision available to anyone with a web browser and images of trash. 
 
-# Example
- Video
- Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
+# Demo
+We have a full video tutorial on [Youtube](https://youtu.be/HHrjUpQynUM)
 
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
+## Basic workflow:
+### 1. Upload images by dragging onto the screen. 
+![Screenshot 2022-09-05 155313](https://user-images.githubusercontent.com/26821843/188520590-86d7b0b3-1b40-4ce5-8fb0-1be54b2de20e.png)
+### 2. View results while images are processing. 
+![Screenshot 2022-09-05 155435](https://user-images.githubusercontent.com/26821843/188520700-43f4c964-c430-4a78-843b-68ae7aae2ba2.png)
+### 3. View summary results of detected trash. 
+![Screenshot 2022-09-05 155606](https://user-images.githubusercontent.com/26821843/188520723-92b50200-d568-4953-aa26-fbcbbd965a38.png)
+### 4. View results mapped if your images have location stamp. 
+![Screenshot 2022-09-05 155702](https://user-images.githubusercontent.com/26821843/188520745-65ef3270-6093-488a-b501-305ecb436bc1.png)
+### 5. Click download all to extract a zip folder with labeled images and metadata. 
+![Screenshot 2022-09-05 163626](https://user-images.githubusercontent.com/26821843/188520813-f9169ba9-14d9-4f11-bf53-a6fd8e379cdf.png)
+### 6. View labeled images from downloaded results. 
+![Screenshot 2022-09-05 160109](https://user-images.githubusercontent.com/26821843/188520833-d313279d-b2d0-4d37-ac0b-670ce3252540.png)
+### 7. View metadata for each image using image_hash.json (using https://jsoneditoronline.org/)
+![Screenshot 2022-09-05 162658](https://user-images.githubusercontent.com/26821843/188520860-629c529d-dc5e-4e93-9beb-b65e4560bc13.png)
+### 8. View metadata for all images in "summary.json" (using https://jsoneditoronline.org/)
+![Screenshot 2022-09-05 162853](https://user-images.githubusercontent.com/26821843/188520906-3061ecce-cb0e-4c76-9b81-303731110380.png)
 
 # Method
 

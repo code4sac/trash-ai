@@ -64,7 +64,7 @@ We have a full video tutorial on [Youtube](https://youtu.be/HHrjUpQynUM)
 ![Screenshot 2022-09-05 163626](https://user-images.githubusercontent.com/26821843/188520813-f9169ba9-14d9-4f11-bf53-a6fd8e379cdf.png)
 ### 6. View labeled images from downloaded results. 
 ![Screenshot 2022-09-05 160109](https://user-images.githubusercontent.com/26821843/188520833-d313279d-b2d0-4d37-ac0b-670ce3252540.png)
-### 7. View metadata for each image using image_hash.json (using https://jsoneditoronline.org/)
+### 7. View metadata for each image using "image_hash.json" (using https://jsoneditoronline.org/)
 ![Screenshot 2022-09-05 162658](https://user-images.githubusercontent.com/26821843/188520860-629c529d-dc5e-4e93-9beb-b65e4560bc13.png)
 ### 8. View metadata for all images in "summary.json" (using https://jsoneditoronline.org/)
 ![Screenshot 2022-09-05 162853](https://user-images.githubusercontent.com/26821843/188520906-3061ecce-cb0e-4c76-9b81-303731110380.png)

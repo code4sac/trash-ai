@@ -1,5 +1,5 @@
 ---
-title: 'Trash AI: Web GUI for Browser-Side Computer Vision Analysis of Trash Images'
+title: 'Trash AI: A Web GUI for Serverless Computer Vision Analysis of Images of Trash'
 tags:
   - tensorflow.js
   - IndexDB
@@ -8,13 +8,13 @@ tags:
   - Litter
   - AI
   - Image Classification
+  - Serverless
 authors:
   - name: Win Cowger
     orcid: 0000-0001-9226-3104
     affiliation: 1 # (Multiple affiliations must be quoted)
   - name: Steven Hollingsworth
     corresponding: true # (This is how to denote the corresponding author)
-    # equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: 2
   - name: Day Fey
     affiliation: 2
@@ -22,6 +22,10 @@ authors:
     affiliation: 2
   - name: Walter Yu
     affiliation: 3
+  - name: Kristiina Kerge
+    affiliation: 4
+  - name: Kris Haamer
+    affiliation: 4
 affiliations:
  - name: Moore Institute for Plastic Pollution Research, USA
    index: 1
@@ -29,92 +33,46 @@ affiliations:
    index: 2
  - name: California Department of Transportation, USA
    index: 3
+ - nam: Let's Do It Foundation, Estonia
 date: 1 September 2022
 bibliography: paper.bib
 
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
 
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
+Although computer vision classification routines have been created for trash, they have not been accessible to most researchers due to the challenges in deploying the models. Trash AI is a web GUI (Graphical User Interface) for serverless computer vision classification of batch images with trash in them hosted at www.trashai.org. With a single batch upload and download, a user can automatically describe the types and quantities of trash in all of their images. 
 
 # Statement of need
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
+The trash in the environment is a widespread problem that is difficult to measure. Classical measurement techniques require surveyors with pen and paper to manually quantify every piece of trash at a site. This method is time-consuming. Scientists are actively trying to address this issue by using imaging to better understand the prevalence and distribution of trash in an efficient yet effective manner `[@Majchrowska:2022; @Proença:2020; @Moore:2020; @van Lieshout:2020; @WADE AI:2020; @Lynch:2018; @Wuu:2018; @Waterboards:2018]`. An app-based reporting of trash using cell phones, laptops, and other devices has been a valuable solution `[@Lynch:2018]`. Applications for AI in detecting trash currently include: images from bridges `[@van Lieshout:2020]`, drone imaging `[@Moore:2020]`, cameras on street sweepers `[@Waterboards:2018]`, and cell phone app based reporting of trash `[@Lynch:2018]`. Although there are many artificial intelligence algorithms developed for trash classification, none are readily accessible to the average data scientist. The primary limitation is that artificial intelligence (AI) algorithms are primarily run through programming languages (not graphic user interfaces), difficult to deploy without AI expertise, and often live on a server (which costs money to host). New developments in browser-side AI (e.g. tensorflow.js) and serverless architecture (e.g. AWS Lambda) have created the opportunity to have browser-side artificial intelligence in a web GUI alleviating both obstacles. We present Trash AI, an open source service for making computer vision available to anyone with a web browser and images of trash. 
 
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
-
-# Mathematics
-
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
-
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this:
+# Example
+ Video
+ Figures can be included like this:
 ![Caption for example figure.\label{fig:example}](figure.png)
 and referenced from text using \autoref{fig:example}.
 
 Figure sizes can be customized by adding an optional second parameter:
 ![Caption for example figure.](figure.png){ width=20% }
 
-# Acknowledgements
+# Method
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+## AI Training
+An algorithm trained on the TACO (http://tacodataset.org/) dataset and using YOLO 5 (pytorch.org) which analyzes the images in the browser and provides the prediction of the model as a graphical output. The raw data from the model and labeled images can be downloaded in a batch download to expedite analyses. Any data uploaded to the platform is automatically saved to an S3 bucket which we can use to improve the model over time.
+
+The AI model was developed starting with the TACO dataset which was available within a Jupyter Notebook on Kaggle (https://www.kaggle.com/datasets/kneroma/tacotrashdataset). An example notebook was referenced which used the default YOLO v5 model `[@glenn_jocher_2020_4154370]` as the basic model to begin transfer learning. Next, transfer learning was completed using the entire TACO dataset to import the image classes and annotations in the YOLO v5 model.
+
+## Limitations
+From our experience, the accuracy of the model varies depending on the quality of the images and their settings. The algorithm is primarily trained on single pieces of trash in the image and the model will likely excel for that use case.
+
+# Availability
+Trash AI is hosted on the web at www.trashai.org. The source code is available on github https://github.com/code4sac/trash-ai  with an MIT  (https://mit-license.org/) license. The source code can be run offline on any machine that can install Docker and Docker-compose (www.docker.com)). Documentation is hosted by Code for Sacramento on github and will be updated with each release. The image datasets shared to the tool need to be previewed before being shared with others due to security and moderation concerns. 
+
+# Future Goals
+This workflow is likely to be highly useful for a wide variety of computer vision applications and we hope that people reuse the code for applications beyond trash detection. We aim to increase the labeling of images by creating a user interface that allows users to improve the annotations that the model is currently predicting by manually restructuring the bounding boxes and relabeling the classes. We aim to work in collaboration with the TACO development team to improve our workflow integration to get the data that people share to our S3 bucket into the TACO training dataset (CITE) and trained model. Future models will expand the annotations to include the trash taxonomy (CITE) classes and add an option to choose between other models besides the current model.
+
+# Acknowledgements
+Code for Sacramento led the development of the software tool. The Moore Institute advised on priorities and led the drafting of this manuscript. Let's Do It Foundation assisted with original products leading up to trash AI in the development of WADE AI. We acknowledge the work of the Code for Sacramento team, part of code for America, without whom this project would not have been possible and acknowledge the input of the California Water Monitoring Council Trash Monitoring Workgroup. We acknowledge financial support from McPike Zima Charitable Foundation.
 
 # References

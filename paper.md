@@ -53,20 +53,35 @@ We have a full video tutorial on [Youtube](https://youtu.be/HHrjUpQynUM)
 
 ## Basic workflow:
 ### 1. Upload images by dragging onto the screen. 
+
 ![Screenshot 2022-09-05 155313](https://user-images.githubusercontent.com/26821843/188520590-86d7b0b3-1b40-4ce5-8fb0-1be54b2de20e.png)
+
 ### 2. View results while images are processing. 
+
 ![Screenshot 2022-09-05 155435](https://user-images.githubusercontent.com/26821843/188520700-43f4c964-c430-4a78-843b-68ae7aae2ba2.png)
+
 ### 3. View summary results of detected trash. 
+
 ![Screenshot 2022-09-05 155606](https://user-images.githubusercontent.com/26821843/188520723-92b50200-d568-4953-aa26-fbcbbd965a38.png)
+
 ### 4. View results mapped if your images have location stamp. 
+
 ![Screenshot 2022-09-05 155702](https://user-images.githubusercontent.com/26821843/188520745-65ef3270-6093-488a-b501-305ecb436bc1.png)
+
 ### 5. Click download all to extract a zip folder with labeled images and metadata. 
+
 ![Screenshot 2022-09-05 163626](https://user-images.githubusercontent.com/26821843/188520813-f9169ba9-14d9-4f11-bf53-a6fd8e379cdf.png)
+
 ### 6. View labeled images from downloaded results. 
+
 ![Screenshot 2022-09-05 160109](https://user-images.githubusercontent.com/26821843/188520833-d313279d-b2d0-4d37-ac0b-670ce3252540.png)
+
 ### 7. View metadata for each image using "image_hash.json" (using https://jsoneditoronline.org/)
+
 ![Screenshot 2022-09-05 162658](https://user-images.githubusercontent.com/26821843/188520860-629c529d-dc5e-4e93-9beb-b65e4560bc13.png)
+
 ### 8. View metadata for all images in "summary.json" (using https://jsoneditoronline.org/)
+
 ![Screenshot 2022-09-05 162853](https://user-images.githubusercontent.com/26821843/188520906-3061ecce-cb0e-4c76-9b81-303731110380.png)
 
 # Method

@@ -1,9 +1,9 @@
-## AI for Litter Detection (Web Application)
+# AI for Litter Detection (Web Application)
 
 ### Project Information
 
--   Sponsor: Win Cowger, UC Riverside - Trash Data Projects
--   Meeting Times: Wednesdays at 6:30pm (Weekly Brigade Meetings)
+-   Sponsor: Win Cowger, [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/)
+-   Meeting Times: Wednesdays at 6:30pm PT [Weekly Brigade Meetings](https://www.meetup.com/code4sac/)
 
 ### Project Summary
 
@@ -28,3 +28,6 @@ Mostly CD at this point.
 #### [Github Actions AWS Deployment Role](./docs/github-actions-deployment-role.md)
 
 Runs the complex stuff so you don't have to.
+
+## Contribute
+We welcome contributions of all kinds. To get started, open an [issue](https://github.com/code4sac/trash-ai/issues) or [pull request](https://github.com/code4sac/trash-ai/pulls). 

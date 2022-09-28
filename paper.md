@@ -9,6 +9,10 @@ tags:
   - AI
   - Image Classification
   - Serverless
+  - vue
+  - vuetify
+  - vite
+  - pinia
 authors:
   - name: Win Cowger
     orcid: 0000-0001-9226-3104

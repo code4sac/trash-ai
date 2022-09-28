@@ -10,7 +10,7 @@ body:
     id: terms
     attributes:
       label: Guidelines
-      description: By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/Appsilon/.github/blob/main/CONTRIBUTING.md).
+      description: By submitting this issue, you agree to follow our [Contributing Guidelines](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
       options:
         - label: I agree to follow this project's Contributing Guidelines.
           required: true

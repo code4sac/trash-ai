@@ -15,21 +15,19 @@ services:
   #         devices:
   #           - capabilities: [gpu]
 
-  dltacodataset:
-    image: kaggledl
+  tacodataset:
+    image: alpine
     volumes:
-      - ${HOME}/.kaggle:/home/kaggle/.kaggle
-      - ${PWD}:/home/kaggle/download
-    working_dir: /home/kaggle/download
-    command: kaggle datasets download -d kneroma/tacotrashdataset
+      - ${PWD}:/download
+    working_dir: /download
+    command: wget https://trash-ai-public.s3.us-west-1.amazonaws.com/tacotrashdataset.zip
 
-  dlyolov5-taco:
-    image: kaggledl
+  yolov5-taco:
+    image: alpine
     volumes:
-      - ${HOME}/.kaggle:/home/kaggle/.kaggle
-      - ${PWD}:/home/kaggle/download
-    working_dir: /home/kaggle/download
-    command: kaggle datasets download -d trngvhong/yolov5-taco
+      - ${PWD}:/download
+    working_dir: /download
+    command: wget https://trash-ai-public.s3.us-west-1.amazonaws.com/yolov5-taco.zip
 
   notebook:
     image: jupyter/datascience-notebook:b418b67c225b

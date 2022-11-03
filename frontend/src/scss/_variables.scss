@@ -9,3 +9,12 @@
     background-color: lightgrey;
     color: black !important;
 }
+
+#canvas {
+    border: 10px solid transparent;
+}
+.rectangle {
+    border: 3px solid #ff0000 !important;
+    position: absolute !important;
+    z-index: 9999;
+}

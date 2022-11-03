@@ -17,3 +17,5 @@ data
 pyrightconfig.json
 archive/
 tmp/
+model/build/Mask*
+model/build/taco*

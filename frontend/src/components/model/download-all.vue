@@ -10,17 +10,19 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
+import { log } from '@/lib/logging'
+import { useImageStore } from '@/lib/store'
+
 export default defineComponent({
     name: 'DownloadAll',
     setup() {
-        const store = m.useImageStore()
+        const store = useImageStore()
         return {
             store,
         }
     },
     mounted() {
-        m.log.debug('mounted', this)
+        log.debug('mounted', this)
     },
 })
 </script>

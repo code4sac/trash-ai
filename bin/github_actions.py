@@ -321,7 +321,7 @@ class Config:
             raise SystemExit(f"Unknown branch: {self.branch}")
         response = amplifycli.start_deployment(
             appId=appid,
-            branchName=self.stage,
+            branchName=self.branch,
             sourceUrl=f"s3://{self.public_bucket}/deploy.zip",
         )
 
@@ -351,7 +351,7 @@ class Config:
             ),
             Cmd(
                 "frontend_stack",
-                working_dir=self.BASE.joinpath("frontend"),
+                working_dir=FRONTEND,
                 cmd="yarn vite build",
                 callback=self.amplify_deploy,
             ),

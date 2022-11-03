@@ -18,11 +18,12 @@
     </GMapMap>
 </template>
 <script lang="ts">
-import * as m from '@/lib'
 import { defineComponent } from 'vue'
+import { Coordinate } from '@/lib/models'
+
 interface State {
-    center: m.Coordinate | null
-    position: m.Coordinate | null
+    center: Coordinate | null
+    position: Coordinate | null
     zoom: number
     loaded: boolean
 }

@@ -17,12 +17,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
+import { Progress } from '@/lib/models'
 export default defineComponent({
     name: 'Progress',
     props: {
         progress: {
-            type: m.Progress,
+            type: Progress,
             required: true,
         },
     },

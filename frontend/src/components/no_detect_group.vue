@@ -13,11 +13,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
 import { toInteger } from 'lodash'
+import { Display } from '@/lib/models'
+import { useImageStore, useAppStore } from '@/lib/store'
+import { imagedb } from '@/lib/imagedb'
 
 interface State {
-    displays: m.Display[]
+    displays: Display[]
 }
 
 export default defineComponent({
@@ -28,15 +30,15 @@ export default defineComponent({
         }
     },
     setup() {
-        const appstore = m.useAppStore()
-        const imgstore = m.useImageStore()
+        const appstore = useAppStore()
+        const imgstore = useImageStore()
         return {
             appstore,
             imgstore,
         }
     },
     async mounted() {
-        this.displays = await m.imagedb.savedata
+        this.displays = await imagedb.savedata
             .bulkGet(this.imgstore.summary.no_detection_hashes)
             .then((res) => res.map((x) => x!.display))
     },

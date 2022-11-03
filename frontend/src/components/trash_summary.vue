@@ -32,17 +32,19 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
+import { useImageStore } from '@/lib/store'
+import { Summary } from '@/lib/models'
+
 export default defineComponent({
     name: 'TrashSummary',
     setup() {
-        const store = m.useImageStore()
+        const store = useImageStore()
         return {
             store,
         }
     },
     computed: {
-        summary(): m.Summary {
+        summary(): Summary {
             return this.store.summary
         },
     },

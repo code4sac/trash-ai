@@ -29,6 +29,7 @@
         "pinia": "^2.0.17",
         "pinia-plugin-persistedstate": "^1.6.3",
         "roboto-fontface": "^0.10.0",
+        "rxjs": "^7.5.7",
         "ts-exif-parser": "^0.2.2",
         "vite-plugin-pages": "^0.25.0",
         "vite-plugin-vuetify": "^1.0.0-alpha.13",

@@ -101,20 +101,6 @@ export const invertImageData = (data: ImageData) => {
     return data
 }
 
-Timer.prototype.setTimeout = function (callback: Function, time: number) {
-    var self = this
-    if (this.timer) {
-        clearTimeout(this.timer)
-    }
-    this.finished = false
-    this.callback = callback
-    this.time = time
-    this.timer = setTimeout(function () {
-        self.finished = true
-        callback()
-    }, time)
-    this.start = Date.now()
-}
 
 export function Timer(callback: Function, time: number) {
     // @ts-ignore

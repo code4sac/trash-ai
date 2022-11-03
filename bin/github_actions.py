@@ -321,7 +321,7 @@ class Config:
             raise SystemExit(f"Unknown branch: {self.branch}")
         response = amplifycli.start_deployment(
             appId=appid,
-            branchName=self.branch,
+            branchName=self.branch.replace("aws/", ""),
             sourceUrl=f"s3://{self.public_bucket}/deploy.zip",
         )
 

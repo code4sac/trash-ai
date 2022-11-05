@@ -40,13 +40,16 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
 import { toInteger } from 'lodash'
+import { useImageStore, useAppStore } from '@/lib/store'
+import { imagedb } from '@/lib/imagedb'
+import { Display, Summary, TrashObject } from '@/lib/models'
+import { log } from '@/lib/logging'
 
 interface State {
-    summary: m.Summary | null
-    obj: m.TrashObject | null
-    displays: m.Display[]
+    summary: Summary | null
+    obj: TrashObject | null
+    displays: Display[]
     selected_name: string
     selected_idx: number | null
 }
@@ -62,8 +65,8 @@ export default defineComponent({
         }
     },
     setup() {
-        const appstore = m.useAppStore()
-        const imgstore = m.useImageStore()
+        const appstore = useAppStore()
+        const imgstore = useImageStore()
         return {
             appstore,
             imgstore,
@@ -115,7 +118,7 @@ export default defineComponent({
                 return this.selected_idx! + 1
             },
             async set(v: number) {
-                m.log.debug('set', v, this.selected_idx)
+                log.debug('set', v, this.selected_idx)
                 this.selected_idx = toInteger(v) - 1
             },
         },
@@ -137,7 +140,7 @@ export default defineComponent({
             })
         },
         async setupObjects(name: string | null) {
-            const sum: m.Summary = this.summary!
+            const sum: Summary = this.summary!
             this.selected_name = name!
             const idx = sum.detected_objects.findIndex(
                 (obj) => obj.name === name,
@@ -149,9 +152,9 @@ export default defineComponent({
             }
             this.selected_idx = idx
             this.obj = sum.detection_by_name(this.selected_name) ?? null
-            const tmp = await m.imagedb.savedata.bulkGet(this.obj!.hashes)
+            const tmp = await imagedb.savedata.bulkGet(this.obj!.hashes)
             this.displays = tmp?.map((x) => x!.display)
-            m.log.debug('detection mounted', this.displays)
+            log.debug('detection mounted', this.displays)
             this.appstore.setTitle(
                 `Detections: ${this.obj?.name} (${this.obj?.count})`,
             )

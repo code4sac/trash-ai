@@ -10,3 +10,7 @@ https://markerjs.com/docs/getting-started
 https://madewithvuejs.com/coco-annotator
 https://www.vuescript.com/drawing-annotation-with-vue-js-and-svg-vue-annotator/
 https://github.com/ManzarIMalik/YOLO-Annotation-Tool
+
+# tf2
+https://github.com/matterport/Mask_RCNN/tree/295c802f0bebbc4a34ec4855f4960a52a701271d/mrcnn
+https://github.com/matterport/Mask_RCNN/blob/295c802f0bebbc4a34ec4855f4960a52a701271d/samples/shapes/train_shapes.ipynb

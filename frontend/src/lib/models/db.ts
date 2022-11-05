@@ -4,30 +4,33 @@ import { dataURLtoBlob } from '@/lib/imagedb'
 import { ExifParserFactory } from 'ts-exif-parser'
 import { ExifSave } from './exif'
 import { imagedb } from '@/lib/imagedb'
-import { TFMetaData } from './tfmeta'
 import { Display } from './trashai'
 import { log } from '@/lib/logging'
+import { Rect } from '@/lib/draw'
+import { resizeImage } from '../util'
 
 export interface ISaveData {
     hash: string
     exif?: ExifSave
-    tf_meta?: TFMetaData[]
+    tf_meta?: Rect[]
     filename?: string
     origdataUrl?: string
     smalldataUrl?: string
     thumbdataUrl?: string
-    processeddataUrl?: string
+    classifications?: Rect[]
 }
 
 export class SaveData {
     hash: string
     exif?: ExifSave
-    tf_meta?: TFMetaData[]
+    tf_meta?: Rect[]
     origdataUrl?: string
     smalldataUrl?: string
     thumbdataUrl?: string
     filename?: string
     processeddataUrl?: string
+    classifications?: Rect[] = []
+
     constructor({
         hash,
         exif,
@@ -35,7 +38,6 @@ export class SaveData {
         origdataUrl,
         smalldataUrl,
         thumbdataUrl,
-        processeddataUrl,
         filename,
     }: ISaveData) {
         this.smalldataUrl = smalldataUrl
@@ -45,7 +47,27 @@ export class SaveData {
         this.exif = exif
         this.tf_meta = tf_meta
         this.origdataUrl = origdataUrl
-        this.processeddataUrl = processeddataUrl
+    }
+
+    static async new(image: BaseImage) {
+        if (!image.dataUrl) {
+            throw new Error('image has no dataUrl')
+        }
+        const small = await resizeImage(image.dataUrl || '', 1000, 1000)
+        const thumb = await resizeImage(image.dataUrl || '', 200, 200)
+        return new SaveData({
+            hash: image.hash!,
+            exif: await image.exif(),
+            origdataUrl: image.dataUrl,
+            smalldataUrl: small ?? undefined,
+            thumbdataUrl: thumb ?? undefined,
+            filename: image.filename,
+        })
+    }
+
+    async saveClassifications(rects: Rect[]) {
+        this.classifications = rects.filter((r) => !r.is_tf)
+        await this.save()
     }
 
     get prettyExif() {
@@ -57,8 +79,7 @@ export class SaveData {
     }
 
     get detectedObjects() {
-        const names = this.tf_meta?.map((m) => m.name)
-        // unique
+        const names = this.tf_meta?.map((m) => m.label)
         return lodash.uniq(names)
     }
 
@@ -73,6 +94,36 @@ export class SaveData {
             this.detectedObjects.length > 0,
             gps,
         )
+    }
+
+    async update() {
+        imagedb.savedata.update(this.hash, JSON.parse(JSON.stringify(this)))
+    }
+
+    async updateRect(rect: Rect) {
+        const existing_tf = this.tf_meta?.find((r) => r.id === rect.id)
+        const existing_class = this.classifications?.find(
+            (r) => r.id === rect.id,
+        )
+        log.debug('existing_tf', existing_tf)
+        log.debug('existing_class', existing_class)
+        if (existing_tf) {
+            // filter out the existing tf
+            this.tf_meta = this.tf_meta?.filter((r) => r.id !== rect.id)
+            // overwrite new
+            this.tf_meta?.push(rect)
+        }
+        if (existing_class) {
+            // filter out the existing tf
+            this.classifications = this.classifications?.filter(
+                (r) => r.id !== rect.id,
+            )
+            // overwrite new
+            this.classifications?.push(rect)
+        }
+        log.debug('existing_tf', this.tf_meta)
+        log.debug('existing_class', this.classifications)
+        await this.update()
     }
 
     async save() {

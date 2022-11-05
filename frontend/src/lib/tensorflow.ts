@@ -1,59 +1,22 @@
-import * as tf from '@tensorflow/tfjs'
-import { TFMetaData } from '@/lib/models'
-import * as m from '@/lib/models'
 import '@tensorflow/tfjs-backend-cpu'
 import '@tensorflow/tfjs-backend-webgl'
+import {
+    GraphModel,
+    loadGraphModel,
+    image as img,
+    tidy,
+    browser,
+    Tensor,
+    dispose,
+} from '@tensorflow/tfjs'
 import { log } from '@/lib/logging'
-
-const resizeImage = async (
-    imgsrc: string,
-    maxWidth: number,
-    maxHeight: number,
-): Promise<string> => {
-    return new Promise((resolve) => {
-        const img = new Image()
-        img.src = imgsrc
-
-        img.onload = function () {
-            let ratio = 0 // Used for aspect ratio
-            // Get current dimensions
-            let width = img.width
-            let height = img.height
-            log.debug('dimensions: ' + width + 'x' + height)
-
-            // If the current width is larger than the max, scale height
-            // to ratio of max width to current and then set width to max.
-            if (width > maxWidth) {
-                log.debug('Shrinking width (and scaling height)')
-                ratio = maxWidth / width
-                height = height * ratio
-                width = maxWidth
-                log.debug('new dimensions: ' + width + 'x' + height)
-            }
-
-            // If the current height is larger than the max, scale width
-            // to ratio of max height to current and then set height to max.
-            if (height > maxHeight) {
-                log.debug('Shrinking height (and scaling width)')
-                ratio = maxHeight / height
-                width = width * ratio
-                height = maxHeight
-                log.debug('new dimensions: ' + width + 'x' + height)
-            }
-
-            const oc = document.createElement('canvas')
-            const octx = oc.getContext('2d')
-            oc.width = width
-            oc.height = height
-            octx!.drawImage(img, 0, 0, oc.width, oc.height)
-            resolve(oc.toDataURL('image/jpeg'))
-        }
-    })
-}
+import { useCache } from '@/lib/store'
+import { Rect, Bound } from '@/lib/draw'
+import { BaseImage } from '@/lib/models'
 
 export class TensorFlow {
     private static instance: TensorFlow
-    model?: tf.GraphModel
+    model?: GraphModel
     name_map?: { [key: string]: string } = {}
     loaded = false
 
@@ -74,52 +37,57 @@ export class TensorFlow {
     }
 
     async load(): Promise<void> {
+        const cache = useCache()
         const indexeddb_name = `indexeddb://tf-model`
         this.name_map = await fetch(`/model/name_map.json`).then((res) =>
             res.json(),
         )
         try {
-            this.model = await tf.loadGraphModel(indexeddb_name)
+            this.model = await loadGraphModel(indexeddb_name)
             log.debug('loaded model from indexeddb')
         } catch (e) {
             log.debug(`No cached model found.`)
-            this.model = await tf.loadGraphModel(`/model/model.json`)
+            this.model = await loadGraphModel(`/model/model.json`)
             this.model.save(indexeddb_name)
         }
+        const nm = Object.keys(this.name_map ?? {})
+            .map((k) => this.name_map![k])
+            .sort()
+        cache.setLabels(nm)
         this.loaded = true
         log.debug('modal initialized: name_map', this.name_map)
         log.debug('modal initialized: model', this.model)
     }
 
-    async processImage(itemOrig: m.BaseImage): Promise<m.SaveData> {
-        return new Promise<m.SaveData>(async (resolve) => {
+    static async get_name_map() {
+        const inst = TensorFlow.getInstance()
+        while (!inst.name_map?.length) {
+            await new Promise((resolve) => setTimeout(resolve, 100))
+        }
+        return inst.name_map
+    }
+
+    async processImage(itemOrig: BaseImage): Promise<Rect[]> {
+        return new Promise<Rect[]>(async (resolve) => {
             const image = new Image()
             image.onload = async () => {
                 log.debug('processing Image', itemOrig)
-                // await preCb(itemOrig)
-                const item = new m.SaveData({
-                    hash: itemOrig.hash!,
-                })
                 const canvas = document.createElement('canvas')
                 canvas.id = itemOrig.hash!
                 const ctx = canvas.getContext('2d')
-                canvas.width = image.width + 100
-                canvas.height = image.height + 100
+                canvas.width = image.width
+                canvas.height = image.height
                 log.debug('size: ', canvas.width, canvas.height)
                 if (ctx == null) {
                     throw new Error('no context')
                 }
-                // pad all side by 100px
-                ctx.fillStyle = 'white'
-                ctx.fillRect(0, 0, image.width + 100, image.height + 100)
-                ctx.drawImage(image, 50, 50)
-
+                ctx.drawImage(image, 0, 0)
                 const [modelWidth, modelHeight] =
                     this.model!.inputs![0].shape!.slice(1, 3)
 
-                const input = tf.tidy(() => {
-                    return tf.image
-                        .resizeBilinear(tf.browser.fromPixels(image), [
+                const input = tidy(() => {
+                    return img
+                        .resizeBilinear(browser.fromPixels(image), [
                             modelWidth,
                             modelHeight,
                         ])
@@ -127,9 +95,9 @@ export class TensorFlow {
                         .expandDims(0)
                 })
 
-                const res: tf.Tensor[] = (await this.model!.executeAsync(
+                const res: Tensor[] = (await this.model!.executeAsync(
                     input,
-                )) as tf.Tensor[]
+                )) as Tensor[]
                 const [boxes, scores, classes, valid_detections] = res
                 const boxes_data = boxes.dataSync()
                 const scores_data = scores.dataSync()
@@ -139,78 +107,30 @@ export class TensorFlow {
                 log.debug('scores', scores_data)
                 log.debug('classes', classes_data)
                 log.debug('valid_detections', valid_detections_data)
-                tf.dispose(res)
+                dispose(res)
 
-                const font = '14px sans-serif'
-                ctx.font = font
-                ctx.textBaseline = 'top'
                 let i
-                const jarr: TFMetaData[] = []
+                const jarr: Rect[] = []
                 for (i = 0; i < valid_detections_data; ++i) {
                     let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4)
                     x1 *= canvas.width
                     x2 *= canvas.width
                     y1 *= canvas.height
                     y2 *= canvas.height
-                    const width = x2 - x1
-                    const height = y2 - y1
                     const score = scores_data[i].toFixed(2)
-                    const name = this.name_map![classes_data[i]]
-                    const meta = new TFMetaData(
-                        x1,
-                        y1,
-                        x2,
-                        y2,
-                        width,
-                        height,
+                    const label = this.name_map![classes_data[i]]
+                    const meta = new Rect({
+                        area: new Bound({ x1, y1, x2, y2 }),
                         score,
-                        name,
-                    )
-                    jarr.push(meta)
-                    ctx.strokeStyle = '#00FFFF'
-                    ctx.lineWidth = 1
-                    ctx.strokeRect(x1, y1, width, height)
-
-                    // Draw the label background.
-                    ctx.fillStyle = '#00FFFF'
-                    const textWidth = ctx.measureText(`${name}:${score}`).width
-                    const textHeight = parseInt(font, 10) // base 10
-                    ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4)
+                        label,
+                        is_tf: true,
+                    })
+                    if (!meta.tooSmall()) {
+                        jarr.push(meta)
+                    }
                 }
                 log.debug('jarr', jarr)
-
-                // Draw the bounding box.
-                for (i = 0; i < valid_detections_data; ++i) {
-                    let [x1, y1, ,] = boxes_data.slice(i * 4, (i + 1) * 4)
-                    x1 *= canvas.width
-                    y1 *= canvas.height
-                    const score = scores_data[i].toFixed(2)
-                    const name = this.name_map![classes_data[i]]
-
-                    // Draw the text last to ensure it's on top.
-                    ctx.fillStyle = '#000000'
-                    ctx.fillText(`${name}:${score}`, x1, y1)
-                }
-                item.tf_meta = jarr
-                item.processeddataUrl = canvas.toDataURL('image/jpeg')
-                item.filename = itemOrig.filename
-                item.exif = await itemOrig.exif()
-                item.origdataUrl = itemOrig.dataUrl
-                item.smalldataUrl = await resizeImage(
-                    item.processeddataUrl,
-                    1000,
-                    1000,
-                )
-                item.thumbdataUrl = await resizeImage(
-                    item.processeddataUrl,
-                    200,
-                    200,
-                )
-                await item.save()
-                image.remove()
-                canvas.remove()
-                log.debug('processed Image', item)
-                resolve(item)
+                resolve(jarr)
             }
             image.src = itemOrig.dataUrl!
         })

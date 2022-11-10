@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  kaggledl:
+    image: kaggledl
+    build:
+      context: .
+
+  # test_gpu:
+  #   image: tensorflow/tensorflow:latest-gpu
+  #   command: python -c "import tensorflow as tf;tf.test.gpu_device_name()"
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - capabilities: [gpu]
+
+  tacodataset:
+    image: alpine
+    volumes:
+      - ${PWD}:/download
+    working_dir: /download
+    command: wget https://trash-ai-public.s3.us-west-1.amazonaws.com/tacotrashdataset.zip
+
+  yolov5-taco:
+    image: alpine
+    volumes:
+      - ${PWD}:/download
+    working_dir: /download
+    command: wget https://trash-ai-public.s3.us-west-1.amazonaws.com/yolov5-taco.zip
+
+  notebook:
+    image: jupyter/datascience-notebook:b418b67c225b
+    volumes:
+      - ${PWD}:/home/jovyan/work
+      - /dev/shm:/dev/shm
+    ports:
+      - 8888:8888

@@ -57,7 +57,7 @@ services:
       - "backend"
 
     environment:
-      VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY}
+      VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY-:"NOGOOGLEKEY"}
 
     ports:
       - ${VITE_FRONTEND_PORT}:${VITE_FRONTEND_PORT}

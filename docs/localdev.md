@@ -13,8 +13,9 @@ These values can be adjusted by editing the localdev env file [.env](../localdev
 
 ## _*IMPORTANT*_
 
-It's suggested you work in branch `local` when developing
-Pushing / merging PR's to any branches with a prefix of `aws/` will trigger deployment actions
+Pushing / merging PR's to any branches with a prefix of `aws/` will
+trigger deployment actions, when developing locally, create a new branch
+and submit a pull request to `aws/trashai-staging`
 
 ---
 

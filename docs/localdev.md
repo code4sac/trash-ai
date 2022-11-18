@@ -18,18 +18,15 @@ trigger deployment actions, when developing locally, create a new branch
 and submit a pull request to `aws/trashai-staging`
 
 ---
+# Set up 
 
 ## Operating System Requirements
 
 -   Linux
 -   MacOS (testing)
 -   Windows using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
-    -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
-    -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
-    -   Make local must be run from a WSL (Ubuntu) terminal
-    -   Take note of docker-compose installation (installing through apt may not install the correct version)
 
-## Software Requirements
+## 1. Install Required Software
 -   docker ce
     -   ubuntu/debian: https://docs.docker.com/engine/install/ubuntu/
     -   mac: https://docs.docker.com/desktop/mac/install/
@@ -41,14 +38,23 @@ and submit a pull request to `aws/trashai-staging`
     ```shell
      $ docker-compose disable-v2
      ```
+    - For Windows Take note of docker-compose installation (installing through apt may not install the correct version)
 
----
-
-## Optional Software
+### Optional Software
 
 -   gnu make
-    -   ubuntu/debian: `apt-get install build-essential`
+    -   ubuntu/debian/wsl2: `apt-get install build-essential`
     -   mac: `brew install make`
+
+## 2. Configure Software
+- Windows:
+    -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
+
+## 3. Install repo
+- Windows:
+    -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
+
+---
 
 ## Running the dev environment
 
@@ -57,6 +63,7 @@ and submit a pull request to `aws/trashai-staging`
 ```
 make local
 ```
+    -   Make local must be run from a WSL (Ubuntu) terminal
 
 ---
 

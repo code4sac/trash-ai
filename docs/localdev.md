@@ -23,7 +23,7 @@ For full functionality you will want to get a Google Maps API key and name it VI
 
 -   Linux
 -   MacOS (testing)
--   Windows using WSL2
+-   Windows using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
     -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
     -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
     -   Make local must be run from a WSL (Ubuntu) terminal

@@ -2,7 +2,7 @@
 
 When doing local development, you can run this stack in the background and
 edit files in the `/backend` and `/frontend` directories and the environment
-with automatically update.
+with automatic update.
 
 The listening port for the web frontend defaults to `http://localhost:5150`,
 The backend is exposed via `http://localhost:4000` by default.
@@ -13,8 +13,9 @@ These values can be adjusted by editing the localdev env file [.env](../localdev
 
 ## _*IMPORTANT*_
 
-It's suggested you work in branch `local` when developing
+It's suggested you work in branch `local` by creating your own local branch when developing
 Pushing / merging PR's to any branches with a prefix of `aws/` will trigger deployment actions
+For full functionality you will want to get a Google Maps API key and name it VITE_GOOGLE_MAPS_API_KEY, but it is not required
 
 ---
 

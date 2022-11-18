@@ -34,12 +34,12 @@ and submit a pull request to `aws/trashai-staging`
         - If prompted to do so, download and install the Linux kernel update package. Complete steps 4-6 in the linked article.  
 - docker-compose [Instructions](https://docs.docker.com/compose/install/)
     - Docker-compose file version `>3.7` are supported
+    -  Windows: Take note of docker-compose installation (installing through apt may not install the correct version)
     - For MacOS, use docker-compose version 1.x
     ```shell
      $ docker-compose disable-v2
      ```
-    - For Windows Take note of docker-compose installation (installing through apt may not install the correct version)
-
+     
 ### Optional Software
 
 -   gnu make

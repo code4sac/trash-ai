@@ -36,9 +36,9 @@ and submit a pull request to `aws/trashai-staging`
     - Docker-compose file version `>3.7` are supported
     -  Windows: Take note of docker-compose installation (installing through apt may not install the correct version)
     - For MacOS, use docker-compose version 1.x
-    ```shell
+ ```shell
      $ docker-compose disable-v2
-     ```
+ ```
      
 ### Optional Software
 
@@ -51,6 +51,14 @@ and submit a pull request to `aws/trashai-staging`
     -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
 
 ## 3. Install repo
+
+```shell
+cd ~/
+mkdir code
+cd code
+git clone https://github.com/code4sac/trash-ai
+```
+
 - Windows:
     -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
 
@@ -60,7 +68,7 @@ and submit a pull request to `aws/trashai-staging`
 
 ### Using make in project root:
 -   Windows: Make local must be run from a WSL (Ubuntu) terminal
-```
+```shell
 make local
 ```
 
@@ -68,7 +76,7 @@ make local
 
 ### Using the shell:
 
-```
+```shell
 cd localdev
 # need to make sure the containers are down before starting
 docker-compose down

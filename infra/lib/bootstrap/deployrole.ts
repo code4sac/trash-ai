@@ -27,6 +27,9 @@ export class GithubDeployRoleCDKStack extends cdk.NestedStack {
             {
                 url: "https://token.actions.githubusercontent.com",
                 clientIds: ["sts.amazonaws.com"],
+                thumbprints: [
+                    "6938fd4d98bab03faadb97b34396831e3780aea1",
+                ],
             }
         );
 

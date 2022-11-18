@@ -33,7 +33,6 @@ and submit a pull request to `aws/trashai-staging`
         - If prompted to do so, download and install the Linux kernel update package. Complete steps 4-6 in the linked article.  
      
 ### Optional Software
-
 -   gnu make
     -   ubuntu/debian/wsl2: `apt-get install build-essential`
     -   mac: `brew install make`
@@ -50,9 +49,9 @@ git clone https://github.com/code4sac/trash-ai
 
 ---
 
-## Running the dev environment
+## Running the local dev environment
 
-### Using make in project root:
+### Option 1. Using make in project root:
 -   Windows: Make local must be run from a WSL (Ubuntu) terminal
 ```shell
 cd trash-ai
@@ -61,8 +60,7 @@ make local
 
 ---
 
-### Using the shell:
-
+### Option 2. Using the shell:
 ```shell
 cd localdev
 # need to make sure the containers are down before starting

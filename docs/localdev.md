@@ -34,6 +34,7 @@ and submit a pull request to `aws/trashai-staging`
     -   ubuntu/debian: https://docs.docker.com/engine/install/ubuntu/
     -   mac: https://docs.docker.com/desktop/mac/install/
     -   windows: https://docs.docker.com/desktop/install/windows-install/
+        - If prompted to do so, download and install the Linux kernel update package. Complete steps 4-6 in the linked article.  
 - docker-compose [Instructions](https://docs.docker.com/compose/install/)
     - Docker-compose file version `>3.7` are supported
     - For MacOS, use docker-compose version 1.x

@@ -21,24 +21,16 @@ and submit a pull request to `aws/trashai-staging`
 # Set up 
 
 ## Operating System Requirements
-
 -   Linux
--   MacOS (testing)
+-   MacOS
 -   Windows using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 ## 1. Install Required Software
--   docker ce
-    -   ubuntu/debian: https://docs.docker.com/engine/install/ubuntu/
+-   docker desktop (or configure docker engine and docker-compose another way)
+    -   ubuntu/debian: https://docs.docker.com/desktop/install/linux-install/
     -   mac: https://docs.docker.com/desktop/mac/install/
     -   windows: https://docs.docker.com/desktop/install/windows-install/
         - If prompted to do so, download and install the Linux kernel update package. Complete steps 4-6 in the linked article.  
-- docker-compose [Instructions](https://docs.docker.com/compose/install/)
-    - Docker-compose file version `>3.7` are supported
-    -  Windows: Take note of docker-compose installation (installing through apt may not install the correct version)
-    - For MacOS, use docker-compose version 1.x
- ```shell
-     $ docker-compose disable-v2
- ```
      
 ### Optional Software
 
@@ -46,11 +38,8 @@ and submit a pull request to `aws/trashai-staging`
     -   ubuntu/debian/wsl2: `apt-get install build-essential`
     -   mac: `brew install make`
 
-## 2. Configure Software
-- Windows:
-    -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
-
-## 3. Install repo
+## 2. Install repo
+- Windows: Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
 
 ```shell
 cd ~/
@@ -59,9 +48,6 @@ cd code
 git clone https://github.com/code4sac/trash-ai
 ```
 
-- Windows:
-    -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
-
 ---
 
 ## Running the dev environment
@@ -69,6 +55,7 @@ git clone https://github.com/code4sac/trash-ai
 ### Using make in project root:
 -   Windows: Make local must be run from a WSL (Ubuntu) terminal
 ```shell
+cd trash-ai
 make local
 ```
 

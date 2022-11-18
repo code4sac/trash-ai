@@ -59,11 +59,10 @@ and submit a pull request to `aws/trashai-staging`
 ## Running the dev environment
 
 ### Using make in project root:
-
+-   Windows: Make local must be run from a WSL (Ubuntu) terminal
 ```
 make local
 ```
-    -   Make local must be run from a WSL (Ubuntu) terminal
 
 ---
 

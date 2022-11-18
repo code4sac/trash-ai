@@ -30,10 +30,10 @@ and submit a pull request to `aws/trashai-staging`
     -   Take note of docker-compose installation (installing through apt may not install the correct version)
 
 ## Software Requirements
-
 -   docker ce
     -   ubuntu/debian: https://docs.docker.com/engine/install/ubuntu/
     -   mac: https://docs.docker.com/desktop/mac/install/
+    -   windows: https://docs.docker.com/desktop/install/windows-install/
 - docker-compose [Instructions](https://docs.docker.com/compose/install/)
     - Docker-compose file version `>3.7` are supported
     - For MacOS, use docker-compose version 1.x

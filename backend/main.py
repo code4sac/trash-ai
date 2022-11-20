@@ -5,6 +5,7 @@ import hashlib
 import json
 import logging
 import os
+from random import randint
 from pathlib import Path
 from typing import Dict, Union
 
@@ -170,7 +171,8 @@ async def upload(
 
 @app.get("/test")
 async def test():
-    return {"message": "Hello World"}
+    rint = randint(0, 100000000)
+    return {"message": f"Hello World: {rint}"}
 
 
 

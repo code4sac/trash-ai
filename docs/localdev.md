@@ -2,7 +2,7 @@
 
 When doing local development, you can run this stack in the background and
 edit files in the `/backend` and `/frontend` directories and the environment
-with automatically update.
+with automatic update.
 
 The listening port for the web frontend defaults to `http://localhost:5150`,
 The backend is exposed via `http://localhost:4000` by default.
@@ -13,17 +13,23 @@ These values can be adjusted by editing the localdev env file [.env](../localdev
 
 ## _*IMPORTANT*_
 
-Pushing / merging PR's to any branches with a prefix of `aws/` will
-trigger deployment actions, when developing locally, create a new branch
-and submit a pull request to `aws/trashai-staging`
+It's suggested you work in branch `local` by creating your own local branch when developing
+Pushing / merging PR's to any branches with a prefix of `aws/` will trigger deployment actions
+For full functionality you will want to get a Google Maps API key and name it VITE_GOOGLE_MAPS_API_KEY, but it is not required
+=======
+
 
 ---
 # Set up 
 
 ## Operating System Requirements
 -   Linux
--   MacOS
+-   MacOS (testing)
 -   Windows using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
+    -   WSL Integration on Ubuntu must be enabled in Docker options -> Resources -> WSL Integration
+    -   Repo must be inside Ubuntu (i.e. ~/code/trash-ai)
+    -   Make local must be run from a WSL (Ubuntu) terminal
+    -   Take note of docker-compose installation (installing through apt may not install the correct version)
 
 ## 1. Install Required Software
 -   docker desktop (or configure docker engine and docker-compose another way)

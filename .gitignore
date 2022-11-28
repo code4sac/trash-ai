@@ -11,9 +11,18 @@ data
 # other
 .DS_Store
 
+#Google drive
+*.ini
+
+# R Studio
+*.Rproj
+
 **/*.pyc
 .python-version
 **/*.zip
 pyrightconfig.json
 archive/
 tmp/
+.Rproj.user
+delete.bat
+.Rhistory

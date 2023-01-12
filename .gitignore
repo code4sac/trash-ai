@@ -26,3 +26,5 @@ tmp/
 .Rproj.user
 delete.bat
 .Rhistory
+model/build/Mask*
+model/build/taco*

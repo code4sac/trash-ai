@@ -63,11 +63,14 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import * as m from '@/lib'
+
+import { log } from '@/lib/logging'
+import { useImageStore } from '@/lib/store'
+
 export default defineComponent({
     name: 'UploadControl',
     setup() {
-        const store = m.useImageStore()
+        const store = useImageStore()
         const file = ref<FileList | File[]>()
         const form = ref<HTMLInputElement>()
         return {
@@ -82,12 +85,12 @@ export default defineComponent({
             if (target.files) {
                 this.store.doupload(target.files)
             } else {
-                m.log.debug('No files selected')
+                log.debug('No files selected')
             }
         },
     },
     mounted() {
-        m.log.debug('UploadControl mounted', this.file)
+        log.debug('UploadControl mounted', this.file)
     },
 })
 </script>

@@ -18,12 +18,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
+import { SaveData } from '@/lib/models'
+
 export default defineComponent({
     name: 'Download',
     props: {
         sdata: {
-            type: [m.SaveData],
+            type: [SaveData],
             required: true,
         },
     },

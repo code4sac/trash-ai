@@ -48,11 +48,15 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
 import { toInteger } from 'lodash'
 
+import { useImageStore, useAppStore } from '@/lib/store'
+import { Display } from '@/lib/models'
+import { log } from '@/lib/logging'
+import { imagedb } from '@/lib/imagedb'
+
 interface State {
-    displays: m.Display[]
+    displays: Display[]
     nav_idx: number
 }
 
@@ -64,8 +68,8 @@ export default defineComponent({
         }
     },
     setup() {
-        const store = m.useImageStore()
-        const appstore = m.useAppStore()
+        const store = useImageStore()
+        const appstore = useAppStore()
         return {
             store,
             appstore,
@@ -135,8 +139,8 @@ export default defineComponent({
             /*     return */
             /* } */
             const hids = this.store.nav_hash_ids(idx)
-            m.log.debug('setDisplays', hids)
-            const data = await m.imagedb.savedata.bulkGet(hids)
+            log.debug('setDisplays', hids)
+            const data = await imagedb.savedata.bulkGet(hids)
             this.displays = data.map((d) => d!.display)
         },
     },

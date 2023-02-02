@@ -43,11 +43,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
+import { log } from '@/lib/logging'
+import { Display } from '@/lib/models'
 
 interface State {
     loaded: boolean
-    display: m.Display | null
+    display: Display | null
 }
 
 export default defineComponent({
@@ -67,7 +68,7 @@ export default defineComponent({
     mounted() {
         // @ts-ignore
         this.display = this.item
-        m.log.debug('item', this.display)
+        log.debug('item', this.display)
     },
 })
 </script>

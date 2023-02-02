@@ -1,7 +1,8 @@
 down:
-	docker-compose down
+	docker compose down
 
 up: down
-	docker-compose build
-	docker-compose up --remove-orphans
+
+	docker compose build
+	docker compose up --remove-orphans
 	make down

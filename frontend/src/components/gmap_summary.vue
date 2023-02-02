@@ -31,13 +31,15 @@
     </GMapMap>
 </template>
 <script lang="ts">
-import * as m from '@/lib'
+import { Summary, Coordinate, Display } from '@/lib/models'
+import { useImageStore } from '@/lib/store'
+import { imagedb } from '@/lib/imagedb'
 
 interface GmapState {
-    summary: m.Summary | null
-    center: m.Coordinate | null
-    position: m.Coordinate | null
-    items: m.Display[]
+    summary: Summary | null
+    center: Coordinate | null
+    position: Coordinate | null
+    items: Display[]
     zoom: number
     loaded: boolean
     openedMarkerID: string | null
@@ -58,7 +60,7 @@ export default defineComponent({
         }
     },
     setup() {
-        const imgstore = m.useImageStore()
+        const imgstore = useImageStore()
         return {
             imgstore,
         }
@@ -70,7 +72,7 @@ export default defineComponent({
     },
     async mounted() {
         this.summary = this.imgstore.summary
-        let dlist = await m.imagedb.savedata.bulkGet(
+        let dlist = await imagedb.savedata.bulkGet(
             this.summary.gps.list.map((g) => g.hash),
         )
         dlist.forEach((d) => {

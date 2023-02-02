@@ -1,0 +1,25 @@
+FROM python:3.9.13-slim-bullseye
+
+ARG UID=1000
+
+RUN pip3 install --upgrade pip poetry
+RUN apt-get update -y && \
+        apt-get install \
+        graphviz \
+        curl \
+        wget \
+        zip \
+        git \
+        build-essential \
+        python3-dev \
+        -y
+RUN useradd -u ${UID} -m -d /home/kaggle -s /bin/bash kaggle
+USER kaggle
+WORKDIR /home/kaggle
+COPY ./pyproject.toml .
+RUN poetry install
+USER root
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+USER kaggle
+COPY ./host_run.sh .
+CMD ["bash", "-c", "./host_run.sh"]

@@ -1,8 +1,9 @@
 import { fromEvent, Subject } from 'rxjs'
 import {
     Rect,
-    useMoveActions,
-    useNewDrawActions,
+    // issue 89 - disabling until we actually do something with classification
+    // useMoveActions,
+    // useNewDrawActions,
     useHoverHighLightActions,
     CanvasColorSchema,
     IRect,
@@ -156,8 +157,8 @@ export class DrawCanvas {
                 this.resetStyles()
                 this.redraw()
                 if (!this.is_tf) {
-                    useMoveActions(this)()
-                    useNewDrawActions(this)()
+                    // useMoveActions(this)()
+                    // useNewDrawActions(this)()
                     useHoverHighLightActions(this)()
                     this.eventSubscribe()
                 }

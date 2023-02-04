@@ -35,6 +35,8 @@
                     <div id="canvasparent" />
                 </v-col>
             </v-row>
+            <!-- 
+            issue 89-disabling classification until it's actually useful
             <v-row
                 align="center"
                 justify="center"
@@ -63,6 +65,7 @@
                     </div>
                 </Instructions>
             </v-row>
+            -->
         </v-card-text>
     </v-card>
 </template>
@@ -72,12 +75,12 @@ import { defineComponent } from 'vue'
 import { SaveData } from '@/lib/models'
 import { DrawCanvas } from '@/lib/draw'
 import { useCanvas, useAppStore } from '@/lib/store'
-import Instructions from '@/components/classify_instructions.vue'
+// import Instructions from '@/components/classify_instructions.vue'
 
 export default defineComponent({
     name: 'Classify',
     components: {
-        Instructions,
+        // Instructions,
     },
     props: {
         sdata: {

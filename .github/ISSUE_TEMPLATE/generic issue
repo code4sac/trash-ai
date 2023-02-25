@@ -1,0 +1,48 @@
+name: Generic Issue 
+description: Organized way of making actionable tasks for PMs, data scientists, leads, etc.
+title: "<title>"
+labels: 
+body:
+- type: checkboxes
+    id: Terms
+    attributes:
+      label: Guidelines
+      description: By submitting this issue, you agree to follow our [Contributing Guidelines](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+      options:
+        - label: I agree to follow this project's Contributing Guidelines.
+          required: true
+- type: checkboxes
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for this task.
+    options:
+    - label: I have searched the existing issues
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Dependencies
+    description: List any exisiting issues or outside tasks that need to get done before this task can be completed.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Overview
+    description: "We need to do X for Y reason" - concise description of the task.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Action Items
+    description: Step by Step List of all of the items that need to be done to complete this task, including research, reporting, etc.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Anything else?
+    description: |
+      Links? References? Anything that will give us more context about the task and how to accomplish it.
+
+      Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: false

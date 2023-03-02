@@ -73,8 +73,14 @@ make local
 ```shell
 cd localdev
 # need to make sure the containers are down before starting
-docker-compose down
-docker-compose up --remove-orphans --build
+docker compose down
+docker compose up --remove-orphans --build
 # down stack
-docker-compose down
+docker compose down
 ```
+
+# Troubleshooting
+
+| Error | Solution |
+| ---------- |:------------:| 
+| `docker: 'compose' is not a docker command.` | Upgrade to the latest docker desktop or update your docker-ce install to the latest version. |

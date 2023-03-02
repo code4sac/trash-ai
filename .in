@@ -1,5 +1,5 @@
 source $HOME/.config/nvm/nvm.sh
-nvm use 16.14.0
+nvm use 16
 export B=$(dirname $0)
 export O=$B/frontend.orig
 export S=$B/frontend/src

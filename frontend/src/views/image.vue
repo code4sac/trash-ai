@@ -50,29 +50,31 @@
         </v-row>
         <v-row align="center">
             <v-col>
-                <div class="d-flex">
-                    <v-spacer />
-                    <h2 class="d-inline">
-                        <Download
-                            v-if="sdata != null"
-                            :sdata="sdata"
-                        />
-                        {{ sdata?.filename }} ({{ x_of_y }})
-                    </h2>
-                    <span class="ma-2" />
-                    <DetectedObjectsSummary
-                        class="d-inline"
+                <h2 class="d-inline">
+                    <Download
+                        v-if="sdata != null"
                         :sdata="sdata"
-                        v-if="sdata"
                     />
-                    <v-spacer />
-                    <div class="align-content-end">
-                        <Thumb
-                            :item="sdata"
-                            v-if="selected_tab != 'image' && sdata != null"
-                        />
-                    </div>
-                </div>
+                    {{ sdata?.filename }} ({{ x_of_y }})
+                </h2>
+            </v-col>
+            <v-col>
+                <DetectedObjectsSummary
+                    class="d-inline"
+                    :sdata="sdata"
+                    v-if="sdata"
+                />
+            </v-col>
+            <v-col
+                align="center"
+                justify="center"
+            >
+                <v-img
+                    width="200"
+                    aspect-ratio="1"
+                    :src="sdata.smalldataUrl"
+                    v-if="selected_tab != 'image' && sdata != null"
+                />
             </v-col>
         </v-row>
         <v-card>
@@ -108,7 +110,9 @@
                         <v-row v-if="meta_has.tfmeta">
                             <v-col>
                                 <h2>Metadata</h2>
-                                <CopyButton :text="sdata?.prettyTFMeta ?? ''" />
+                                <CopyButton
+                                    :text="sdata?.prettyTFMeta ?? ''"
+                                />
                             </v-col>
                             <v-col>
                                 <pre>{{ sdata?.prettyTFMeta }}</pre>

@@ -18,6 +18,9 @@ Pushing / merging PR's to any branches with a prefix of `aws/` will trigger depl
 For full functionality you will want to get a Google Maps API key and name it VITE_GOOGLE_MAPS_API_KEY, but it is not required
 =======
 
+Pushing / merging PR's to any branches with a prefix of `aws/` will
+trigger deployment actions, when developing locally, create a new branch
+and submit a pull request to `aws/trashai-staging`
 
 ---
 # Set up 
@@ -70,8 +73,14 @@ make local
 ```shell
 cd localdev
 # need to make sure the containers are down before starting
-docker-compose down
-docker-compose up --remove-orphans --build
+docker compose down
+docker compose up --remove-orphans --build
 # down stack
-docker-compose down
+docker compose down
 ```
+
+# Troubleshooting
+
+| Error | Solution |
+| ---------- |:------------:| 
+| `docker: 'compose' is not a docker command.` | Upgrade to the latest docker desktop or update your docker-ce install to the latest version. |

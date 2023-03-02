@@ -1,6 +1,6 @@
 import Dexie from 'dexie'
-import * as m from '@/lib/models'
 import { log } from '@/lib/logging'
+import { BaseImage, SaveData } from '@/lib/models'
 
 export const dataURLtoBlob = (dataUrl: string) => {
     let arr = dataUrl!.split(','),
@@ -15,8 +15,8 @@ export const dataURLtoBlob = (dataUrl: string) => {
 }
 
 export class ImageDb extends Dexie {
-    images!: Dexie.Table<m.BaseImage, string>
-    savedata!: Dexie.Table<m.SaveData, string>
+    images!: Dexie.Table<BaseImage, string>
+    savedata!: Dexie.Table<SaveData, string>
 
     constructor() {
         super('ImageDatabase')
@@ -27,8 +27,8 @@ export class ImageDb extends Dexie {
             savedata: 'hash',
         })
 
-        db.images.mapToClass(m.BaseImage)
-        db.savedata.mapToClass(m.SaveData)
+        db.images.mapToClass(BaseImage)
+        db.savedata.mapToClass(SaveData)
     }
     async removeAll() {
         await Promise.all([

@@ -1,0 +1,41 @@
+# May need to move inside yolov5 directory once yolov5 repo has been cloned 
+
+# Train command: python train.py --data coco.yaml
+# Default dataset location is next to /yolov5:
+
+# download command/URL (optional)
+# download: bash data/scripts/get_coco.sh
+
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train: taco/train/images
+val:   taco/val/images
+test:  taco/test/images
+
+# number of classes
+nc: 64
+
+# class names
+names:  ['Aerosol', 'Aluminium foil', 'Battery',
+         'Aluminium blister pack', 'Carded blister pack',
+         'Clear plastic bottle', 'Glass bottle',
+         'Other plastic bottle', 'Plastic bottle cap',
+         'Metal bottle cap', 'Broken glass', 'Drink can',
+         'Food Can', 'Corrugated carton', 'Drink carton',
+         'Egg carton', 'Meal carton', 'Other carton',
+         'Paper cup', 'Disposable plastic cup', 'Foam cup',
+         'Glass cup', 'Other plastic cup', 'Food waste',
+         'Plastic lid', 'Metal lid', 'Magazine paper',
+         'Tissues', 'Wrapping paper', 'Normal paper',
+         'Paper bag', 'Plastified paper bag', 'Pizza box',
+         'Garbage bag', 'Single-use carrier bag',
+         'Polypropylene bag', 'Produce bag', 'Cereal bag',
+         'Bread bag', 'Plastic film', 'Crisp packet',
+         'Other plastic wrapper', 'Retort pouch',
+         'Spread tub', 'Tupperware', 'Disposable food container',
+         'Foam food container', 'Other plastic container',
+         'Plastic glooves', 'Plastic utensils', 'Pop tab',
+         'Rope & strings', 'Scrap metal', 'Shoe',
+         'Six pack rings', 'Squeezable tube', 'Plastic straw',
+         'Paper straw', 'Styrofoam piece', 'Toilet tube',
+         'Unlabeled litter', 'Glass jar', 'Other plastic',
+         'Cigarette']

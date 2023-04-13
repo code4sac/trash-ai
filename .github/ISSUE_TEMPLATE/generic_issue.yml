@@ -1,7 +1,7 @@
 name: Generic Issue
 description: Organized way of making actionable tasks for PMs, data scientists, leads, etc.
 title: "<title>"
-labels:
+labels: "needs-triage"
 body:
   - type: checkboxes
     id: Terms

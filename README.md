@@ -6,6 +6,7 @@
 
 -   Sponsor: Win Cowger, [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/)
 -   Meeting Times: Wednesdays at 6:30pm PT [Weekly Brigade Meetings](https://www.meetup.com/code4sac/)
+-   Publication Pending: [paper.md](paper.md)
 
 ### Project Summary
 

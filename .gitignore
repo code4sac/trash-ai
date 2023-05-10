@@ -28,3 +28,4 @@ delete.bat
 .Rhistory
 model/build/Mask*
 model/build/taco*
+tags

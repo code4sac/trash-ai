@@ -17,7 +17,8 @@ COPY . .
 
 # Show secret length
 RUN --mount=type=secret,id=google_api \
-  bash -c "api key length: $(cat /run/secrets/google_api | wc -c)"
+  bash -c "echo api key length: $(cat /run/secrets/google_api | wc -c)"
+
 # Build the project
 RUN --mount=type=secret,id=google_api \
   bash -c "VITE_GOOGLE_MAPS_API_KEY=$(cat /run/secrets/google_api) yarn build"

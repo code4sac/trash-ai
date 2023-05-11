@@ -3,4 +3,10 @@ services:
   frontend:
     build: .
     ports:
-      - "8080:80"
+      - "5150:5150"
+    # secrets:
+    #   - google_api
+
+# secrets:
+#   google_api:
+#     file: ./test_sec.txt

@@ -30,8 +30,8 @@ FROM nginx:1.23.3
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 80
-EXPOSE 80
+# Expose port 5150
+EXPOSE 5150
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

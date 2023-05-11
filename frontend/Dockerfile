@@ -16,7 +16,8 @@ RUN yarn install
 COPY . .
 
 # Build the project
-RUN yarn build
+RUN --mount=type=secret,id=google_api \
+  bash -c "VITE_GOOGLE_MAPS_API_KEY=$(cat /run/secrets/google_api) yarn build"
 
 # Stage 2: Serve the built project with Nginx
 FROM nginx:1.23.3

@@ -28,9 +28,9 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v4
-        env:
-          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
         with:
+          secrets: |
+            google_api=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
           context: frontend
           push: true
           tags: code4sac/trashai:latest

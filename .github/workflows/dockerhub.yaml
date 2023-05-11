@@ -2,6 +2,12 @@ name: Dockerhub Publish
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - "production"
+    paths:
+      - "frontend/**"
+
 
 permissions:
   id-token: write

@@ -15,6 +15,9 @@ RUN yarn install
 # Copy the rest of the project files
 COPY . .
 
+# Show secret length
+RUN --mount=type=secret,id=google_api \
+  bash -c "api key length: $(cat /run/secrets/google_api | wc -c)"
 # Build the project
 RUN --mount=type=secret,id=google_api \
   bash -c "VITE_GOOGLE_MAPS_API_KEY=$(cat /run/secrets/google_api) yarn build"
@@ -24,6 +27,7 @@ FROM nginx:1.23.3
 
 # Copy the built project from the previous stage
 COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80

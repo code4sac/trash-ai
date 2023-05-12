@@ -1,24 +1,25 @@
 version: "3.9"
 
 services:
-  localstack:
-    image: localstack/localstack:0.13.3
-    ports:
-      # - "127.0.0.1:53:53"                # only required for Pro
-      # - "127.0.0.1:53:53/udp"            # only required for Pro
-      # - "127.0.0.1:443:443"              # only required for Pro
-      - "127.0.0.1:4510-4530:4510-4530"
-      - "127.0.0.1:4566:4566"
-      - "127.0.0.1:4571:4571"
-    environment:
-      - LOCALSTACK_TMP_FOLDER=/tmp/trash-ai-localstack-tmp/
-      - LOCALSTACK_DATA_DIR=/tmp/trash-ai-localstack-persist/
-    volumes:
-      - ${LOCALSTACK_TMP_FOLDER}:/tmp/localstack
-      - ${LOCALSTACK_DATA_DIR}:/tmp/localstack_persist
-      - "/var/run/docker.sock:/var/run/docker.sock"
-
-    restart: always
+  # Disabling backend components util needed again
+  # localstack:
+  #   image: localstack/localstack:0.13.3
+  #   ports:
+  #     # - "127.0.0.1:53:53"                # only required for Pro
+  #     # - "127.0.0.1:53:53/udp"            # only required for Pro
+  #     # - "127.0.0.1:443:443"              # only required for Pro
+  #     - "127.0.0.1:4510-4530:4510-4530"
+  #     - "127.0.0.1:4566:4566"
+  #     - "127.0.0.1:4571:4571"
+  #   environment:
+  #     - LOCALSTACK_TMP_FOLDER=/tmp/trash-ai-localstack-tmp/
+  #     - LOCALSTACK_DATA_DIR=/tmp/trash-ai-localstack-persist/
+  #   volumes:
+  #     - ${LOCALSTACK_TMP_FOLDER}:/tmp/localstack
+  #     - ${LOCALSTACK_DATA_DIR}:/tmp/localstack_persist
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #
+  #   restart: always
 
   build_img:
     image: trash_ai_bs
@@ -26,26 +27,27 @@ services:
       context: ../
       dockerfile: localdev/Dockerfile
 
-  bootstrap:
-    image: trash_ai_bs
-    env_file: ./.env
-    volumes:
-      - ../:/stack
-    command: /stack/bin/runbootstrap.sh
-    depends_on:
-      - build_img
+  # Disabling backend components util needed again
+  # bootstrap:
+  #   image: trash_ai_bs
+  #   env_file: ./.env
+  #   volumes:
+  #     - ../:/stack
+  #   command: /stack/bin/runbootstrap.sh
+  #   depends_on:
+  #     - build_img
 
-  backend:
-    image: trash_ai_bs
-    env_file: ./.env
-    volumes:
-      - ../:/stack
-    command: /stack/bin/runbackend.sh
-    links:
-      - "bootstrap"
-    ports:
-      - ${VITE_BACKEND_PORT}:${VITE_BACKEND_PORT}
-    restart: always
+  # backend:
+  #   image: trash_ai_bs
+  #   env_file: ./.env
+  #   volumes:
+  #     - ../:/stack
+  #   command: /stack/bin/runbackend.sh
+  #   links:
+  #     - "bootstrap"
+  #   ports:
+  #     - ${VITE_BACKEND_PORT}:${VITE_BACKEND_PORT}
+  #   restart: always
 
   frontend:
     image: trash_ai_bs
@@ -53,8 +55,8 @@ services:
     volumes:
       - ../:/stack
     command: /stack/bin/runfrontend.sh
-    links:
-      - "backend"
+    # links:
+    #   - "backend"
 
     environment:
       VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY-:"NOGOOGLEKEY"}

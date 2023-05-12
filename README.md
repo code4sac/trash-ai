@@ -45,11 +45,6 @@ docker cp $id:/usr/share/nginx/html /var/www/html
 docker rm -v $id
 ```
 
-### [Run Local Docker Instance](https://hub.docker.com/r/code4sac/trashai)
-```
-docker run -p 5150:5150 -it code4sac/trashai:latest
-```
-
 ### [Local Development](./docs/localdev.md)
 
 -   Run the environment live with localstack and docker.

@@ -19,6 +19,11 @@ Trash AI is a web application where users can upload photos of litter, which wil
 
 You can simply go to www.trashai.org to start using the tool or deploy it yourself. Current self-deployment options are local deployment with docker to remote on Amazon Web Services (AWS). 
 
+### [Run Local Docker Instance](https://hub.docker.com/r/code4sac/trashai)
+```
+docker run -p 5150:5150 -it code4sac/trashai:latest
+```
+
 ### [Local Development](./docs/localdev.md)
 
 - Run the environment live with localstack and docker.

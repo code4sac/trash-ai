@@ -4,7 +4,8 @@ IFS=$'\n\t'
 
 export PATH="$PATH:/node_modules/.bin:/stack/bin:node_modules/.bin"
 
-wait-for-it.sh -t 300 -h backend -p 4000
+# Disabling until backend is needed
+# wait-for-it.sh -t 300 -h backend -p 4000
 cd /stack/frontend
 while true; do
     yarn

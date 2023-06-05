@@ -26,7 +26,17 @@ You can simply go to www.trashai.org to start using the tool or deploy it yourse
 docker run -p 5150:5150 -it code4sac/trashai:latest
 ```
 
-Navigate to to http://localhost:5150
+Navigate to http://localhost:5150
+
+If you are attempting to run on an Apple Silicon device, you might get the following error:
+
+`docker: no matching manifest for linux/arm64/v8 in the manifest list entries.`
+
+This can be remedied by specifying the build platform.
+
+```
+docker run --platform linux/x86_64 -p 5150:5150 -it code4sac/trashai:latest
+```
 
 ### Deploy to Any Webserver
 

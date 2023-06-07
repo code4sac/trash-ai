@@ -23,7 +23,7 @@ To setup for local training run the following.
 
 ### `yolov5-taco-run-against-downloaded.ipynb` 
 
-Unpacks the `yolov5-taco.zip` and the `tacotrashdataset.zip`
+Unpacks the `yolov5-taco.zip` and the `tacotrashdataset.zip` into their respective folders.
 
 
 ### `yolov5-taco-train-new.ipynb`

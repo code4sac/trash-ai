@@ -28,6 +28,15 @@ Unpacks the `yolov5-taco.zip` and the `tacotrashdataset.zip`
 
 ### `yolov5-taco-train-new.ipynb`
 
-Prepares the dataset and trains a model on the entire datset. *Warning: Training takes a long time.*
+Prepares the dataset and trains a model on the entire datset. 
+*Warning: Training takes a long time.*
+
+### Requirements
+
+To run this you need the following to be installed on your local system.
+
+- Docker-Desktop
+
+- Python   
 
 

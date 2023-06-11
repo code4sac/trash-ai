@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:14.18-buster
+FROM --platform=linux/amd64 node:16.16-buster
 
 # Set this to whatever your local user id is
 ENV USER_ID=1000

@@ -32,7 +32,7 @@
         "rxjs": "^7.5.7",
         "ts-exif-parser": "^0.2.2",
         "vite-plugin-pages": "^0.25.0",
-        "vite-plugin-vuetify": "^1.0.0-alpha.13",
+        "vite-plugin-vuetify": "^1.0.2",
         "vue": "^3.2.37",
         "vue-clipboard3": "^2.0.0",
         "vue-inner-image-zoom": "^2.0.0",

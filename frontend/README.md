@@ -20,5 +20,10 @@ yarn build
 yarn lint
 ```
 
+### Run Cypress Tests
+```
+yarn run cypress open
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

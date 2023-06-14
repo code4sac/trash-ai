@@ -16,6 +16,7 @@
                 <v-app-bar-nav-icon
                     v-if="is_mobile"
                     variant="text"
+                    id="menu-button-test-id"
                     @click.stop="drawer = !drawer"
                 />
 

@@ -24,6 +24,7 @@
                 >
                     <v-tab
                         value="image"
+                        id="image-tab-test-id"
                         :class="tclass('image')"
                     >
                         <v-icon start> mdi-image </v-icon>
@@ -31,6 +32,7 @@
                     </v-tab>
                     <v-tab
                         value="meta"
+                        id="meta-tab-test-id"
                         v-if="meta_has.meta"
                         :class="tclass('meta')"
                     >

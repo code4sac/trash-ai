@@ -81,7 +81,7 @@
                             v-for="(det, idx) in detections"
                             :key="'det' + idx"
                         >
-                            <v-col>
+                            <v-col :id="det.name + '-test-id'">
                                 <router-link
                                     style="color: inherit"
                                     :to="{

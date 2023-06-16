@@ -2,14 +2,20 @@
 
 ## Automatic Tests 
 
+### Scenarios
 1. Does the landing pag load?
-
 2. On hitting show samples, does processing complete in an expected amount of time? Does it show all the results expected?
-
 3. After recieving results, can you click an image and does the page show the expected data/metadata/etc?
-
 4. After recieving results, does the summary page contain the correct data?
 
+## How to run
+
+1. Navigate to `frontend/`
+2. Run `yarn install`
+2. Spin up docker container
+`docker-compose up`
+3. Run the auto tests
+`yarn run jest`
 
 ## Manual Tests
 

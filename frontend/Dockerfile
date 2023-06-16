@@ -1,7 +1,7 @@
 # Dockerfile for trash-ai frontend
 
 # Stage 1: Build the project
-FROM node:16.12.0 as builder
+FROM node:16.20.0 as builder
 
 # Set the working directory
 WORKDIR /app

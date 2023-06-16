@@ -106,18 +106,20 @@
                                 <CopyButton :text="sdata?.prettyExif ?? ''" />
                             </v-col>
                             <v-col>
-                                <pre>{{ sdata?.prettyExif }}</pre>
+                                <pre id="exifData-test-id">{{
+                                    sdata?.prettyExif
+                                }}</pre>
                             </v-col>
                         </v-row>
                         <v-row v-if="meta_has.tfmeta">
                             <v-col>
                                 <h2>Metadata</h2>
-                                <CopyButton
-                                    :text="sdata?.prettyTFMeta ?? ''"
-                                />
+                                <CopyButton :text="sdata?.prettyTFMeta ?? ''" />
                             </v-col>
                             <v-col>
-                                <pre>{{ sdata?.prettyTFMeta }}</pre>
+                                <pre id="metaData-test-id">{{
+                                    sdata?.prettyTFMeta
+                                }}</pre>
                             </v-col>
                         </v-row>
                     </v-container>

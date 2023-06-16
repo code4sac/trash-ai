@@ -81,9 +81,10 @@
                             v-for="(det, idx) in detections"
                             :key="'det' + idx"
                         >
-                            <v-col :id="det.name + '-test-id'">
+                            <v-col>
                                 <router-link
                                     style="color: inherit"
+                                    :id="det.name + '-test-id'"
                                     :to="{
                                         name: 'detection',
                                         params: { name: det.name },
@@ -189,7 +190,7 @@ export default defineComponent({
                 name: 'detection',
                 params: {
                     idx: idx,
-                    name: det_name,
+                    name: det_name.replace(' ', '-'),
                 },
             })
         },

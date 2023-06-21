@@ -16,6 +16,7 @@
                 <v-app-bar-nav-icon
                     v-if="is_mobile"
                     variant="text"
+                    id="menu-button-test-id"
                     @click.stop="drawer = !drawer"
                 />
 
@@ -98,12 +99,13 @@
                         @click="$router.push({ name: 'about' })"
                         :active="isactive('about')"
                     >
-                        <v-list-item-title>
+                        <v-list-item-title id="about-tab-test-id">
                             <v-icon class="mr-4">mdi-information</v-icon>
                             <span>About</span>
                         </v-list-item-title>
                     </v-list-item>
                     <v-list-item
+                        id="uploads-tab-test-id"
                         @click="
                             $router.push({
                                 name: 'uploads',
@@ -126,7 +128,7 @@
                         "
                         :active="isactive('summary')"
                     >
-                        <v-list-item-title>
+                        <v-list-item-title id="summary-tab-test-id">
                             <v-icon class="mr-4">
                                 mdi-book-open-variant
                             </v-icon>

@@ -31,9 +31,9 @@ jobs:
           aws-session-token: ${{ github.event.inputs.AWS_SESSION_TOKEN }}
           aws-region: ${{ github.event.inputs.AWS_REGION }}
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "16"
 
       - run: yarn
         working-directory: ./infra

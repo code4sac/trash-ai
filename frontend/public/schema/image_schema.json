@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "hash": { "type": "string" },
+        "filename": { "type": "string" },
+        "exifdata": {
+            "type": "object",
+            "properties": {
+                "Make": { "type": "string" },
+                "Model": { "type": "string" },
+                "DateTimeOriginal": { "type": "integer" },
+                "ModifyDate": { "type": "integer" },
+                "CreateDate": { "type": "integer" },
+                "GPSLatitudeRef": { "type": "string" },
+                "GPSLatitude": { "type": "number" },
+                "GPSLongitudeRef": { "type": "string" },
+                "GPSLongitude": { "type": "number" },
+                "GPSAltitudeRef": { "type": "integer" },
+                "GPSAltitude": { "type": "number" },
+                "GPSTimeStamp": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                },
+                "GPSDateStamp": { "type": "string" },
+                "ExifImageWidth": { "type": "integer" },
+                "ExifImageHeight": { "type": "integer" }
+            },
+            "required": [
+                "Make",
+                "Model",
+                "DateTimeOriginal",
+                "ModifyDate",
+                "CreateDate",
+                "GPSLatitudeRef",
+                "GPSLatitude",
+                "GPSLongitudeRef",
+                "GPSLongitude",
+                "GPSAltitudeRef",
+                "GPSAltitude",
+                "GPSTimeStamp",
+                "GPSDateStamp",
+                "ExifImageWidth",
+                "ExifImageHeight"
+            ]
+        },
+        "metadata": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "score": { "type": "string" },
+                    "correction": { "type": "string" },
+                    "remove": { "type": "boolean" },
+                    "is_tf": { "type": "boolean" },
+                    "id": { "type": "string" },
+                    "label": { "type": "string" },
+                    "area": {
+                        "type": "object",
+                        "properties": {
+                            "x1": { "type": "number" },
+                            "y1": { "type": "number" },
+                            "x2": { "type": "number" },
+                            "y2": { "type": "number" }
+                        },
+                        "required": ["x1", "y1", "x2", "y2"]
+                    }
+                },
+                "required": [
+                    "score",
+                    "correction",
+                    "remove",
+                    "is_tf",
+                    "id",
+                    "label",
+                    "area"
+                ]
+            }
+        }
+    },
+    "required": ["hash", "filename", "exifdata", "metadata"]
+}

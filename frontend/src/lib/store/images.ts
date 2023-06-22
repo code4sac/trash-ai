@@ -1,25 +1,25 @@
-import { imagedb, dataURLtoBlob } from '@/lib/imagedb'
-import { saveAs } from 'file-saver'
-import TensorFlow from '@/lib/tensorflow'
-import JSZip from 'jszip'
-import lodash from 'lodash'
-import { defineStore } from 'pinia'
-import type { _GettersTree } from 'pinia'
-import { log } from '@/lib/logging'
-import PQueue from 'p-queue'
 import { DrawCanvas } from '@/lib/draw'
-import { resizeImage } from '@/lib/util'
+import { dataURLtoBlob, imagedb } from '@/lib/imagedb'
+import { log } from '@/lib/logging'
 import {
-    Display,
-    Progress,
-    Capacity,
-    Summary,
-    PAGE_SIZE,
-    StorageCapacity,
     BaseImage,
+    Capacity,
+    Display,
+    PAGE_SIZE,
+    Progress,
     SaveData,
+    StorageCapacity,
+    Summary,
     TrashObject,
 } from '@/lib/models'
+import TensorFlow from '@/lib/tensorflow'
+import { getStaticFiles, resizeImage } from '@/lib/util'
+import { saveAs } from 'file-saver'
+import JSZip from 'jszip'
+import lodash from 'lodash'
+import PQueue from 'p-queue'
+import type { _GettersTree } from 'pinia'
+import { defineStore } from 'pinia'
 
 let initialized = false
 
@@ -133,30 +133,21 @@ export const useImageStore = defineStore<
             this.capacity = await StorageCapacity.getCapacity()
         },
         async do_sampleupload() {
-            const sample_files = async () => {
-                const files = [
-                    'sample01.jpg',
-                    'sample02.jpg',
-                    'sample03.jpg',
-                    'sample05.jpg',
-                    'sample06.jpg',
-                    'sample07.jpg',
-                    'sample08.jpg',
-                ]
-                const retval = []
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i]
-                    const url = `/samples/${file}`
-                    const blob = await fetch(url).then((r) => r.blob())
-                    retval.push(
-                        new File([blob], file, {
-                            type: blob.type,
-                        }),
-                    )
-                }
-                return retval
-            }
-            const files = await sample_files()
+            const blobs = await getStaticFiles([
+                '/samples/sample01.jpg',
+                '/samples/sample02.jpg',
+                '/samples/sample03.jpg',
+                '/samples/sample05.jpg',
+                '/samples/sample06.jpg',
+                '/samples/sample07.jpg',
+                '/samples/sample08.jpg',
+            ])
+            const files = blobs.map(
+                (f) =>
+                    new File([f.blob], f.filePath.substring(9), {
+                        type: f.blob.type,
+                    }),
+            )
             await this.doupload(files)
         },
 
@@ -325,7 +316,21 @@ export const useImageStore = defineStore<
             const zp = this.zip
 
             return new Promise(async (resolve) => {
-                zp.total = await imagedb.savedata.count()
+                const schemaFilePaths = [
+                    '/schema/image_schema.json',
+                    '/schema/image_schema.md',
+                    '/schema/summary_schema.json',
+                    '/schema/summary_schema.md',
+                ]
+
+                zp.total =
+                    (await imagedb.savedata.count()) + schemaFilePaths.length
+
+                const schemaFiles = await getStaticFiles(schemaFilePaths)
+                schemaFiles.map((r) =>
+                    folder!.file(r.filePath.substring(1), r.blob),
+                )
+
                 await imagedb.savedata.each((image: SaveData) => {
                     zp.current = image.filename ?? ''
                     const blob = dataURLtoBlob(image!.processeddataUrl!)

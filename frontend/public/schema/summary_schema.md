@@ -14,9 +14,9 @@
 
 **gps** (Object): An object that contains GPS information with the following properties:
 
-**list** (Array): An array of objects where each object represents a GPS location with the following properties:
+- **list** (Array): An array of objects where each object represents a GPS location with the following properties:
 
--   **coordinate** (Object): An object that contains the GPS coordinates with the following properties:
--   **lat** (Number): The latitude of the location.
--   **lng** (Number): The longitude of the location.
--   **hash** (String): A hash associated with the location.
+  - **coordinate** (Object): An object that contains the GPS coordinates with the following properties:
+  - **lat** (Number): The latitude of the location.
+  - **lng** (Number): The longitude of the location.
+  - **hash** (String): A hash associated with the location.

@@ -101,7 +101,6 @@ export const invertImageData = (data: ImageData) => {
     return data
 }
 
-
 export function Timer(callback: Function, time: number) {
     // @ts-ignore
     this.setTimeout(callback, time)
@@ -129,3 +128,12 @@ Timer.prototype.add = function (time: number) {
         this.setTimeout(this.callback, time)
     }
 }
+
+export const getStaticFiles = (filePaths: string[]) =>
+    Promise.all(
+        filePaths.map((path) =>
+            fetch(path)
+                .then((r) => r.blob())
+                .then((blob) => ({ filePath: path, blob })),
+        ),
+    )

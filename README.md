@@ -34,5 +34,8 @@ You can simply go to www.trashai.org to start using the tool or deploy it yourse
 
 - Runs the complex stuff so you don't have to.
 
+### Tests
+Instructions for automated and manual tests [here](https://github.com/code4sac/trash-ai/tree/production/frontend/__tests__). 
+
 ## Contribute
 We welcome contributions of all kinds. To get started, open an [issue](https://github.com/code4sac/trash-ai/issues) or [pull request](https://github.com/code4sac/trash-ai/pulls). Here are some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/). Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).

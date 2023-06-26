@@ -1,0 +1,55 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "detected_objects": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "count": { "type": "integer", "minimum": 0 },
+                    "hashes": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["name", "count", "hashes"]
+            }
+        },
+        "no_detection_hashes": {
+            "type": "array",
+            "items": { "type": "string" }
+        },
+        "unique_detections": { "type": "integer", "minimum": 0 },
+        "total_detections": { "type": "integer", "minimum": 0 },
+        "gps": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coordinate": {
+                                "type": "object",
+                                "properties": {
+                                    "lat": { "type": "number" },
+                                    "lng": { "type": "number" }
+                                },
+                                "required": ["lat", "lng"]
+                            },
+                            "hash": { "type": "string" }
+                        },
+                        "required": ["coordinate", "hash"]
+                    }
+                }
+            },
+            "required": ["list"]
+        }
+    },
+    "required": [
+        "detected_objects",
+        "no_detection_hashes",
+        "unique_detections",
+        "total_detections",
+        "gps"
+    ]
+}

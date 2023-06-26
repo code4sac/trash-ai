@@ -1,6 +1,9 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
-    <div class="mx-0 border">
-        <div class="ml-3">
+    <div
+        class="mx-0 border"
+    >
+        <div class="ml-3" :id="item.filename + '-test-id'">
             <b>{{ item.filename }}</b>
         </div>
         <v-divider

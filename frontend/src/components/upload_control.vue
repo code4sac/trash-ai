@@ -15,6 +15,7 @@
             <template v-slot:activator="menu">
                 <v-btn
                     color="primary"
+                    id="actions-button-test-id"
                     v-bind="menu.props"
                     block
                 >
@@ -26,6 +27,7 @@
             <v-card>
                 <div
                     class="d-flex justify-space-between menu-btn-a"
+                    id="upload-samples-test-id"
                     @click="form.click()"
                 >
                     <v-icon class="justify-start"> mdi-upload </v-icon>
@@ -33,6 +35,7 @@
                 </div>
                 <div
                     class="d-flex justify-space-between menu-btn-b"
+                    id="show-samples-test-id"
                     v-if="!store.hash_ids.length > 0"
                     @click="store.do_sampleupload"
                 >
@@ -41,6 +44,7 @@
                 </div>
                 <div
                     class="d-flex justify-space-between menu-btn-a"
+                    id="download-samples-test-id"
                     v-if="store.hash_ids.length > 0"
                     @click="store.download_all"
                 >
@@ -51,6 +55,7 @@
                 </div>
                 <div
                     class="d-flex justify-space-between menu-btn-d"
+                    id="clear-samples-test-id"
                     v-if="store.hash_ids.length > 0"
                     @click="store.clear"
                 >

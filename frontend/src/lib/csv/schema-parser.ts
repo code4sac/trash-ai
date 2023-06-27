@@ -1,6 +1,12 @@
 import { JSONSchema7Definition } from 'json-schema'
 import { MapJsonProperties } from './types'
 
+/**
+ * Traverses json schema objects and reduces them into a flat array using
+ * a passed in mapping function.
+ * 
+ * Currently this function only finds objects and arrays, and assumes arrays all have a single type
+ */
 export const flatMapPropertiesRecursive =
     <T>(fn: MapJsonProperties<T>, pathJoinStr: string = '_') =>
     (props: Record<string, JSONSchema7Definition>, path?: string) =>

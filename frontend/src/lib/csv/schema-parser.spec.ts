@@ -73,7 +73,8 @@ describe('csv', () => {
             ]),
         )(obj)
         expect(csv).toEqual(
-            '1,apple,gala,false\n' +
+            'id,fruit,cultivar,inSeason\n' +
+                '1,apple,gala,false\n' +
                 '1,apple,red delicious,true\n' +
                 '1,pear,bosc,false\n' +
                 '1,pear,bartlett,true',

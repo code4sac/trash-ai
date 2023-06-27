@@ -24,6 +24,11 @@ export const objectToCsv =
         return [headers, ...csvData].map((row) => row.join(joinStr)).join('\n')
     }
 
+/**
+ * Traverses a json schema object and returns a flat array
+ * representing the keys of all objects and subobjects.
+ * Maintains nesting representation by joining keys together with '.'
+ */
 export const getCsvHeadersFromJsonSchema = (
     jsonSchema: JSONSchema7Definition,
 ) => {

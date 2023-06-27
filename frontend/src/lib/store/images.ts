@@ -15,11 +15,14 @@ import {
 import TensorFlow from '@/lib/tensorflow'
 import { getStaticFiles, resizeImage } from '@/lib/util'
 import { saveAs } from 'file-saver'
+import { JSONSchema7 } from 'json-schema'
 import JSZip from 'jszip'
 import lodash from 'lodash'
 import PQueue from 'p-queue'
 import type { _GettersTree } from 'pinia'
 import { defineStore } from 'pinia'
+import { getCsvHeadersFromJsonSchema, objectToCsv } from '../csv/csv'
+import * as summarySchema from './summary_schema.json'
 
 let initialized = false
 
@@ -309,12 +312,12 @@ export const useImageStore = defineStore<
             const bname = `trash-ai-images-${datestr}-${ts}`
             const zname = `${bname}.zip`
             const folder = zip.folder(bname)
-            // summary
-            const sname = `summary.json`
-            const summary = JSON.stringify(this.summary)
-            folder!.file(sname, summary)
-            const zp = this.zip
 
+            generateSummaryFiles(this.summary).map(([fileName, data]) =>
+                folder!.file(fileName, data),
+            )
+
+            const zp = this.zip
             return new Promise(async (resolve) => {
                 const schemaFilePaths = [
                     '/schema/image_schema.json',
@@ -368,3 +371,48 @@ export const useImageStore = defineStore<
         },
     },
 })
+
+const generateSummaryFiles = (summary: Summary) => {
+    const files: [string, string][] = []
+    // summary json
+    files.push(['summary.json', JSON.stringify(summary)])
+
+    // summary totals csv
+    const sTotalsHeaders = ['total_detections', 'unique_detections']
+    const summaryTotalsCsv = objectToCsv(sTotalsHeaders, (o: Summary) => [
+        [o.total_detections, o.unique_detections],
+    ])(summary)
+    files.push(['summary_totals.csv', summaryTotalsCsv])
+
+    // summary detected objects csv
+    const detectedHeaders = getCsvHeadersFromJsonSchema(
+        summarySchema.properties.detected_objects as JSONSchema7,
+    )
+    const detectedCsv = objectToCsv(
+        detectedHeaders,
+        (obj: Summary) =>
+            obj.detected_objects.map((v) => [
+                v.name,
+                v.count,
+                v.hashes.join(','),
+            ]),
+        ';',
+    )(summary)
+    files.push(['summary_detected.csv', detectedCsv])
+
+    // summary gps objects csv
+    if (summary.gps.list.length > 0) {
+        const gpsHeaders = getCsvHeadersFromJsonSchema(
+            summarySchema.properties.gps.properties.list.items as JSONSchema7,
+        )
+        const gpsCsv = objectToCsv(gpsHeaders, (obj: Summary) =>
+            obj.gps.list.map((v) => [
+                v?.coordinate?.lat ?? '',
+                v?.coordinate?.lng ?? '',
+                v.hash,
+            ]),
+        )(summary)
+        files.push(['summary_gps.csv', gpsCsv])
+    }
+    return files
+}

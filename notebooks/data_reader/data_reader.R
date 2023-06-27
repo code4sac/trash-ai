@@ -34,17 +34,6 @@ flattened_images <- lapply(1:length(image_json), function(i){
 }) |>
     rbindlist()
 
-for(i in 1:length(image_json)){
-    print(i)
-    data.frame(hash = image_json[[i]]$hash, 
-               filename = image_json[[i]]$filename, 
-               datetime = if(length(image_json[[i]]$exifdata) > 0){image_json[[i]]$exifdata$DateTimeOriginal} else{NA}, 
-               latitude = if(length(image_json[[i]]$exifdata) > 0){image_json[[i]]$exifdata$GPSLatitude} else{NA}, 
-               longitude = if(length(image_json[[i]]$exifdata) > 0){image_json[[i]]$exifdata$GPSLongitude} else{NA}, 
-               score = if(length(image_json[[i]]$metadata) > 0){image_json[[i]]$metadata$score} else{NA}, 
-               label = if(length(image_json[[i]]$metadata) > 0){image_json[[i]]$metadata$label} else{NA})
-}
-
 
 #Figure creation ----
 ggplot(flattened_summary, aes(y = reorder(name, count), x = count, fill = name)) +

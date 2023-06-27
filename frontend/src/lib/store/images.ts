@@ -256,7 +256,6 @@ export const useImageStore = defineStore<
                             })
                         if (s == undefined) {
                             s = new TrashObject(meta.label ?? '')
-                            s.count++
                             this.summary.detected_objects.push(s)
                         }
 

@@ -54,9 +54,8 @@
         <h2>Disclaimer about uploaded images</h2>
         <p>
             The current version of Trash AI and the model we are using is just a
-            start! When you upload an image, we are storing the image and the
-            classification in an effort to expand the trash dataset and improve
-            the model over time.
+            start! The tool works best for images of individual pieces of trash imaged less than 1 meter away from the camera. 
+            We are looking for collaborators who can help us improve this project.
         </p>
 
         <h2>Reporting issues and improvements</h2>

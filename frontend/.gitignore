@@ -23,3 +23,4 @@ pnpm-debug.log*
 *.sln
 *.sw?
 .log
+package-lock.json

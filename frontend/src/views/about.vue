@@ -23,6 +23,10 @@
             To get started, visit the Upload Tab or
             <a href="/uploads/0">click here</a>.
         </p>
+        <h2>Tutorial</h2>
+        <p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/u0DxGrbPOC0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </p>
 
         <h2>What is it?</h2>
         <p>

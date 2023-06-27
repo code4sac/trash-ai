@@ -1,6 +1,9 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
-    <div class="mx-0 border">
-        <div class="ml-3">
+    <div
+        class="mx-0 border"
+    >
+        <div class="ml-3" :id="item.filename + '-test-id'">
             <b>{{ item.filename }}</b>
         </div>
         <v-divider
@@ -43,11 +46,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
+import { log } from '@/lib/logging'
+import { Display } from '@/lib/models'
 
 interface State {
     loaded: boolean
-    display: m.Display | null
+    display: Display | null
 }
 
 export default defineComponent({
@@ -67,7 +71,7 @@ export default defineComponent({
     mounted() {
         // @ts-ignore
         this.display = this.item
-        m.log.debug('item', this.display)
+        log.debug('item', this.display)
     },
 })
 </script>

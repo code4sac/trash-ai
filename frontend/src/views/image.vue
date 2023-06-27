@@ -1,6 +1,6 @@
 <template>
     <Busy v-if="!loaded" />
-    <div v-if="loaded">
+    <div v-else>
         <v-row align="center">
             <v-col
                 align="center"
@@ -24,6 +24,7 @@
                 >
                     <v-tab
                         value="image"
+                        id="image-tab-test-id"
                         :class="tclass('image')"
                     >
                         <v-icon start> mdi-image </v-icon>
@@ -31,6 +32,7 @@
                     </v-tab>
                     <v-tab
                         value="meta"
+                        id="meta-tab-test-id"
                         v-if="meta_has.meta"
                         :class="tclass('meta')"
                     >
@@ -49,36 +51,32 @@
             </v-col>
         </v-row>
         <v-row align="center">
-            <v-col
-                align="center"
-                justify="center"
-            >
-                <h2>
+            <v-col>
+                <h2 class="d-inline">
                     <Download
                         v-if="sdata != null"
                         :sdata="sdata"
                     />
                     {{ sdata?.filename }} ({{ x_of_y }})
                 </h2>
-                <Thumb
-                    :item="sdata"
+            </v-col>
+            <v-col>
+                <DetectedObjectsSummary
+                    class="d-inline"
+                    :sdata="sdata"
+                    v-if="sdata"
+                />
+            </v-col>
+            <v-col
+                align="center"
+                justify="center"
+            >
+                <v-img
+                    width="200"
+                    aspect-ratio="1"
+                    :src="sdata.smalldataUrl"
                     v-if="selected_tab != 'image' && sdata != null"
                 />
-                <br v-if="selected_tab != 'image'" />
-                <v-chip
-                    v-for="(obj, idx) in sdata?.detectedObjects"
-                    :key="'dobj' + idx"
-                >
-                    <router-link
-                        :to="{ name: 'detection', params: { name: obj } }"
-                    >
-                        {{ obj }}
-                    </router-link>
-                </v-chip>
-                <div
-                    class="mt-5"
-                    v-if="sdata?.detectedObjects.length === 0"
-                ></div>
             </v-col>
         </v-row>
         <v-card>
@@ -90,9 +88,9 @@
                             justify="center"
                             v-if="sdata != null"
                         >
-                            <InnerImageZoom
-                                :src="sdata?.smalldataUrl"
-                                :zoomSrc="sdata?.processeddataUrl"
+                            <Classify
+                                :sdata="sdata"
+                                v-if="sdata"
                             />
                         </v-col>
                     </v-row>
@@ -108,21 +106,20 @@
                                 <CopyButton :text="sdata?.prettyExif ?? ''" />
                             </v-col>
                             <v-col>
-                                <pre>{{ sdata?.prettyExif }}</pre>
+                                <pre id="exifData-test-id">{{
+                                    sdata?.prettyExif
+                                }}</pre>
                             </v-col>
                         </v-row>
-                        <v-divider
-                            class="my-5"
-                            thickness="10"
-                            v-if="meta_has.tfmeta"
-                        />
                         <v-row v-if="meta_has.tfmeta">
                             <v-col>
                                 <h2>Metadata</h2>
                                 <CopyButton :text="sdata?.prettyTFMeta ?? ''" />
                             </v-col>
                             <v-col>
-                                <pre>{{ sdata?.prettyTFMeta }}</pre>
+                                <pre id="metaData-test-id">{{
+                                    sdata?.prettyTFMeta
+                                }}</pre>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -149,12 +146,15 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
 import { toInteger } from 'lodash'
 
+import { SaveData, Display } from '@/lib/models'
+import { useImageStore, useAppStore } from '@/lib/store'
+import { imagedb } from '@/lib/imagedb'
+
 interface Data {
-    sdata: m.SaveData | null
-    display: m.Display | null
+    sdata: SaveData | null
+    display: Display | null
     loaded: boolean
     selected_tab: string
     selected_idx: number
@@ -177,8 +177,8 @@ export default defineComponent({
         }
     },
     setup() {
-        const store = m.useImageStore()
-        const appstore = m.useAppStore()
+        const store = useImageStore()
+        const appstore = useAppStore()
         return {
             store,
             appstore,
@@ -220,6 +220,13 @@ export default defineComponent({
         },
     },
     computed: {
+        ostyle() {
+            return {
+                left: `${this.appstore.highlight_image.x!}px`,
+                top: `${this.appstore.highlight_image.y!}px`,
+                position: 'sticky',
+            }
+        },
         vpage: {
             get() {
                 return this.selected_idx + 1
@@ -251,7 +258,7 @@ export default defineComponent({
             this.selected_tab = this.$route.params.tab
             this.selected_idx = toInteger(this.$route.params.idx)
             const hid = this.store.hash_ids[this.selected_idx]
-            this.sdata = (await m.imagedb.savedata.get(hid)) ?? null
+            this.sdata = (await imagedb.savedata.get(hid)) ?? null
             this.display = this.sdata!.display
             this.appstore.setTitle(`${this.sdata?.filename}`)
             this.loaded = true

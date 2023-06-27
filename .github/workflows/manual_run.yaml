@@ -59,9 +59,9 @@ jobs:
                   role-to-assume: ${{ secrets.AWS_ROLE }}
                   aws-region: ${{ steps.setregion.outputs.aws-region }}
 
-            - uses: actions/setup-node@v2
+            - uses: actions/setup-node@v3
               with:
-                  node-version: "14"
+                  node-version: "16"
 
             - name: Run Deploy
               run: ./bin/github_actions.py manual --stack ${{ github.event.inputs.stack }}

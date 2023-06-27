@@ -7,6 +7,7 @@
         @dragover.prevent
     >
         <Snack ref="snack" />
+        <HighlightImage />
         <v-layout>
             <v-app-bar
                 color="primary"
@@ -15,6 +16,7 @@
                 <v-app-bar-nav-icon
                     v-if="is_mobile"
                     variant="text"
+                    id="menu-button-test-id"
                     @click.stop="drawer = !drawer"
                 />
 
@@ -97,12 +99,13 @@
                         @click="$router.push({ name: 'about' })"
                         :active="isactive('about')"
                     >
-                        <v-list-item-title>
+                        <v-list-item-title id="about-tab-test-id">
                             <v-icon class="mr-4">mdi-information</v-icon>
                             <span>About</span>
                         </v-list-item-title>
                     </v-list-item>
                     <v-list-item
+                        id="uploads-tab-test-id"
                         @click="
                             $router.push({
                                 name: 'uploads',
@@ -125,7 +128,7 @@
                         "
                         :active="isactive('summary')"
                     >
-                        <v-list-item-title>
+                        <v-list-item-title id="summary-tab-test-id">
                             <v-icon class="mr-4">
                                 mdi-book-open-variant
                             </v-icon>
@@ -163,8 +166,11 @@
 import Snack from '@/components/snack.vue'
 import { defineComponent, ref } from 'vue'
 import IconCode4Sac from '@/components/icon/code4sac.vue'
+import HighlightImage from '@/components/model/highlight_image.vue'
 import { useTheme } from 'vuetify'
-import * as m from '@/lib'
+import { useAppStore, useImageStore, useCache } from '@/lib/store'
+import { log } from '@/lib/logging'
+import { TensorFlow } from '@/lib'
 
 interface Data {
     drawer: boolean
@@ -174,24 +180,24 @@ export default defineComponent({
     name: 'App',
     components: {
         IconCode4Sac,
+        HighlightImage,
         Snack,
     },
     setup() {
-        const imgstore = m.useImageStore()
-        const appstore = m.useAppStore()
+        const imgstore = useImageStore()
+        const appstore = useAppStore()
+        const cache = useCache()
         const theme = useTheme()
         const snackbar = ref<typeof Snack>()
         return {
+            cache,
             snackbar,
             imgstore,
             appstore,
             theme,
         }
     },
-    created() {
-        m.TensorFlow.getInstance()
-    },
-    mounted() {
+    async mounted() {
         // handle back button stuff
         window.onpopstate = () => {
             // @ts-ignore
@@ -199,15 +205,19 @@ export default defineComponent({
         }
         this.theme.global.name.value = this.appstore.theme
         this.imgstore.doinit()
-        m.log.debug('veutify', this.$vuetify)
-        m.log.debug('mounted', this)
-        m.log.debug(navigator.storage.estimate())
+        log.debug('veutify', this.$vuetify)
+        log.debug('mounted', this)
+        log.debug(navigator.storage.estimate())
+
         // this.$root!.$snack = this.snackbar!.value
     },
     data(): Data {
         return {
             drawer: false,
         }
+    },
+    async created() {
+        await TensorFlow.getInstance().load()
     },
     computed: {
         is_mobile(): boolean {

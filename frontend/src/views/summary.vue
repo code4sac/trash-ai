@@ -84,6 +84,7 @@
                             <v-col>
                                 <router-link
                                     style="color: inherit"
+                                    :id="det.name + '-test-id'"
                                     :to="{
                                         name: 'detection',
                                         params: { name: det.name },
@@ -121,10 +122,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as m from '@/lib'
+import { useImageStore, useAppStore } from '@/lib/store'
+import { Summary } from '@/lib/models'
+import { log } from '@/lib/logging'
 
 interface Data {
-    summary: m.Summary | null
+    summary: Summary | null
     selected: string | null
 }
 
@@ -141,8 +144,8 @@ export default defineComponent({
         }
     },
     setup() {
-        const store = m.useImageStore()
-        const appstore = m.useAppStore()
+        const store = useImageStore()
+        const appstore = useAppStore()
         return {
             store,
             appstore,
@@ -150,7 +153,7 @@ export default defineComponent({
     },
     computed: {
         detections(): Rank[] | null {
-            let sum: m.Summary | null = null
+            let sum: Summary | null = null
             sum = this.summary
             if (sum == null) {
                 return null
@@ -162,7 +165,7 @@ export default defineComponent({
         },
     },
     async mounted() {
-        m.log.debug('summary this', this)
+        log.debug('summary this', this)
         this.summary = this.store.summary
         // @ts-ignore
         this.selected = this.$route.params.tab
@@ -187,7 +190,7 @@ export default defineComponent({
                 name: 'detection',
                 params: {
                     idx: idx,
-                    name: det_name,
+                    name: det_name.replace(' ', '-'),
                 },
             })
         },

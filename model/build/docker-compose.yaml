@@ -2,7 +2,9 @@ version: "3.9"
 
 services:
   kaggledl:
+  
     image: kaggledl
+    # platform: linux/x86_64
     build:
       context: .
 
@@ -15,22 +17,28 @@ services:
   #         devices:
   #           - capabilities: [gpu]
 
+  # Downloads the yolov5-taco dataset locally. 
   tacodataset:
     image: alpine
+    # platform: linux/x86_64
     volumes:
       - ${PWD}:/download
     working_dir: /download
     command: wget https://trash-ai-public.s3.us-west-1.amazonaws.com/tacotrashdataset.zip
 
+  # Downloads the yolov5-taco dataset locally. 
   yolov5-taco:
     image: alpine
+    # platform: linux/x86_64
     volumes:
       - ${PWD}:/download
     working_dir: /download
     command: wget https://trash-ai-public.s3.us-west-1.amazonaws.com/yolov5-taco.zip
 
+  # Run jupyter notebook locally
   notebook:
     image: jupyter/datascience-notebook:b418b67c225b
+    platform: linux/x86_64
     volumes:
       - ${PWD}:/home/jovyan/work
       - /dev/shm:/dev/shm

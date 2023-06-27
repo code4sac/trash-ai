@@ -15,7 +15,7 @@ Trash AI is a web application where users can upload photos of litter, which wil
 
 #### Demo
 
-[![image](https://user-images.githubusercontent.com/26821843/188515526-33e1196b-6830-4187-8fe4-e68b2bd4019e.png)](https://youtu.be/HHrjUpQynUM)
+[![image](https://user-images.githubusercontent.com/26821843/188515526-33e1196b-6830-4187-8fe4-e68b2bd4019e.png)](https://youtu.be/u0DxGrbPOC0)
 
 ## Deployment
 

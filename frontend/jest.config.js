@@ -1,5 +1,5 @@
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-    globalSetup: './setup.js',
-    globalTeardown: './teardown.js',
-    testEnvironment: './puppeteer_environment.js',
-}
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+};

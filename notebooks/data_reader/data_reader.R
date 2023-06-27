@@ -41,7 +41,6 @@ flattened_images <- lapply(1:length(image_json), function(i){
 # Test equivalence in counts. 
 nrow(flattened_images[!is.na(flattened_images$label),]) == sum(flattened_summary$count)
 
-
 # Figure creation ----
 ggplot(flattened_summary, aes(y = reorder(name, count), x = count, fill = name)) +
     geom_bar(stat = "identity") +

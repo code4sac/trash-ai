@@ -44,6 +44,7 @@
         "webfontloader": "^1.6.28"
     },
     "devDependencies": {
+        "@babel/preset-typescript": "^7.22.5",
         "@types/crypto-js": "^4.1.1",
         "@types/file-saver": "^2.0.5",
         "@types/google.maps": "^3.49.2",

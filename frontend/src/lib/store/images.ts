@@ -395,7 +395,6 @@ const generateSummaryFiles = (summary: Summary) => {
                 v.count,
                 v.hashes.join(','),
             ]),
-        ';',
     )(summary)
     files.push(['summary_detected.csv', detectedCsv])
 

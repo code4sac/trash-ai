@@ -5,11 +5,18 @@ import {
 } from './schema-parser'
 import { MapJsonProperties } from './types'
 
+type Column = string | number | boolean
+
+const quote = (s: string) => `"${s}"`
+const constructDelimetedRow = (delimeter: string) => (row: Column[]) =>
+    row.map((c) => (typeof c === 'string' ? quote(c) : c)).join(delimeter)
+const addNewlines = (s: Column[]) => s.join('\n')
+
 export const objectToCsv =
     <T>(
         headers: string[],
-        fnFlatten: (obj: T) => (string | number | boolean)[][],
-        joinStr: string = ',',
+        fnFlatten: (obj: T) => Column[][],
+        delimeter: string = ',',
     ) =>
     (obj: T) => {
         const csvData = fnFlatten(obj)
@@ -21,7 +28,11 @@ export const objectToCsv =
                 )}, see incorrect rows: ${JSON.stringify(errorRows)}`,
             )
         }
-        return [headers, ...csvData].map((row) => row.join(joinStr)).join('\n')
+        const rowsWithHeaders = [headers, ...csvData]
+        const delimetedRows = rowsWithHeaders.map(
+            constructDelimetedRow(delimeter),
+        )
+        return addNewlines(delimetedRows)
     }
 
 /**

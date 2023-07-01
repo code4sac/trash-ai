@@ -312,7 +312,7 @@ export const useImageStore = defineStore<
             const zname = `${bname}.zip`
             const folder = zip.folder(bname)
 
-            generateSummaryFiles(this.summary).map(([fileName, data]) =>
+            generateSummaryFiles(this.summary).map(({fileName, data}) =>
                 folder!.file(fileName, data),
             )
 
@@ -371,47 +371,44 @@ export const useImageStore = defineStore<
     },
 })
 
+// summary totals csv
+const sTotalsHeaders = ['total_detections', 'unique_detections']
+const summaryTotalsToCsv = objectToCsv(sTotalsHeaders, (o: Summary) => [
+    [o.total_detections, o.unique_detections],
+])
+
+// summary detected objects csv
+const detectedHeaders = getCsvHeadersFromJsonSchema(
+    summarySchema.properties.detected_objects as JSONSchema7,
+)
+const detectedToCsv = objectToCsv(detectedHeaders, (obj: Summary) =>
+    obj.detected_objects.map((v) => [v.name, v.count, v.hashes.join(',')]),
+)
+
+// summary gps objects csv
+const gpsHeaders = getCsvHeadersFromJsonSchema(
+    summarySchema.properties.gps.properties.list.items as JSONSchema7,
+)
+const gpsToCsv = objectToCsv(gpsHeaders, (obj: Summary) =>
+    obj.gps.list.map((v) => [
+        v?.coordinate?.lat ?? '',
+        v?.coordinate?.lng ?? '',
+        v.hash,
+    ]),
+)
+
 const generateSummaryFiles = (summary: Summary) => {
-    const files: [string, string][] = []
-    // summary json
-    files.push(['summary.json', JSON.stringify(summary)])
+    const filesToGenerate = [
+        { fileName: 'summary.json', dataFn: JSON.stringify },
+        { fileName: 'summary_totals.csv', dataFn: summaryTotalsToCsv },
+        { fileName: 'summary_detected.csv', dataFn: detectedToCsv },
+        ...(summary.gps.list.length > 0
+            ? [{ fileName: 'summary_gps.csv', dataFn: gpsToCsv }]
+            : []),
+    ]
 
-    // summary totals csv
-    const sTotalsHeaders = ['total_detections', 'unique_detections']
-    const summaryTotalsCsv = objectToCsv(sTotalsHeaders, (o: Summary) => [
-        [o.total_detections, o.unique_detections],
-    ])(summary)
-    files.push(['summary_totals.csv', summaryTotalsCsv])
-
-    // summary detected objects csv
-    const detectedHeaders = getCsvHeadersFromJsonSchema(
-        summarySchema.properties.detected_objects as JSONSchema7,
-    )
-    const detectedCsv = objectToCsv(
-        detectedHeaders,
-        (obj: Summary) =>
-            obj.detected_objects.map((v) => [
-                v.name,
-                v.count,
-                v.hashes.join(','),
-            ]),
-        ';',
-    )(summary)
-    files.push(['summary_detected.csv', detectedCsv])
-
-    // summary gps objects csv
-    if (summary.gps.list.length > 0) {
-        const gpsHeaders = getCsvHeadersFromJsonSchema(
-            summarySchema.properties.gps.properties.list.items as JSONSchema7,
-        )
-        const gpsCsv = objectToCsv(gpsHeaders, (obj: Summary) =>
-            obj.gps.list.map((v) => [
-                v?.coordinate?.lat ?? '',
-                v?.coordinate?.lng ?? '',
-                v.hash,
-            ]),
-        )(summary)
-        files.push(['summary_gps.csv', gpsCsv])
-    }
-    return files
+    return filesToGenerate.map(({ fileName, dataFn }) => ({
+        fileName,
+        data: dataFn(summary),
+    }))
 }

@@ -1,6 +1,7 @@
 # Trash AI: Web application for serverless image classification of trash
 
 [![Website](https://img.shields.io/badge/Web-TrashAI.org-blue)](https://www.trashai.org)
+[![status](https://joss.theoj.org/papers/6ffbb0f89e6c928dad6908a02639789b/status.svg)](https://joss.theoj.org/papers/6ffbb0f89e6c928dad6908a02639789b)
 
 ### Project Information
 
@@ -14,7 +15,7 @@ Trash AI is a web application where users can upload photos of litter, which wil
 
 #### Demo
 
-[![image](https://user-images.githubusercontent.com/26821843/188515526-33e1196b-6830-4187-8fe4-e68b2bd4019e.png)](https://youtu.be/HHrjUpQynUM)
+[![image](https://user-images.githubusercontent.com/26821843/188515526-33e1196b-6830-4187-8fe4-e68b2bd4019e.png)](https://youtu.be/u0DxGrbPOC0)
 
 ## Deployment
 
@@ -70,6 +71,9 @@ docker rm -v $id
 #### [Github Actions AWS Deployment Role](./docs/github-actions-deployment-role.md)
 
 -   Runs the complex stuff so you don't have to.
+
+### Tests
+Instructions for automated and manual tests [here](https://github.com/code4sac/trash-ai/tree/production/frontend/__tests__). 
 
 ## Contribute
 

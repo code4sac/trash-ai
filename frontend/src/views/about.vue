@@ -23,6 +23,10 @@
             To get started, visit the Upload Tab or
             <a href="/uploads/0">click here</a>.
         </p>
+        <h2>Tutorial</h2>
+        <p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/u0DxGrbPOC0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </p>
 
         <h2>What is it?</h2>
         <p>
@@ -54,9 +58,8 @@
         <h2>Disclaimer about uploaded images</h2>
         <p>
             The current version of Trash AI and the model we are using is just a
-            start! When you upload an image, we are storing the image and the
-            classification in an effort to expand the trash dataset and improve
-            the model over time.
+            start! The tool works best for images of individual pieces of trash imaged less than 1 meter away from the camera. 
+            We are looking for collaborators who can help us improve this project.
         </p>
 
         <h2>Reporting issues and improvements</h2>

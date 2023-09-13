@@ -60,3 +60,10 @@ When the METADATA tab is opened, the relevant metadata for the image is displaye
 4. After recieving results, does the summary page contain the correct data?
 
 *The summary page shows the results of processing a random sample of images, as long as it's not empty it can be considered as correct.*
+
+## Checklist for data schema tests
+- [ ] Download the dataset ![image](https://github.com/code4sac/trash-ai/assets/26821843/b0bbd7e7-9554-477d-b2e4-ceb3e1b2a9b6)
+- [ ] Inside of the schema folder you should have these 4 schema files. The JSON files are the JSON Schema and the Markdown files describe them. ![image](https://github.com/code4sac/trash-ai/assets/26821843/657b18ee-975f-4c83-bf84-20a31d1cb30b)
+- [ ] Go to jsonschemavalidator.net ![image](https://github.com/code4sac/trash-ai/assets/26821843/aa91e1cd-4ce7-4600-9082-e6f815f07ede)
+- [ ] Paste your schema in the left hand side image schema corresponds to the image data files, summary schema corresponds to the summary files. Using the image schema for this example. ![image](https://github.com/code4sac/trash-ai/assets/26821843/5833680c-6963-4952-948d-441b14090bb4)
+- [ ] Paste the json file you want to validate in the right hand side, if the test worked, you will get a success message. ![image](https://github.com/code4sac/trash-ai/assets/26821843/88508de7-a895-4aa7-997e-89b95de5e95d)

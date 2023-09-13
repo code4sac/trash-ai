@@ -75,6 +75,10 @@ docker rm -v $id
 ### Tests
 Instructions for automated and manual tests [here](https://github.com/code4sac/trash-ai/tree/production/frontend/__tests__). 
 
+## Functionality
+
+Documentation on typical workflow and functionality of the tool can be found [here](https://github.com/code4sac/trash-ai/blob/review2/docs/functionality)
+
 ## Contribute
 
 We welcome contributions of all kinds.

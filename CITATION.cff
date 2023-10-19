@@ -1,0 +1,63 @@
+cff-version: "1.2.0"
+authors:
+- family-names: Cowger
+  given-names: Win
+  orcid: "https://orcid.org/0000-0001-9226-3104"
+- family-names: Hollingsworth
+  given-names: Steven
+- family-names: Fey
+  given-names: Day
+- family-names: Norris
+  given-names: Mary C
+- family-names: Yu
+  given-names: Walter
+- family-names: Kerge
+  given-names: Kristiina
+- family-names: Haamer
+  given-names: Kris
+- family-names: Durante
+  given-names: Gina
+- family-names: Hernandez
+  given-names: Brianda
+contact:
+- family-names: Hollingsworth
+  given-names: Steven
+doi: 10.5281/zenodo.8384126
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+preferred-citation:
+  authors:
+  - family-names: Cowger
+    given-names: Win
+    orcid: "https://orcid.org/0000-0001-9226-3104"
+  - family-names: Hollingsworth
+    given-names: Steven
+  - family-names: Fey
+    given-names: Day
+  - family-names: Norris
+    given-names: Mary C
+  - family-names: Yu
+    given-names: Walter
+  - family-names: Kerge
+    given-names: Kristiina
+  - family-names: Haamer
+    given-names: Kris
+  - family-names: Durante
+    given-names: Gina
+  - family-names: Hernandez
+    given-names: Brianda
+  date-published: 2023-09-29
+  doi: 10.21105/joss.05136
+  issn: 2475-9066
+  issue: 89
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 5136
+  title: "Trash AI: A Web GUI for Serverless Computer Vision Analysis of
+    Images of Trash"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.05136"
+  volume: 8
+title: "Trash AI: A Web GUI for Serverless Computer Vision Analysis of
+  Images of Trash"
